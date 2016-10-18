@@ -1,0 +1,51 @@
+WIP
+1. 
+Input: n (from keyboard)
+Output: the first n terms of the series: 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, ...
+
+example:
+In: n=4
+Out: 1, 2, 2, 3
+
+2.
+Input: series of numbers
+Output: pairs of numbers from the given series, where one of the numbers from the pair is divisible with the sum of  the other number's digits
+
+example:
+In: 17, 16, 14, 8, 5, 23
+Output: (17, 16), (16, 14), (5, 23)
+# explanation: 1+7=8 and 16%8=0
+
+3.
+Input: m, n
+Output: The first n numbers that have the sum of their digits less than or equal with m
+
+example:
+In: n=10, m=4
+Output: 1, 2, 3, 4, 10, 11, 12, 13, 20, 21
+
+4.
+Input: m, n
+Output: Numbers with the form "mxny" that are divisible by 3.
+
+example:
+In: m=1, n=2
+Out: 1224, ...
+# explanation: mxny=1x2y=1224(x=2, y=4); 1224 % 3 = 0
+
+5.
+In: n (natural number)
+Out: All prime numbers with n digits, where all the prefixes of that number are also prime numbers.
+
+example:
+In: 3
+Out: 113, ...
+# explanation: 113 is prime and 11 is also prime
+
+6.
+In: series of numbers (FROM FILE, DON'T FORGET)
+Out: The number of numbers from that series that have their first digit equal to the last
+
+example:
+In: 2412 138 556 363 14 11
+Out: 3 # because 2412, 363 and 11 meet the condition

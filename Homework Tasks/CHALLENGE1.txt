@@ -1,0 +1,15 @@
+STRUCTURE:
+
+class Food:
+	- Variables: name of the food, calories, weight
+
+Dictionary Recipe:
+	- Variables: 
+
+class Fridge:
+	- Variables: list of Food, quantity for each food, space inside the fridge
+	- Functions:
+		- adding food to the list with respective quantity (or increase the quantity if the food is 				already accounted for) and checking if there is enough space with an according message if that is 			not the case
+		- removing food from the fridge
+		
+		
