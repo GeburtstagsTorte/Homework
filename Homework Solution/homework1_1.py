@@ -1,15 +1,10 @@
-def is_divisor(st):
+def get_divisors(nr):
 
-    i = st
-    st1 = set([])
+    st1 = set()
 
-    for x in range(1, i):     #this is so hard man... my brain aches
-        if i % x == 0:
-            st1.add(x)
+    for i in range(1, nr):
+        if nr % i == 0:
             st1.add(i)
-        else:
-            pass
-    print(st)
     return st1
 
 
@@ -32,12 +27,15 @@ def take_input():
 
 def common_divisors(st):
 
-    final_set = set([])
+    final_set = set()
 
     for i in st:
-        x = is_divisor(i)
-        for i in x:
-            final_set.add(i)
+        x = get_divisors(i)
+        if len(final_set) < 1:
+            final_set = x
+        else:
+            final_set = final_set & x
+
     return final_set
 
 
