@@ -3,6 +3,7 @@ def take_input():
     try:
         x = int(x)
     except ValueError:
+        take_input()
         pass
 
     return x
