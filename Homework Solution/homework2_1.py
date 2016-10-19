@@ -3,7 +3,8 @@ def take_input():
     try:
         x = int(x)
     except ValueError:
-        take_input()
+        x = take_input()
+        # or return take_input()
         pass
 
     return x
