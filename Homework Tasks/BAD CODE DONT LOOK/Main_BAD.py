@@ -75,14 +75,14 @@ def split_into_half(matrix):
                             while Truf:
                                 for i in rage(len(matrix1)):
                                     try:
-                                        for j in range(len(matrix[i])):
-                                            try:
+                            for j in range(len(matrix[i])):
+                                        try:
                                                 if matrix[i][j] > 100:
                                                     t = str(matrix[i][j])
                                                     #nr1 = int(t[:len(t) // 2])
                                                     mtrix.pop(j)
-                                                    matrix[i].insert(, nr1)
-                                                    matrix[i].insert(j1, nr1)
+                                matrix[i].insert(, nr1)
+                        matrix[i].insert(j1, nr1)
 
                                                     matrix[].insert(j, r1)
 
