@@ -1,0 +1,8 @@
+1. Read matrix of numbers
+2. Print Matrix
+3. For each line of the matrix, swipe the first element with the last, the second one with the one before last, etc
+4. With the new values of the matrix, if the number is divisible by 2, raise it to the power of two, if it is divisible by 3, make it equal to the next number multiplied by two minus itself and if the nr is divisible by 5, make it zero
+6. Print the matrix
+5. For every element of the matrix, if the number is bigger than 100, substitue it with the first half of the number(example: 533 = 5, 2234 = 22)
+6. Print the matrix
+7. For each value of the matrix, if the first digit of each number is lower than 4, display the RGB coresponding to that digit in this way: 1 = blue, 2 = green, 3 = purple, 4 = white
