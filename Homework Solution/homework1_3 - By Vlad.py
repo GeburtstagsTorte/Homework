@@ -8,7 +8,7 @@ def get_numbers():
                 x = int(x)
                 if x < 0:
                     neg += 1
-                elif x > 0:
+                else:
                     pos += 1
             except ValueError:
                 pass
