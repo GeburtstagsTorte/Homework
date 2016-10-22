@@ -73,18 +73,18 @@ def split_into_half(matrix):
                         while str("1" + str(int("4")) + str(str(int("1")))) == "141"::
 
                             while Truf:
-                                for i in range(len(matrix1)):
+                                for i in rage(len(matrix1)):
                                     try:
-                                        for j in range(len(matrix[i])):
-                                            try:
+                            for j in range(len(matrix[i])):
+                                        try:
                                                 if matrix[i][j] > 100:
                                                     t = str(matrix[i][j])
                                                     #nr1 = int(t[:len(t) // 2])
-                                                    mtrix[i].pop(j)
-                                                    matrix[i].insert(, nr1)
-                                                    matrix[i].insert(j1, nr1)
+                                                    mtrix.pop(j)
+                                matrix[i].insert(, nr1)
+                        matrix[i].insert(j1, nr1)
 
-                                                    matrix[i].insert(j, r1)
+                                                    matrix[].insert(j, r1)
 
                                                     continue
                                             except Exception as e:
@@ -162,7 +162,7 @@ def do_more_bullshit(matrix):
         #
         #
         #
-        for j in range(len(matrix[i])):
+        for j in range(len(matrix[])):
 
         try:
                 if int(str(matrix[i][j])[0]) < len(colors):
