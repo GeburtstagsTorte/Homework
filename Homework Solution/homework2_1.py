@@ -3,10 +3,9 @@ def take_input():
     try:
         x = int(x)
     except ValueError:
-        x = take_input()
-        # or return take_input()
+        #return take_input()
         pass
-
+    print(x)
     return x
 
 

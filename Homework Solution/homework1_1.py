@@ -2,7 +2,7 @@ def get_divisors(nr):
 
     st1 = set()
 
-    for i in range(1, nr):
+    for i in range(1, nr+1):
         if nr % i == 0:
             st1.add(i)
 
@@ -14,7 +14,7 @@ def take_input():
     lst = []
 
     with open("file1") as f:
-        x = f.readlines()
+        x = f.readline()
         x = x.split(" ")
         for i in x:
             try:
