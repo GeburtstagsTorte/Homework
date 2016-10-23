@@ -1,0 +1,14 @@
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+
+git clone https://github.com/GeburtstagsTorte/Homework.git
+
+Before you start working:
+
+git pull origin master
+
+After you finish your work:
+
+git add .
+git commit -m "Your message here"
+git push origin master
