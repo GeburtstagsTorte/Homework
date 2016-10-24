@@ -12,6 +12,7 @@ def take_string(m, n):
 
     num = ""
     nums = []
+    # p = int(m + "000") % 3
 
     try:
         for i in range(10):
@@ -19,7 +20,7 @@ def take_string(m, n):
                 num += m + str(i) + n + str(j)
                 if manipulate(num):
                     nums.append(num)
-                num = ""     # haha that took me a minute lol (but i print debugged ;))
+                num = ""     # haha that took me a minute lol (but i print debugged ;))(printed longer and longer numbers)
     except ValueError:
         pass
 
