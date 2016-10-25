@@ -9,11 +9,10 @@ def take_input():
         s = re.findall('[-\d]+', f.read())
         for x in s:
             if x not in seen:
-                lst.append(x)
+                lst.append(int(x))
                 seen.add(x)
             else:
                 return False
-
     return lst
 
 
@@ -25,7 +24,9 @@ def is_permutation(lst):
     sum_lst = ((len(lst) * (len(lst) + 1)) / 2)
 
     for x in lst:
-        count += int(x)
+        count += abs(x)
+    print(count)
+    print(sum_lst)
 
     if abs(count) == sum_lst:
         return True
@@ -33,9 +34,21 @@ def is_permutation(lst):
         return False
 
 
+def is_permutation_v2(lst):
+    if not lst:
+        return False
+
+    s = [x for x in range(min(lst), max(lst) + 1)]
+
+    if sorted(lst) == s:
+        return True
+    else:
+        return False
+
+
 def main():
     u = take_input()
-    print(is_permutation(u))
+    print(is_permutation_v2(u))
 
 
 if __name__ == "__main__":
