@@ -27,7 +27,7 @@ def is_permutation(lst):
     for x in lst:
         count += int(x)
 
-    if count == sum_lst:
+    if abs(count) == sum_lst:
         return True
     else:
         return False
