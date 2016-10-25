@@ -1,0 +1,2 @@
+a = list(map(int, open("file1_3").read().splitlines()[0].split(" ")))
+print("-1" if len(list(filter(lambda x: x < 0, a))) > len(list(filter(lambda x: x > 0, a))) else "1" if len(list(filter(lambda x: x < 0, a))) < len(list(filter(lambda x: x > 0, a))) else "0")
