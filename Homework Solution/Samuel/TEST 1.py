@@ -1,20 +1,32 @@
-#TEST 1
+# TEST 1
+import re
+import collections
 
 
 def take_input():
+    lst = []
+    seen = set()
     with open("test1 file", "r") as f:
-        s = f.read()
-        lst = [int(x) for x in s.split(", ") if x.isdigit()]
+        s = re.findall('[-\d]+', f.read())
+        for x in s:
+            if x not in seen:
+                lst.append(x)
+                seen.add(x)
+            else:
+                return False
 
-        return lst
+    return lst
 
 
 def is_permutation(lst):
+    if not lst:
+        return False
+
     count = 0
-    sum_lst = ((len(lst)*(len(lst)+1))/2)
-    
+    sum_lst = ((len(lst) * (len(lst) + 1)) / 2)
+
     for x in lst:
-        count += x
+        count += int(x)
 
     if count == sum_lst:
         return True
