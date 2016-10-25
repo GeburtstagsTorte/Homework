@@ -1,6 +1,5 @@
 # TEST 1
 import re
-import collections
 
 
 def take_input():
@@ -36,7 +35,6 @@ def is_permutation(lst):
 
 def main():
     u = take_input()
-    print(u)
     print(is_permutation(u))
 
 
