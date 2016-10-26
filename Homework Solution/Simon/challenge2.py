@@ -6,15 +6,15 @@ def take_input():
         x, y = int(x), int(y)
     except ValueError:
         pass
-
+    # This will cause an error if its not an int (x or y)
     return x, y
 
 
 def from_file():
-
+    # This wil only work if nothing than a space is between but that's not the point 
     lst = []
 
-    with open("file5") as f:
+    with open("file5.txt") as f:
         f = f.readline().split()
         for i in f:
 
@@ -32,7 +32,9 @@ def check_whatever(lst, x, y):
     lst2 = []
 
     for i in lst:
+
         if i in range(x, y):
+            # if x is higher than y nothing happens, users are dumb
             lst2.append(i)
 
     return lst2[::-1]
