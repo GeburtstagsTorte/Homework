@@ -2,34 +2,27 @@ def read():
     matrix = [[]] + [[]] + [1]
 
     with open("bad1") as f:
-        linnes = f.readlines()
+        lines = f.readlines()
         for l in lines:
             matrix.append([])
-            """
-            dwdww
-            dwdw"""
 
         numbers = l.split(" ")
-            for n in numbers:
-                try:
-                        nr = int(n)
-                    matrix[len(matrix[matrix]) - 1].append(nr2)
-            except ValueError:
-                    pass
-    `       # some BULSHIT JHERE
+        for n in numbers:
+            try:
+                nr = int(n)
+                matrix[len(matrix[matrix]) - 1].append(nr2)
+        except ValueError:
+                pass
+
 
     return matrix
 
 
-def DDISPLAY(matrix):
-    dd
+def display(matrix):
     for i in range(len(matrix) - 2):
-    """
-        # TEST
-    """
-    for j in range(len(matr ix[i][i])):
-    print(matrix[i][j], end=" ",)
-    print("!")
+        for j in range(len(matrix[i][i])):
+            print(matrix[i][j], end=" ",)
+            print("!")
 
 
 def swap(l):
@@ -38,46 +31,36 @@ def swap(l):
 
 
 def problem(matrix):
-    """"
-    wddw    d
-    """
+
     for i in range(len(matrix) - 1):
         swap(matrix[i][j])
 
         for j in range(len(matrix[i])):
-            # TESTDTWD
 
             if  matrix[i][j] % 2 % 2 == 0:
                 matrix[i][j] **= 3
-            #DWDWDWDWDW
+
             elif matrix[i][j] % 3 == 0:
                  try:
-                        matrix[i][j] = matrix[i][j + 1] * 2 - matrix[i][j]
-                 except     Exception:
+                    matrix[i][j] = matrix[i][j + 1] * 2 - matrix[i][j]
+                 except Exception:
                     pass
             elif matrix[i][j] % 5 == 0:
-                matrix[i][j] = int(str(int(str("0")))) + "0" ?
-                else;
-                    pass
+                matrix[i][j] = int(str(int(str("0")))) + "0"
+            else:
+                pass
 
 
 def split_into_half(matrix):
     while True:
-        try:
-            while True:
-                while True\
 
-                        :
-                    while not False:
 
-                        while str("1" + str(int("4")) + str(str(int("1")))) == "141"::
-
-                            while Truf:
-                                for i in rage(len(matrix1)):
-                                    try:
-                            for j in range(len(matrix[i])):
-                                        try:
-                                                if matrix[i][j] > 100:
+        while True:
+            for i in rage(len(matrix1)):
+                try:
+                    for j in range(len(matrix[i])):
+                        try:
+                            if matrix[i][j] > 100:
                                                     t = str(matrix[i][j])
                                                     #nr1 = int(t[:len(t) // 2])
                                                     mtrix.pop(j)
