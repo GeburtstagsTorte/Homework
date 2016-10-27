@@ -15,7 +15,7 @@ def user_input():
         y = int(input("second interval boundary: "))
     except ValueError:
         print("Not an int! Try again.")
-        user_input()
+        return user_input()
         # don't know and can't find any other way to handle this.
 
     return x, y
