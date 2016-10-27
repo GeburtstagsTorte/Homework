@@ -23,7 +23,7 @@ def prim(n):
     return primes
 
 
-def is_prime_in_prime(primes):
+def is_prime_in_prime(primes, n):
 
     little_primes = [x for x in primes if x < 10]
     l = []
@@ -32,7 +32,7 @@ def is_prime_in_prime(primes):
         num = str(x)
 
         for char in num:
-            if int(char) in little_primes:
+            if int(char) in little_primes and len(num) == n:
                 l.append(num)
                 break
 
@@ -42,7 +42,7 @@ def is_prime_in_prime(primes):
 def main():
     n = take_input()
     primes = prim(n)
-    print(is_prime_in_prime(primes))
+    print(is_prime_in_prime(primes, n))
 
 
 if __name__ == '__main__':
