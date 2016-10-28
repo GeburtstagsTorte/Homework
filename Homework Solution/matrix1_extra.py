@@ -38,9 +38,9 @@ def squares(m, i):
                     print(m[x][y], end=" ")
                 print()
             print()
-        print("____________")
+        print("-----------\n")
 
 
-m = open_matrix()
-i = user_input()
-squares(m, i)
+m1 = open_matrix()
+i1 = user_input()
+squares(m1, i1)
