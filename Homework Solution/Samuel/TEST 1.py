@@ -1,5 +1,6 @@
 # TEST 1
 import re
+from time import clock
 
 
 def take_input():
@@ -46,10 +47,36 @@ def is_permutation_v2(lst):
         return False
 
 
+def is_permutation_v3(lst):
+    if not lst:
+        return False
+
+    sum_lst = ((len(lst) * (len(lst) + 1)) // 2)
+    count = 0
+
+    for x in set(lst):
+        count += x
+
+    if count == sum_lst:
+        return True
+
+
 def main():
     u = take_input()
-    print(is_permutation_v2(u))
+    t1 = clock()
+    print(is_permutation(u))
+    t2 = clock()
+    print(t2-t1)
 
+    t1 = clock()
+    print(is_permutation_v2(u))
+    t2 = clock()
+    print(t2 - t1)
+
+    t1 = clock()
+    print(is_permutation_v3(u))
+    t2 = clock()
+    print(t2 - t1)
 
 if __name__ == "__main__":
     main()
