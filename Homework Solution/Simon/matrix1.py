@@ -6,9 +6,9 @@ def open_matrix():
         matrix.append([])
         numbers = i.split()
 
-        for i in numbers:
+        for j in numbers:
             try:
-                matrix[len(matrix)-1].append(int(i))
+                matrix[len(matrix)-1].append(int(j))
             except ValueError:
                 pass
 
@@ -25,14 +25,14 @@ def print_upper_left(m):
 
 def print_upper_right(m):
 
-    for i in range(len(m[0])//2 - 2, len(m[0]) - 2):
+    for i in range(0, len(m) // 2):
         for j in range(len(m)//2, len(m)):
             print(m[i][j], end=" ")
 
 
 def print_lower_right(m):         # revisit !
 
-    for i in range(len(m[0])//2, len(m[0])):
+    for i in range(len(m) // 2, len(m)):
         for j in range(len(m)//2, len(m)):
             print(m[i][j], end=" ")
 
