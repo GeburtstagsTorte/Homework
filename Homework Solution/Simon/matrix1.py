@@ -11,23 +11,24 @@ def open_matrix():
                 matrix[len(matrix)-1].append(int(j))
             except ValueError:
                 pass
-
     return matrix
 # have to revise print_matrix but it isn't needed, is it?
 
 
 def print_upper_left(m):
 
-    for i in range(len(m[0])//2): # since it is a "square" it doesnt matter if m[n] or just m
+    for i in range(len(m)//2):    # since it is a "square" it doesnt matter if m[n] or just m
         for j in range(len(m)//2):
             print(m[i][j], end=" ")
+        print()
 
 
 def print_upper_right(m):
 
-    for i in range(len(m)//2, len(m)):
-        for j in range(len(m)//2):
+    for i in range(len(m) // 2):
+        for j in range(len(m)//2, len(m)):
             print(m[i][j], end=" ")
+        print()
 
 
 def print_lower_right(m):         # revisit !
@@ -35,13 +36,15 @@ def print_lower_right(m):         # revisit !
     for i in range(len(m)//2, len(m)):
         for j in range(len(m)//2, len(m)):
             print(m[i][j], end=" ")
+        print()
 
 
 def print_lower_left(m):
 
-    for i in range(len(m[0])//2, len(m[0])):
+    for i in range(len(m[0])//2, len(m)):
         for j in range(len(m)//2):
             print(m[i][j], end=" ")
+        print()
 
 
 def main():
@@ -54,6 +57,7 @@ def main():
     print_lower_left(m)
     print("\nPrinting lower right: ")
     print_lower_right(m)
+    # sorry i couldn't figure out a proper way to print them in little squares # No problem, simon.
 
-if __name__ == "__main__":              # sorry i couldn't figure out a proper way to print them im little squares
+if __name__ == '__main__':
     main()
