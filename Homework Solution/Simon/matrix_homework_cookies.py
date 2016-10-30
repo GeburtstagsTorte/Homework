@@ -22,6 +22,22 @@ def print_matrix(m):
 
 
 def replace_squares(m):
+    # shat
+    """if len(m) % 2 != 0:
+
+            for p in range(len(m)//2+1):
+                for l in range(len(m)//2+1):
+                    try:
+                        m[p][l], m[p+len(m)//2][l+len(m)//2] = m[p+len(m)//2][l+len(m)//2], m[p][l]
+                    except IndexError:
+                        pass
+
+            for ü in range(len(m)//2+1, len(m)):
+                for ö in range(len(m)//2+1):
+                    try:
+                        m[ü+1][ö+1], m[ü-len(m)//2+1][ö+len(m)//2+1] = m[ü-len(m)//2+1][ö+len(m)//2+1], m[ü+1][ö+1]
+                    except IndexError:
+                        pass"""
 
     for i in range(len(m)//2):
         for j in range(len(m)//2):

@@ -17,18 +17,30 @@ def open_matrix():
 
 def print_upper_left(m):
 
-    for i in range(len(m)//2):    # since it is a "square" it doesnt matter if m[n] or just m
-        for j in range(len(m)//2):
-            print(m[i][j], end=" ")
-        print()
+    if len(m) % 2 != 0:
+        for i in range(len(m) // 2+1):
+            for j in range(len(m) // 2+1):
+                print(m[i][j], end=" ")
+            print()
+    else:
+        for i in range(len(m)//2):    # since it is a "square" it doesnt matter if m[n] or just m
+            for j in range(len(m)//2):
+                print(m[i][j], end=" ")
+            print()
 
 
 def print_upper_right(m):
 
-    for i in range(len(m) // 2):
-        for j in range(len(m)//2, len(m)):
-            print(m[i][j], end=" ")
-        print()
+    if len(m) % 2 != 0:
+        for i in range(len(m) // 2+1):
+            for j in range(len(m) // 2, len(m)):
+                print(m[i][j], end=" ")
+            print()
+    else:
+        for i in range(len(m) // 2):
+            for j in range(len(m) // 2, len(m)):
+                print(m[i][j], end=" ")
+            print()
 
 
 def print_lower_right(m):         # revisit !
@@ -41,10 +53,16 @@ def print_lower_right(m):         # revisit !
 
 def print_lower_left(m):
 
-    for i in range(len(m[0])//2, len(m)):
-        for j in range(len(m)//2):
-            print(m[i][j], end=" ")
-        print()
+    if len(m) % 2 != 0:
+        for i in range(len(m[0]) // 2, len(m)):
+            for j in range(len(m) // 2+1):
+                print(m[i][j], end=" ")
+            print()
+    else:
+        for i in range(len(m[0]) // 2, len(m)):
+            for j in range(len(m) // 2):
+                print(m[i][j], end=" ")
+            print()
 
 
 def main():
