@@ -25,14 +25,14 @@ def print_upper_left(m):
 
 def print_upper_right(m):
 
-    for i in range(0, len(m) // 2):
-        for j in range(len(m)//2, len(m)):
+    for i in range(len(m)//2, len(m)):
+        for j in range(len(m)//2):
             print(m[i][j], end=" ")
 
 
 def print_lower_right(m):         # revisit !
 
-    for i in range(len(m) // 2, len(m)):
+    for i in range(len(m)//2, len(m)):
         for j in range(len(m)//2, len(m)):
             print(m[i][j], end=" ")
 
