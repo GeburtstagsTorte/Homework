@@ -52,11 +52,6 @@ def lower_right(m):
 def cookie_function(m):
     for i in range(len(m)):
         m[i] = m[i][len(m) // 2:] + m[i][:len(m) // 2]
-        print()
-        for i in range(len(m)):
-            for j in range(len(m)):
-                print(m[i][j], end=" ")
-            print()
 
     m = m[len(m) // 2:] + m[:len(m) // 2]
 
