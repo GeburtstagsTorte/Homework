@@ -15,11 +15,11 @@ def check_coordinates(m):
             for k in lst:
                 if int(k) % 2 != 0:
                     try:
-                        st = str(m[i][j-1]) + str(m[i][j]) + str(m[i][j+1])
+                        st = str(m[j][i-1]) + str(m[j][i]) + str(m[j][i+1])
                         if st[0] == "0":
-                            m[i][j] = int(st[1:])
+                            m[j][i] = int(st[1:])
                         else:
-                            m[i][j] = int(st)
+                            m[j][i] = int(st)
                     except IndexError:
                         pass
 
