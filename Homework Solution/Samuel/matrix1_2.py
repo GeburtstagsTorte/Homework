@@ -21,7 +21,6 @@ def positive_col(m):
         col_sign = 1
     m.append(l)
 
-    return m
 
 
 def positive_row(m):
@@ -57,7 +56,6 @@ def main():
     positive_col(m)
     o = positive_row(m)
     print("Old matrix: \n")
-    # why doesn't "print_matrix(m)" work?
     print_matrix(read_file())
     print("\nNew matrix: \n")
     print_matrix(o)
