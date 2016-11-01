@@ -22,13 +22,9 @@ def check_coordinates(m):
                         m[j][i] = int(st[1:])
                     else:
                         m[j][i] = int(st)
-                except IndexError:        # still no proper solution for 910[0][1]
-                    try:
-                        st = str(m[j][i]) + str(m[j][i + 1])
-                        m[j][i] = int(st)
-                    except IndexError:
-                        st = str(m[j][i - 1]) + str(m[j][i])
-                        m[j][i] = int(st)
+                except IndexError:
+                    st = str(m[j][i - 1]) + str(m[j][i])
+                    m[j][i] = int(st)
 
 
 def print_matrix(m):
