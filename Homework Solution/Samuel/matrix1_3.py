@@ -16,7 +16,6 @@ def is_divisible(m):
                 else:
                     m[i][j] = int(str(m[i][j - 1]) + str(m[i][j]) + str(m[i][j + 1]))
 
-    return m
 
 
 def print_matrix(m):
@@ -31,7 +30,8 @@ def main():
     print("\nOld matrix: \n")
     print_matrix(m)
     print("\nNew matrix: \n")
-    print_matrix(is_divisible(m))
+    is_divisible(m)
+    print_matrix(m)
 
 
 if __name__ == '__main__':
