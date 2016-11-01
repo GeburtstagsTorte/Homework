@@ -13,7 +13,6 @@ def check_coordinates(m):
             lst = []
             lst.append(i+j)
             for k in lst:
-                st = ""
                 if int(k) % 2 != 0:
                     try:
                         st = str(m[i][j-1]) + str(m[i][j]) + str(m[i][j+1])
