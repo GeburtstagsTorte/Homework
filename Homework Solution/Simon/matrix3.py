@@ -10,18 +10,15 @@ def check_coordinates(m):
 
     for i in range(len(m[0])):
         for j in range(len(m)):
-            lst = []
-            lst.append(i+j)
-            for k in lst:
-                if int(k) % 2 != 0:
-                    try:
-                        st = str(m[j][i-1]) + str(m[j][i]) + str(m[j][i+1])
-                        if st[0] == "0":
-                            m[j][i] = int(st[1:])
-                        else:
-                            m[j][i] = int(st)
-                    except IndexError:
-                        pass
+            if int(i+j) % 2 != 0:
+                try:
+                    st = str(m[j][i-1]) + str(m[j][i]) + str(m[j][i+1])
+                    if st[0] == "0":
+                        m[j][i] = int(st[1:])
+                    else:
+                        m[j][i] = int(st)
+                except IndexError:
+                    pass
 
 
 def print_matrix(m):
