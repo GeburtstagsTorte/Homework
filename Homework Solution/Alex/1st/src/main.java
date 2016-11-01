@@ -1,57 +1,21 @@
-
-class one{
-	private int i;
-	private int s;
-	
-	public void median(int a){
-		s = s+a;
-		i= s/2;
-		System.out.println(i);
-	}
-}
-
-class two{
-	private int e;
-	
-	public void evens(int n){
-		int i=0;
-		System.out.println(0);
-		while(i < n-1){
-			System.out.println(i*2);
-			i--;
-		}
-		/*or
-		 * while(n!=0){
-		 * 	System.out.println(n*2);
-		 * 	n--;
-		 * }
-		 * */
-	}
-}
-class three{
-	
-	public boolean isItPrime(int x){
-		return(primes(x) > 2);
-	}
-	
-	public int primes(int n){
-		int a=0;
-		int i=0;
-		while(i < n){
-			int b = n%i;
-			if(b != 0){
-				a++;
-			}
-			i++;
-		}
-		return a;
-	}
-}
+import java.util.Scanner;
 
 public class main{
-	
 	public static void main(String args[]){
-		
+		median();
 	}
-	
+	public static void median(){
+		int b =0;
+		int s = 0;
+		int i;
+		System.out.println("i need a number: ");
+		while(b < 2){
+			
+			Scanner keyboard = new Scanner(System.in);
+			int a = keyboard.nextInt();
+			s = s+a;
+			i= s/2;
+			System.out.println("The median is "+i+". Do you wanna ad one more?: ");
+		}
+	}
 }
