@@ -44,7 +44,7 @@ class Person:
             print("{} is not an adult".format(self.name))
 
         if self.hair:
-            print("{} has hair".format(self.name))
+            print("{} has hair ".format(self.name))
         else:
             print("{} doesn't have hair".format(self.name))
 

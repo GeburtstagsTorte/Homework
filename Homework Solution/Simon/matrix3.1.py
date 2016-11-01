@@ -12,7 +12,12 @@ def check_coordinates(m):
         for j in range(len(m)):
             if int(i+j) % 2 != 0:
                 try:
-                    st = str(m[j][i - 1]) + str(m[j][i]) + str(m[j][i + 1])
+
+                    st = ""
+                    if i - 1 >= 0:
+                        st += str(m[j][i - 1])
+                    st += str(m[j][i]) + str(m[j][i + 1])
+
                     if st[0] == "0":
                         m[j][i] = int(st[1:])
                     else:

@@ -1,15 +1,18 @@
 
-public class one{
-private int i;
-private int s;
+class one{
+	private int i;
+	private int s;
+	
 	public void median(int a){
 		s = s+a;
 		i= s/2;
 		System.out.println(i);
 	}
 }
-public class two{
-private int e;
+
+class two{
+	private int e;
+	
 	public void evens(int n){
 		int i=0;
 		System.out.println(0);
@@ -25,10 +28,12 @@ private int e;
 		 * */
 	}
 }
-public class three{
+class three{
+	
 	public boolean isItPrime(int x){
 		return(primes(x) > 2);
 	}
+	
 	public int primes(int n){
 		int a=0;
 		int i=0;
@@ -41,4 +46,12 @@ public class three{
 		}
 		return a;
 	}
+}
+
+public class main{
+	
+	public static void main(String args[]){
+		
+	}
+	
 }
