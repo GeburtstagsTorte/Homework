@@ -54,8 +54,8 @@ def print_matrix(m):
 
 def main():
     m = read_file()
-    n = positive_col(m)
-    o = positive_row(n)
+    positive_col(m)
+    o = positive_row(m)
     print("Old matrix: \n")
     # why doesn't "print_matrix(m)" work?
     print_matrix(read_file())
