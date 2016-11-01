@@ -11,7 +11,6 @@ def zig_zag(m):
 
     for i in range(len(m)):
         for j in range(d, len(m[0]), 4):
-            print(j)
             m[i][j] = "x"
             if j < (len(m[0])-1) and d == 1:
                 m[i][j+1] = "x"
@@ -19,9 +18,7 @@ def zig_zag(m):
                 m[i][j-1] = "x"
 
         d = 1 if d == 0 else 0
-
     return m
-
 
 def print_output(m):
     l = [[i for i in j if i != "x"] for j in m]
