@@ -1,0 +1,117 @@
+!!! READ THIS !!!
+
+From the task you only have to choose 4 options from the menu besides the ones that are for input and exit.
+Also, for those 4 options (+ input), only write the functions which you will need, not the fucking entire structure.
+
+GUYS, DON'T DO ALL THE FUCKING STRUCTURE. IT WILL TAKE YOU TOO MUCH.
+IF YOU CAN DO 4 WHICH YOU LIKE, THAT'S ENOUGH TO PROVE ME THAT YOU KNOW HOW TO MANAGE CLASSES.
+
+YOU CAN CHOOSE WHICHEVER OPTIONS YOU WANT. 4 OF THEM. You can do some difficult ones, some easy, whatever you want,
+JUST DON'T WRITE THE ENTIRE CODE.
+
+FOR THE OPTIONS YOU PICK, YOU DECIDE WHICH FUNCTIONS YOU'LL HAVE TO WRITE FROM BOTH CLASSES.
+I don't want to see a single function unused
+
+Also, in main, I want to see only the menu with some other functions that will use the classes. Make the list of people GLOBAL. 
+
+Example:
+
+class Object:
+	...
+	
+class Player:
+	...
+	
+people = [...]
+
+def do_first_task():
+	# use people here, because it is global
+	...
+
+def main():
+	while True:
+		print("1. Do first task")
+		print("2. Do second task")
+		...
+		print("Z. Exit")
+		
+		x = int(input("Choose an option from the menu: "))
+		if x == 1:
+			do_first_task()
+		elif x == 2:
+			...
+		...
+		elif x == Z:
+			break
+
+if __name__ == "__main__":
+	main()
+
+	
+	DON'T DO MORE THAN I ASKED YOU TO. UNDERSTAND?
+	If you can prove me you understood classes, that's enough and we can advance to graphics
+	
+----------------------------------------------------------------------------------------------------------
+	
+Structure:
+	
+	Class Object:
+		- init: name, weight, color, price
+		- functions:
+			> print the object nicely, with all its details
+			> function that takes money as input and returns the quantity you could buy with that money
+			> function that takes w as input and returns the number of objects that can fit within that weight (w)
+			> function that returns how much weight you get per dollar
+			
+	Class Person:
+		- variables: empty list of objects combined with a quantity (example: [[o1, 3], [o2, 4])
+					 current_carried_weight = 0
+		- init: name, age, money, weight you can carry
+		- functions:
+			> print the person nicely
+			> add an object to the person with it's quantity (check if the user has enough money and if he/she can carry it.
+  			  print if the user can't buy it and also the reason) also increase current_carried_weight and decrease money
+			> print the objects that the person posses
+			> sort the objects that the person posses in ascending/descending (parameter) order of their names
+			> sort the objects that the person posses in ascending/descending (parameter) order of their prices based on quantity
+			> function that deletes the objects that are below a given price as parameter (calculated with quantity) affecting the weight and money variables
+			> function that deletes the objects that are below a given weight as parameter (calculated with quantity) affecting the weight and money variables
+			> print how much the user can carry anymore
+			> function that prints the object with a certain color (parameter)
+			> print the total cost of the objects
+			> function that returns which object could be bought the most with the remaining weight and money
+			> function that returns which object could be bought the most with the remaining weight
+			> function that returns which object could be bought the most with the remaining money
+			> print the objects in ascending order of their price/weight ratio
+			> write in a file a table of all objects the person posseses like this:
+				Vlad, aged 19 has:
+				
+				| Object | Price | Quantity | Total price |
+				|--------|-------|----------|-------------|
+				| Chair  |  10   |    3     |     30      |
+				| Car    |  1000 |    1     |     1000    |
+				
+				etc... Make it more beautiful
+
+Task:
+
+	In a forever loop, ask the user for the following menu:
+	
+		1. Add new person
+		2. Add object to a specific person (that will ask for a name, ofc)
+		3. Print a person's details
+		4. Print the objects of a person in ascending/descending order of the names
+		5. Print the objects of a person in ascending/descending order of the prices
+		6. Delete a person's objects that are below an inputed price 
+		7. Delete a person's objects that are below an inputed weight
+		8. Print how much all people can carry
+		9. Print out how much money all of the people have
+		10. Print which object could be bought the most with the remaining weight and money of a person
+		11. Print which object could be bought the most with the remaining weight of a person
+		12. Print which object could be bought the most with the remaining money of a person
+		13. Print the objects in ascending order of their price/weight ratio
+		14. Write in a folder all user's objects they posses in a diffrent file for each user
+		15. Print all people's objects' worth
+		16. Print all people's details
+		17. Print the name of all objects found within all people's inventory
+		18. Exit the loop
