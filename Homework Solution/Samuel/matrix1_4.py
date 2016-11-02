@@ -20,6 +20,7 @@ def zig_zag(m):
         d = 1 if d == 0 else 0
     return m
 
+
 def print_output(m):
     l = [[i for i in j if i != "x"] for j in m]
     for i in range(len(l[0])):

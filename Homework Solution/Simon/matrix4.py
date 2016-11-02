@@ -23,15 +23,13 @@ def first(m):
     for p in range(len(lst)):
         lst2 = []
         if p % 2 == 0:
-            for ö in lst[p]:
-                lst2.append(lst[p][0:1])
-                for ü in range(3, len(lst[p]), 4):
-                    lst2.append(lst[p][ü:ü+2])
+            lst2.append(lst[p][0:1])
+            for ü in range(3, len(lst[p]), 4):
+                lst2.append(lst[p][ü:ü+2])
             print(list(lst2[:len(lst[p])//3]))
         else:
-            for ä in lst[p]:
-                for n in range(1, len(lst[p]), 4):
-                    lst2.append(lst[p][n:n+2])
+            for n in range(1, len(lst[p]), 4):
+                lst2.append(lst[p][n:n+2])
             print(list(lst2[:len(lst[p])//3]))
 
 # solved but ugly af ... i am ashamed
