@@ -1,3 +1,6 @@
+from sys import exit
+
+
 class Fraction:
 
     def __init__(self, div1, div2):
@@ -29,6 +32,7 @@ class Fraction:
 
         if solution[1]//x == 1:
             return solution[0] // x
+
         else:
             return str(solution[0] // x) + "/" + str(solution[1] // x)
 
@@ -51,16 +55,18 @@ def organize_rows(m):
 def rearrange_lower_triangle(m, n):
     div = convert_to_list(m[n][n])
     for i in range(len(m[0])):
-        y = convert_to_list(m[n][i])
-        m[n][i] = Fraction(y, div).divide()
+        if check_last_row(m):
+            y = convert_to_list(m[n][i])
+            m[n][i] = Fraction(y, div).divide()
 
 
 def finish_column_lower_triangle(m, n):
-    for i in range(1+n, len(m)):
-        multiple = convert_to_list(m[i][n])
-        for j in range(len(m[i])):
-            x = convert_to_list(Fraction(multiple, convert_to_list(m[n][j])).multiply())
-            m[i][j] = Fraction(convert_to_list(m[i][j]), x).subtract()
+
+        for i in range(1+n, len(m)):
+            multiple = convert_to_list(m[i][n])
+            for j in range(len(m[i])):
+                x = convert_to_list(Fraction(multiple, convert_to_list(m[n][j])).multiply())
+                m[i][j] = Fraction(convert_to_list(m[i][j]), x).subtract()
 
 
 def finish_column_upper_triangle(m, n):
@@ -69,6 +75,17 @@ def finish_column_upper_triangle(m, n):
         for j in range(len(m[0])):
             x = convert_to_list(Fraction(multiple, convert_to_list(m[len(m)-1-n][j])).multiply())
             m[i][j] = Fraction(convert_to_list(m[i][j]), x).subtract()
+
+
+def check_last_row(m):
+    if m[len(m)-1][len(m[0])-1] == 0 and m[len(m)-1][len(m[0])-2] == 0:
+        print("System has infinite solutions.")
+        exit(0)
+    elif m[len(m)-1][len(m[0])-1] != 0 and m[len(m)-1][len(m[0])-2] == 0:
+        print("System is unsolvable.")
+        exit(0)
+    else:
+        return True
 
 
 def print_matrix(m):
@@ -100,18 +117,18 @@ def main():
     from string import ascii_lowercase
     m = file_input()
 
-    print("\nfirst triangle:\n")
-
     for i in range(len(m)-1):
         rearrange_lower_triangle(m, i)
         finish_column_lower_triangle(m, i)
     rearrange_lower_triangle(m, len(m)-1)
-    print_matrix(m)
 
-    print("\nsecond triangle:\n")
+    print("\nfirst triangle:\n")
+    print_matrix(m)
 
     for i in range(len(m)):
         finish_column_upper_triangle(m, i)
+
+    print("\nsecond triangle:\n")
     print_matrix(m)
 
     print("\nSolution:\n")
