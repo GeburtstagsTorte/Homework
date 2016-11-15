@@ -24,17 +24,11 @@ class Fraction:
 
     @staticmethod
     def cancel(solution):
-        x = solution[0]
-        y = solution[1]
-
+        x, y = solution[0], solution[1]
         while y != 0:
             x, y = y, x % y
 
-        if solution[1]//x == 1:
-            return solution[0] // x
-
-        else:
-            return str(solution[0] // x) + "/" + str(solution[1] // x)
+        return solution[0] // x if solution[1]//x == 1 else str(solution[0] // x) + "/" + str(solution[1] // x)
 
 
 def file_input():
@@ -56,12 +50,10 @@ def rearrange_lower_triangle(m, n):
     div = convert_to_list(m[n][n])
     for i in range(len(m[0])):
         if check_last_row(m):
-            y = convert_to_list(m[n][i])
-            m[n][i] = Fraction(y, div).divide()
+            m[n][i] = Fraction(convert_to_list(m[n][i]), div).divide()
 
 
 def finish_column_lower_triangle(m, n):
-
         for i in range(1+n, len(m)):
             multiple = convert_to_list(m[i][n])
             for j in range(len(m[i])):
@@ -79,7 +71,8 @@ def finish_column_upper_triangle(m, n):
 
 def check_last_row(m):
     if m[len(m)-1][len(m[0])-1] == 0 and m[len(m)-1][len(m[0])-2] == 0:
-        print("System has infinite solutions.")
+        print_matrix(m)
+        print("\nSystem has infinite solutions.")
         exit(0)
     elif m[len(m)-1][len(m[0])-1] != 0 and m[len(m)-1][len(m[0])-2] == 0:
         print("System is unsolvable.")
@@ -88,11 +81,16 @@ def check_last_row(m):
         return True
 
 
-def print_matrix(m):
-    for i in range(len(m)):
-        for j in range(len(m[0])):
-            print(str(m[i][j]), end=" ")
-        print()
+def check_if_is_determined(m):
+    if len(m) + 1 > len(m[0]):
+        print("System is over determined. Redundant rows will be deleted.")
+        return False
+
+    elif len(m) + 1 < len(m[0]):
+        print("System is undetermined.")
+        exit(0)
+    else:
+        return True
 
 
 def convert_to_list(n):
@@ -101,8 +99,7 @@ def convert_to_list(n):
         return lst
 
     elif type(n) == str:
-        div_list = []
-        num = ""
+        div_list, num = [], ""
         for i in n:
             if i != "/":
                 num += i
@@ -113,9 +110,19 @@ def convert_to_list(n):
         return div_list
 
 
+def print_matrix(m):
+    for i in range(len(m)):
+        for j in range(len(m[0])):
+            print(str(m[i][j]), end=" ")
+        print()
+
+
 def main():
     from string import ascii_lowercase
     m = file_input()
+
+    if not check_if_is_determined(m):
+        m = [m[i] for i in range(len(m[0]) - 1)]
 
     for i in range(len(m)-1):
         rearrange_lower_triangle(m, i)
