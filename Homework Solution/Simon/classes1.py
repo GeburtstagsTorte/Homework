@@ -1,4 +1,4 @@
-import sys
+from sys import exit
 
 
 class Object:
@@ -54,27 +54,27 @@ class Object:
 
         weight_per_dollar = self.price // self.weight
         print("the weight per dollar ratio is: " + str(weight_per_dollar))
-        return weight_per_dollar(self)
+        return weight_per_dollar
 
 
 class Person:
     current_carried_weight = 0
 
-    def __init__(self, name, age, money, carry_weight, object):
+    def __init__(self, name, age, money, carry_weight, objects):
         self.name = name
         self.age = age
         self.money = money
         self.carry_weight = carry_weight
-        self.object = object
+        self.objects = objects
 
     def print_person(self):
         print('Player  |  Name: {} \n'
               '            Age: {} \n'
               '          Money: {} \n'
               ' max. c. weight: {} \n'
-              '        objects: {} \n'.format(self.name, self.age, self.money, self.carry_weight, self.object))
+              '        objects: {} \n'.format(self.name, self.age, self.money, self.carry_weight, self.objects))
 
-people = [Person("Simon", 18, 500, 50, [Object("chair", 10, "blue", 49.99)]), Person("Samuel", 17, 500, 50, None)]
+people = [Person("Simon", 18, 500, 50, [Object("chair", 10, "blue", 49.99)]), Person("Samuel", 17, 500, 50, [])]
 
 
 def print_persons_details(people):
@@ -117,7 +117,7 @@ def add_object_to_person(people):
             except ValueError:
                 print("you made a mistake...")
                 return add_object_to_person(people)
-            i.object.append(Object(name, weight, color, price))
+            i.objects.append(Object(name, weight, color, price))
             print("object appended")
     else:
         print("{} is not in people.".format(x))
@@ -138,12 +138,11 @@ def main():
         x = input("\ntype the key for option you want to execute, correctly: ")
         if x == "E":
             print("\nBye...")
-            sys.exit("exit complete, thank you for participating")
+            exit("exit complete, thank you for participating")
         try:
             x = int(x)
         except ValueError:
             print("It seems you made a mistake")
-            main()
 
         if x == 1:
             print("executing function 1...")
