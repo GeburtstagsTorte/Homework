@@ -30,13 +30,14 @@ class Player:
               '         Money: {} \n'
               ' max c. weight: {} \n'.format(self.name, self.age, self.money, self.max_carry_weight))
 
-        if self.objects != 0:
+        if self.objects:
             print("{} has {} Object(s): \n".format(self.name, len(self.objects)))
             for i in self.objects:
                 i.print_object()
         else:
             print("{} has no Object\n".format(self.name))
         print()
+
 
 people = [Player('Ahiru', 18, 400, 1, [Object('Mytho', 65, 'white', 10)]), Player('Shiru', 200, 321, 2, [])]
 
@@ -85,7 +86,7 @@ def total_max_c_weight(people):
     total = 0
     for i in people:
         total += i.max_carry_weight
-    print("All people can carry {} weight units".format(total))
+    print("All people can carry {} weight units.\n".format(total))
 
 
 def print_all_players(people):
@@ -94,8 +95,10 @@ def print_all_players(people):
 
 
 def main():
+    # Why do we have to make people global?
 
     while True:
+        print("Menu:\n")
         print("1. Add a new person")
         print("2. Add object to person")
         print("3. How much everyone can carry")
@@ -110,6 +113,7 @@ def main():
         except ValueError:
             if x == 'Z':
                 break
+                # from sys import exit, exit(0) or exit("something")
             else:
                 print("This was not a valid value!")
                 main()
@@ -118,10 +122,8 @@ def main():
             add_person(people)
             print("You just added: ")
             people[len(people)-1].print_player()
-
         if x == 2:
             add_object_to_player(people)
-
         if x == 3:
             total_max_c_weight(people)
         if x == 4:
