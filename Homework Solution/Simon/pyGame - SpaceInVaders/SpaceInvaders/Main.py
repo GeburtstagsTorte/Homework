@@ -50,14 +50,12 @@ class Game:
             if event.key == pygame.K_d:
                 Constants.D = True
             if event.key == pygame.K_SPACE:
-                Constants.SPACE = True
+                Entities.player_shoot_bullet(Entities.player)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 Constants.A = False
             if event.key == pygame.K_d:
                 Constants.D = False
-            if event.key == pygame.K_SPACE:
-                Constants.SPACE = False
 
 
 def main():
