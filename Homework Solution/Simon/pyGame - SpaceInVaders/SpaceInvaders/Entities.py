@@ -68,12 +68,12 @@ class Entities:
             if Entities.player_bullet:
                 if Entities.bullet_aliens_pos_x(i) and Entities.bullet_aliens_pos_y(i):
                     Entities.player_bullet = None
-                    #Entities.aliens[i] = None            # this one fucks with me m888
+                    # Entities.aliens[i] = None            # this one fucks with me m888
                     """
-                    so.. dont get me wrong :D I did multiple research attempts to solve this one and came to a
-                    conclusion that i simply dont have enough knowledge about objects and classes. This probably has
+                    so.. don't get me wrong :D I did multiple research attempts to solve this one and came to a
+                    conclusion that i simply don't have enough knowledge about objects and classes. This probably has
                     smth to do with reference counts etc...
-                    i tried to delete, remove, etc. 
+                    i tried to delete, remove, etc.
                     """
 
     @staticmethod
@@ -93,5 +93,5 @@ class Entities:
                        Entities.player_bullet.collision_box[3]):
             if j in range(Entities.aliens[i].pos_rect[1] + Entities.aliens[i].collision_box[1],
                           Entities.aliens[i].pos_rect[1] + Entities.aliens[i].collision_box[1] +
-                          Entities.aliens[i].collision_box[3]):
+                          Entities.aliens[i].collision_box[2] // 2):
                 return True
