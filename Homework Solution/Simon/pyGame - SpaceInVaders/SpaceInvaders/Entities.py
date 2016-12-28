@@ -82,5 +82,5 @@ class Entities:
                        Entities.player_bullet.collision_box[3]):
             if j in range(Entities.aliens[i].pos_rect[1] + Entities.aliens[i].collision_box[1],
                           Entities.aliens[i].pos_rect[1] + Entities.aliens[i].collision_box[1] +
-                          Entities.aliens[i].collision_box[3]):
+                          Entities.aliens[i].collision_box[2] // 2):
                 return True

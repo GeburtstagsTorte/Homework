@@ -33,3 +33,5 @@ class Alien:
 
     def move(self):
         self.pos_rect[0] += Alien.direction * Alien.speed_factor
+
+    # Entities.aliens[i].collision_box[2] // 2):

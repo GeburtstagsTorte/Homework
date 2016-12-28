@@ -3,7 +3,7 @@ from pygame import image
 
 class Constants:
 
-    A, D = False, False         # why doesnt it take in keyboard input tho?
+    A, D = False, False
     SPACE = False
 
     WIDTH = 1000
