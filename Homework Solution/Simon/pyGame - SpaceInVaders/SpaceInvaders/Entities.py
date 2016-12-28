@@ -27,11 +27,12 @@ class Entities:
 
     @staticmethod
     def update():
-        if len(Entities.aliens) < 5:
-            Entities.create_alien_wave_5()
+        if len(Entities.aliens) < 3:
+            Entities.create_alien_wave_5(Constants.wave_size)
 
         Entities.player.update()
         for i in range(len(Entities.aliens)):
+
             Entities.aliens[i].update()
         for alien in Entities.aliens:
             if alien.pos_rect[0] >= Constants.WIDTH - Constants.alien_size or alien.pos_rect[0] <= 0:
@@ -49,18 +50,12 @@ class Entities:
         Entities.player_bullet.shoot_bullet(Entities.player_bullet, game_display)
 
     @staticmethod
-    def create_alien_wave_5():  # as of yet loop doesnt work
-        Entities.aliens = Alien(
-            [Constants.WIDTH // 2 - Constants.alien_size // 2, Constants.alien_size,
-             Constants.alien_size, Constants.alien_size], [0, 10, 100, 10], Constants.alien_image), Alien(
-            [Constants.WIDTH // 2 - Constants.alien_size // 2 - Constants.alien_size, Constants.alien_size,
-             Constants.alien_size, Constants.alien_size], [0, 10, 100, 10], Constants.alien_image), Alien(
-            [Constants.WIDTH // 2 - Constants.alien_size // 2 - Constants.alien_size * 2, Constants.alien_size,
-             Constants.alien_size, Constants.alien_size], [0, 10, 100, 10], Constants.alien_image), Alien(
-            [Constants.WIDTH // 2 - Constants.alien_size // 2 - Constants.alien_size * 3, Constants.alien_size,
-             Constants.alien_size, Constants.alien_size], [0, 10, 100, 10], Constants.alien_image), Alien(
-            [Constants.WIDTH // 2 - Constants.alien_size // 2 - Constants.alien_size * 4, Constants.alien_size,
-             Constants.alien_size, Constants.alien_size], [0, 10, 100, 10], Constants.alien_image)
+    def create_alien_wave_5(n):  # as of yet loop doesnt work
+
+        for i in range(n):
+            Entities.aliens.append(Alien([Constants.WIDTH // 2 - Constants.alien_size // 2 - Constants.alien_size * i,
+                                          Constants.alien_size, Constants.alien_size, Constants.alien_size],
+                                         [0, 10, 100, 10], Constants.alien_image))
 
     @staticmethod
     def check_bullet_collision():
@@ -68,13 +63,7 @@ class Entities:
             if Entities.player_bullet:
                 if Entities.bullet_aliens_pos_x(i) and Entities.bullet_aliens_pos_y(i):
                     Entities.player_bullet = None
-                    #Entities.aliens[i] = None            # this one fucks with me m888
-                    """
-                    so.. dont get me wrong :D I did multiple research attempts to solve this one and came to a
-                    conclusion that i simply dont have enough knowledge about objects and classes. This probably has
-                    smth to do with reference counts etc...
-                    i tried to delete, remove, etc. 
-                    """
+                    del Entities.aliens[i]
 
     @staticmethod
     def bullet_aliens_pos_x(i):

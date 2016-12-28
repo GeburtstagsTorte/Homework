@@ -16,3 +16,5 @@ class Constants:
     player_image = image.load("res/player.gif")
     alien_image = image.load("res/alien.png")
     bullet_image = image.load("res/bullet1.png")
+
+    wave_size = 5
