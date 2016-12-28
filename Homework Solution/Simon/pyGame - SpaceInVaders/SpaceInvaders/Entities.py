@@ -27,8 +27,9 @@ class Entities:
 
     @staticmethod
     def update():
-        if len(Entities.aliens) < 3:
-            Entities.create_alien_wave_5(Constants.wave_size)
+        if Constants.counter == 260:
+            Entities.create_alien_wave(Constants.wave_size)
+            Constants.counter = 0
 
         Entities.player.update()
         for i in range(len(Entities.aliens)):
@@ -50,7 +51,7 @@ class Entities:
         Entities.player_bullet.shoot_bullet(Entities.player_bullet, game_display)
 
     @staticmethod
-    def create_alien_wave_5(n):  # as of yet loop doesnt work
+    def create_alien_wave(n):  # as of yet loop doesnt work
 
         for i in range(n):
             Entities.aliens.append(Alien([Constants.WIDTH // 2 - Constants.alien_size // 2 - Constants.alien_size * i,

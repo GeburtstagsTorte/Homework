@@ -39,6 +39,7 @@ class Game:
     @staticmethod
     def update():
         Entities.update()
+        Constants.counter += 1
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:

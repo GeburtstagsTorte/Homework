@@ -10,7 +10,7 @@ class Constants:
     HEIGHT = 600
 
     player_size = WIDTH // 15
-    alien_size = WIDTH // 15
+    alien_size = WIDTH // 20
     bullet_size = WIDTH // 15
 
     player_image = image.load("res/player.gif")
@@ -18,3 +18,4 @@ class Constants:
     bullet_image = image.load("res/bullet1.png")
 
     wave_size = 5
+    counter = 0
