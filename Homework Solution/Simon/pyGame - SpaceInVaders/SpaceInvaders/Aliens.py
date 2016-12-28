@@ -1,4 +1,4 @@
-from pygame import transform
+from pygame import transform, Rect
 from Constants import Constants
 
 """
@@ -34,6 +34,12 @@ class Alien:
     def move(self):
         self.pos_rect[0] += Alien.direction * Alien.speed_factor
 
+    def get_true_collision(self):
+        return Rect(self.pos_rect[0] + self.collision_box[0] / 100 * self.pos_rect[2],
+                    self.pos_rect[1] + self.collision_box[1] / 100 * self.pos_rect[3],
+                    self.collision_box[2] / 100 * self.pos_rect[2],
+                    self.collision_box[3] / 100 * self.pos_rect[3],
+                    )
 
 class MotherShip:    # could do inheritance but not nau pl0x
 

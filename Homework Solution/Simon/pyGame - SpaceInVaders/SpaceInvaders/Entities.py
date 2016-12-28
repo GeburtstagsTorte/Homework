@@ -2,6 +2,7 @@ from Player import Player
 from Aliens import Alien, MotherShip
 from Constants import Constants
 from Bullet import Bullet
+from pygame import Rect
 
 
 class Entities:
@@ -51,9 +52,12 @@ class Entities:
                 for j in Entities.aliens:
                     j.pos_rect[1] += Constants.alien_size // 2
 
-        for bullet in Entities.player_bullet:
-            bullet.update()
-            Entities.check_bullet_collision(bullet)
+        for bullet_id in range(len(Entities.player_bullet)):
+            try:
+                Entities.player_bullet[bullet_id].update()
+                Entities.check_bullet_collision(bullet_id)
+            except IndexError:
+                pass
 
         if Entities.mother_ship:
             Entities.mother_ship.update()
@@ -80,32 +84,11 @@ class Entities:
                                           [0, 10, 100, 10], Constants.death_star)
 
     @staticmethod
-    def check_bullet_collision(bullet):
+    def check_bullet_collision(bullet_id):
         for i in range(len(Entities.aliens)):
-            if Entities.bullet_aliens_pos_x(i, bullet) and Entities.bullet_aliens_pos_y(i, bullet):
-                del bullet
+            if Entities.player_bullet[bullet_id].get_true_collision().colliderect(Entities.aliens[i].get_true_collision()):
+                del Entities.player_bullet[bullet_id]
                 del Entities.aliens[i]
-            elif bullet.pos_rect[1] < Constants.HEIGHT // 20:
-                del bullet
-
-    @staticmethod
-    def bullet_aliens_pos_x(i, bullet):
-        for j in range(bullet.pos_rect[0] + bullet.collision_box[0], bullet.pos_rect[0] + bullet.collision_box[0] +
-                       bullet.collision_box[2]):
-            if j in range(Entities.aliens[i].pos_rect[0] + Entities.aliens[i].collision_box[0],
-                          Entities.aliens[i].pos_rect[0] + Entities.aliens[i].collision_box[0] +
-                          Entities.aliens[i].collision_box[2]):
                 return True
-            else:
-                return False
 
-    @staticmethod
-    def bullet_aliens_pos_y(i, bullet):
-        for j in range(bullet.pos_rect[1] + bullet.collision_box[1], bullet.pos_rect[1] + bullet.collision_box[1] +
-                       bullet.collision_box[3]):
-            if j in range(Entities.aliens[i].pos_rect[1] + Entities.aliens[i].collision_box[1],
-                          Entities.aliens[i].pos_rect[1] + Entities.aliens[i].collision_box[1] +
-                          Entities.aliens[i].collision_box[2] // 2):
-                return True
-            else:
-                return False
+        return False

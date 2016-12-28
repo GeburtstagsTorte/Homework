@@ -1,4 +1,4 @@
-from pygame import transform
+from pygame import transform, Rect
 
 
 class Bullet:
@@ -23,3 +23,10 @@ class Bullet:
     def shoot_bullet(bullet, game_display):
         bullet.render(game_display)
         bullet.update()
+
+    def get_true_collision(self):
+        return Rect(self.pos_rect[0] + self.collision_box[0] / 100 * self.pos_rect[2],
+                    self.pos_rect[1] + self.collision_box[1] / 100 * self.pos_rect[3],
+                    self.collision_box[2] / 100 * self.pos_rect[2],
+                    self.collision_box[3] / 100 * self.pos_rect[3],
+                    )

@@ -1,6 +1,5 @@
 from pygame import transform
 from Constants import Constants
-from Bullet import Bullet
 
 
 class Player:
