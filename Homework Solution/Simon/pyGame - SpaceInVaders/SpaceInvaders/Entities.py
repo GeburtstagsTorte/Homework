@@ -2,7 +2,7 @@ from Player import Player
 from Aliens import Alien, MotherShip
 from Constants import Constants
 from Bullet import Bullet, SeismBomb, AlienBullet
-from pygame import Rect
+import pygame
 from random import randint
 
 
@@ -11,6 +11,7 @@ class Entities:
     aliens = []
     player_bullet = []
     alien_bullet = []
+    mothership_bullet = []
     seism_bomb = []
     mother_ship = []
     alien_wave_counter = 0
@@ -52,8 +53,22 @@ class Entities:
                     rand_int = randint(0, len(Entities.aliens) - 1)
                     Entities.alien_shoot_bullet(rand_int)
 
+        if Constants.counter == 200 and len(Entities.mother_ship) > 0:
+            Entities.mothership_shoot_bullet(0)
+
     @staticmethod
     def render(game_display):
+        if Constants.lost == 0 and Entities.won != 4:
+            Entities.render_game(game_display)
+        elif Constants.lost == 1:
+            Entities.render_game(game_display)
+            game_display.blit(Constants.game_over, [Constants.WIDTH // 4, Constants.HEIGHT // 3, 100, 100])
+        elif Entities.won == 4:
+            Entities.render_game(game_display)
+            game_display.blit(Constants.game_won, [Constants.WIDTH // 4, Constants.HEIGHT // 3, 100, 100])
+
+    @staticmethod
+    def render_game(game_display):
         Entities.player.render(game_display)
 
         for bullet in Entities.player_bullet:
@@ -62,6 +77,8 @@ class Entities:
             bomb.render(game_display)
         for alien_bullet in Entities.alien_bullet:
             alien_bullet.render(game_display)
+        for mother_ship_bullet in Entities.mothership_bullet:
+            mother_ship_bullet.render(game_display)
 
         for mother_id in range(len(Entities.mother_ship)):
             Entities.mother_ship[mother_id].render(game_display)
@@ -70,46 +87,56 @@ class Entities:
 
     @staticmethod
     def update():
-        Entities.handle_game()
-        Entities.player.update()
+        if Constants.lost == 0 and Entities.won != 4:
+            Entities.handle_game()
+            Entities.player.update()
 
-        for i in range(len(Entities.aliens)):
-            Entities.aliens[i].update()
+            for i in range(len(Entities.aliens)):
+                Entities.aliens[i].update()
 
-        for alien in Entities.aliens:
-            if alien.pos_rect[0] >= Constants.WIDTH - Constants.alien_size or alien.pos_rect[0] <= 0:
-                for j in Entities.aliens:
-                    j.pos_rect[1] += Constants.alien_size // 2
+            for alien in Entities.aliens:
+                if alien.pos_rect[0] >= Constants.WIDTH - Constants.alien_size or alien.pos_rect[0] <= 0:
+                    for j in Entities.aliens:
+                        j.pos_rect[1] += Constants.alien_size // 2
 
-        for bullet_id in range(len(Entities.player_bullet)):
-            try:
-                Entities.player_bullet[bullet_id].update()
-                Entities.check_bullet_collision(bullet_id)
-            except IndexError:
-                pass
+            for bullet_id in range(len(Entities.player_bullet)):
+                try:
+                    Entities.player_bullet[bullet_id].update()
+                    Entities.check_bullet_collision(bullet_id)
+                except IndexError:
+                    pass
 
-        for bomb_id in range(len(Entities.seism_bomb)):
-            try:
-                Entities.seism_bomb[bomb_id].update()
-                Entities.check_bomb_collision(bomb_id)
-            except IndexError:
-                pass
+            for bomb_id in range(len(Entities.seism_bomb)):
+                try:
+                    Entities.seism_bomb[bomb_id].update()
+                    Entities.check_bomb_collision(bomb_id)
+                except IndexError:
+                    pass
 
-        for alien_bullet_id in range(len(Entities.alien_bullet)):
-            try:
-                Entities.alien_bullet[alien_bullet_id].update()
-                Entities.check_alien_bullet_collision(alien_bullet_id)
-            except IndexError:
-                pass
+            for alien_bullet_id in range(len(Entities.alien_bullet)):
+                try:
+                    Entities.alien_bullet[alien_bullet_id].update()
+                    Entities.check_alien_bullet_collision(alien_bullet_id)
+                except IndexError:
+                    pass
 
-        for mother_ship in range(len(Entities.mother_ship)):
-            try:
-                Entities.mother_ship[mother_ship].update()
-                for bullet_id in range(len(Entities.player_bullet)):
-                    for bomb_id in range(len(Entities.seism_bomb)):
-                        Entities.check_deathstar_collision(bullet_id, bomb_id)
-            except IndexError:
-                pass
+            for mother_ship_bullet_id in range(len(Entities.mothership_bullet)):
+                try:
+                    Entities.mothership_bullet[mother_ship_bullet_id].update()
+                    Entities.check_mother_ship_bullet_collision(mother_ship_bullet_id)
+                except IndexError:
+                    pass
+
+            for mother_ship in range(len(Entities.mother_ship)):
+                try:
+                    Entities.mother_ship[mother_ship].update()
+                    for bullet_id in range(len(Entities.player_bullet)):
+                        for bomb_id in range(len(Entities.seism_bomb)):
+                            Entities.check_deathstar_collision(bullet_id, bomb_id)
+                except IndexError:
+                    pass
+        else:
+            pass
 
     @staticmethod
     def player_shoot_bullet(player):
@@ -123,6 +150,13 @@ class Entities:
             [Entities.aliens[alien_id].pos_rect[0] + Constants.alien_size // 2,
              Entities.aliens[alien_id].pos_rect[1] + Constants.alien_size,
              Constants.alien_size, Constants.alien_size], [45, 50, 10, 50], Constants.bullet_image))
+
+    @staticmethod
+    def mothership_shoot_bullet(ship_id):
+        Entities.mothership_bullet.append(AlienBullet(
+            [Entities.mother_ship[ship_id].pos_rect[0],
+             Entities.mother_ship[ship_id].pos_rect[1] + Constants.mother_ship_size,
+             Constants.mother_ship_size, Constants.mother_ship_size], [45, 50, 10, 50], Constants.mother_ship_bullet))
 
     @staticmethod
     def player_shoot_seism_bomb(player):
@@ -177,8 +211,17 @@ class Entities:
         elif Entities.alien_bullet[bullet_id].pos_rect[1] > Constants.HEIGHT:
             del Entities.alien_bullet[bullet_id]
         elif Entities.player.health < 1:
-            pass
-            # initiate Game Over
+            Constants.lost = 1
+
+    @staticmethod
+    def check_mother_ship_bullet_collision(bullet_id):
+        if Entities.mothership_bullet[bullet_id].get_true_collision().colliderect(Entities.player.get_true_collision()):
+            Entities.player.health -= 3
+            del Entities.mothership_bullet[bullet_id]
+        elif Entities.mothership_bullet[bullet_id].pos_rect[1] > Constants.HEIGHT:
+            del Entities.mothership_bullet[bullet_id]
+        elif Entities.player.health < 1:
+            Constants.lost = 1
 
     @staticmethod
     def check_deathstar_collision(bullet_id, bomb_id):
@@ -197,6 +240,7 @@ class Entities:
             elif Entities.mother_ship[i].health < 1:
                 Entities.alien_wave_counter = 0
                 Entities.mother_ship_counter += 1
+                Entities.won += 1
                 del Entities.mother_ship[i]
                 return True
 

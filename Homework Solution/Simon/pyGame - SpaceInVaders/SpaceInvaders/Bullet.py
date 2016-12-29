@@ -19,11 +19,6 @@ class Bullet:
     def move(self):
         self.pos_rect[1] -= Bullet.bullet_speed
 
-    @staticmethod
-    def shoot_bullet(bullet, game_display):
-        bullet.render(game_display)
-        bullet.update()
-
     def get_true_collision(self):
         return Rect(self.pos_rect[0] + self.collision_box[0] / 100 * self.pos_rect[2],
                     self.pos_rect[1] + self.collision_box[1] / 100 * self.pos_rect[3],
@@ -34,7 +29,7 @@ class Bullet:
 
 class AlienBullet(Bullet):
 
-    bullet_speed = 7
+    bullet_speed = 6
 
     def __init__(self, pos_rect, collision_box, image):
         super().__init__(pos_rect, collision_box, image)

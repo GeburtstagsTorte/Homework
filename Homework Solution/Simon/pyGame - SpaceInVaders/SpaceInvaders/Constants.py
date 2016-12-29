@@ -4,7 +4,7 @@ from pygame import image
 class Constants:
 
     A, D = False, False
-    # SPACE = False
+    lost = 0
 
     WIDTH = 1000
     HEIGHT = 600
@@ -20,6 +20,9 @@ class Constants:
     bomb_image = image.load("res/rocket.png")
     death_star = image.load("res/deathstar.png")
     star_destroyer = image.load("res/stardestroyer.png")
+    mother_ship_bullet = image.load("res/mother_ship_bullet.png")
+    game_over = image.load("res/game_over.png")
+    game_won = image.load("res/game_won.png")
 
     wave_size = 5
     counter = 0
