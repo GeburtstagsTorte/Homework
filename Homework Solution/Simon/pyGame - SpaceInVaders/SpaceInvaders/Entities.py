@@ -1,14 +1,16 @@
 from Player import Player
 from Aliens import Alien, MotherShip
 from Constants import Constants
-from Bullet import Bullet, SeismBomb
+from Bullet import Bullet, SeismBomb, AlienBullet
 from pygame import Rect
+from random import randint
 
 
 class Entities:
     player = None
     aliens = []
     player_bullet = []
+    alien_bullet = []
     seism_bomb = []
     mother_ship = []
     alien_wave_counter = 0
@@ -18,12 +20,12 @@ class Entities:
     def __init__(self):
         Entities.player = Player(
             [Constants.WIDTH // 2 - Constants.player_size // 2, Constants.HEIGHT - Constants.player_size - 10,
-             Constants.player_size, Constants.player_size], [0, 75, 100, 25], Constants.player_image)
+             Constants.player_size, Constants.player_size], [0, 75, 100, 25], Constants.player_image, 10)
         # [from x move:, from y move:, size of the object on x, height of the object on y] for collision boxes
 
     @staticmethod
     def handle_game():
-        if Constants.counter == 200:
+        if Constants.counter == 240:
             Entities.create_alien_wave(Constants.wave_size)
             Constants.counter = 0
             Entities.alien_wave_counter += 1
@@ -31,15 +33,24 @@ class Entities:
                 Entities.create_mother_ship(Constants.mother_ship_size, 10, Constants.star_destroyer, [20, 5, 60, 90])
                 Entities.alien_wave_counter = 0
             elif Entities.mother_ship_counter == 3 and len(Entities.mother_ship) == 0:
-                Entities.create_mother_ship(Constants.mother_ship_size * 1.5, 25, Constants.death_star, [0, 10, 100, 10])
-                if Entities.won == 1:
-                    pass
-                    # initiate game won etc.
+                Entities.create_mother_ship(Constants.mother_ship_size * 1.5, 25, Constants.death_star,
+                                            [0, 10, 100, 10])
+                if len(Entities.mother_ship) < 1:
+                    Entities.won = 1
+            if Entities.won == 1:
+                # initiate game won etc.
+                pass
 
             if len(Entities.mother_ship) > 0:
                 Constants.wave_size = 4
             elif len(Entities.mother_ship) == 0:
-                Constants.wave_size = 5
+                Constants.wave_size = 6
+
+        if Constants.counter == 200:
+            for i in range(0, len(Entities.aliens) % 5):
+                if len(Entities.aliens) > 1:
+                    rand_int = randint(0, len(Entities.aliens) - 1)
+                    Entities.alien_shoot_bullet(rand_int)
 
     @staticmethod
     def render(game_display):
@@ -49,6 +60,8 @@ class Entities:
             bullet.render(game_display)
         for bomb in Entities.seism_bomb:
             bomb.render(game_display)
+        for alien_bullet in Entities.alien_bullet:
+            alien_bullet.render(game_display)
 
         for mother_id in range(len(Entities.mother_ship)):
             Entities.mother_ship[mother_id].render(game_display)
@@ -82,6 +95,13 @@ class Entities:
             except IndexError:
                 pass
 
+        for alien_bullet_id in range(len(Entities.alien_bullet)):
+            try:
+                Entities.alien_bullet[alien_bullet_id].update()
+                Entities.check_alien_bullet_collision(alien_bullet_id)
+            except IndexError:
+                pass
+
         for mother_ship in range(len(Entities.mother_ship)):
             try:
                 Entities.mother_ship[mother_ship].update()
@@ -96,6 +116,13 @@ class Entities:
         Entities.player_bullet.append(Bullet(
             [player.draw_rect[0], player.draw_rect[1] - Constants.player_size,
              Constants.bullet_size, Constants.bullet_size], [45, 50, 10, 50], Constants.bullet_image))
+
+    @staticmethod
+    def alien_shoot_bullet(alien_id):
+        Entities.alien_bullet.append(AlienBullet(
+            [Entities.aliens[alien_id].pos_rect[0] + Constants.alien_size // 2,
+             Entities.aliens[alien_id].pos_rect[1] + Constants.alien_size,
+             Constants.alien_size, Constants.alien_size], [45, 50, 10, 50], Constants.bullet_image))
 
     @staticmethod
     def player_shoot_seism_bomb(player):
@@ -141,6 +168,17 @@ class Entities:
             del Entities.seism_bomb[bomb_id]
 
         return False
+
+    @staticmethod
+    def check_alien_bullet_collision(bullet_id):
+        if Entities.alien_bullet[bullet_id].get_true_collision().colliderect(Entities.player.get_true_collision()):
+            Entities.player.health -= 1
+            del Entities.alien_bullet[bullet_id]
+        elif Entities.alien_bullet[bullet_id].pos_rect[1] > Constants.HEIGHT:
+            del Entities.alien_bullet[bullet_id]
+        elif Entities.player.health < 1:
+            pass
+            # initiate Game Over
 
     @staticmethod
     def check_deathstar_collision(bullet_id, bomb_id):

@@ -32,6 +32,17 @@ class Bullet:
                     )
 
 
+class AlienBullet(Bullet):
+
+    bullet_speed = 7
+
+    def __init__(self, pos_rect, collision_box, image):
+        super().__init__(pos_rect, collision_box, image)
+
+    def move(self):
+        self.pos_rect[1] += AlienBullet.bullet_speed
+
+
 class SeismBomb(Bullet):
 
     bomb_speed = 3
