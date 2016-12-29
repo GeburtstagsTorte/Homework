@@ -17,8 +17,9 @@ class Constants:
     player_image = image.load("res/player.gif")
     alien_image = image.load("res/alien.png")
     bullet_image = image.load("res/bullet_red1.png")
-    bomb_image = image.load("res/seism_bomb.png")
+    bomb_image = image.load("res/rocket.png")
     death_star = image.load("res/deathstar.png")
+    star_destroyer = image.load("res/stardestroyer.png")
 
     wave_size = 5
     counter = 0

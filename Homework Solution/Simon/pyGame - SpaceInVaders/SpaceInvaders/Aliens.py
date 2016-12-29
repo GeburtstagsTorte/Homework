@@ -41,19 +41,15 @@ class Alien:
                     self.collision_box[3] / 100 * self.pos_rect[3],
                     )
 
-class MotherShip:    # could do inheritance but not nau pl0x
+
+class MotherShip(Alien):    # could do inheritance but not nau pl0x
 
     direction = 1
-    speed_factor = 2
-    health = 10
+    speed_factor = 1
 
-    def __init__(self, pos_rect, collision_box, image):
-        self.pos_rect = pos_rect
-        self.collision_box = collision_box
-        self.image = transform.scale(image, (int(pos_rect[2]), int(pos_rect[3])))
-
-    def render(self, game_display):
-        game_display.blit(self.image, self.pos_rect)
+    def __init__(self, pos_rect, collision_box, image, health):
+        super().__init__(pos_rect, collision_box, image)
+        self.health = health
 
     def update(self):
         if self.pos_rect[0] >= int(Constants.WIDTH * (3/4)) - Constants.mother_ship_size:

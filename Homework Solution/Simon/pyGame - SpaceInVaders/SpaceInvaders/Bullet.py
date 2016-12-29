@@ -30,3 +30,14 @@ class Bullet:
                     self.collision_box[2] / 100 * self.pos_rect[2],
                     self.collision_box[3] / 100 * self.pos_rect[3],
                     )
+
+
+class SeismBomb(Bullet):
+
+    bomb_speed = 3
+
+    def __init__(self, pos_rect, collision_box, image):
+        super().__init__(pos_rect, collision_box, image)
+
+    def move(self):
+        self.pos_rect[1] -= SeismBomb.bomb_speed

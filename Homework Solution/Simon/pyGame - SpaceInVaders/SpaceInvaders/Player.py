@@ -16,9 +16,9 @@ class Player:
 
     def update(self):
         if Constants.A:
-            Player.dir_x = -5
+            Player.dir_x = -6
         if Constants.D:
-            Player.dir_x = 5
+            Player.dir_x = 6
         self.move()
 
     def move(self):

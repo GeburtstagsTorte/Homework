@@ -49,8 +49,10 @@ class Game:
                 Constants.A = True
             if event.key == pygame.K_d:
                 Constants.D = True
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE and len(Entities.player_bullet) < 3:
                 Entities.player_shoot_bullet(Entities.player)
+            if event.key == pygame.K_w and len(Entities.seism_bomb) < 1:
+                Entities.player_shoot_seism_bomb(Entities.player)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 Constants.A = False
