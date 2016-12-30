@@ -38,18 +38,15 @@ class Entities:
                                             [0, 10, 100, 10])
                 if len(Entities.mother_ship) < 1:
                     Entities.won = 1
-            if Entities.won == 1:
-                # initiate game won etc.
-                pass
 
             if len(Entities.mother_ship) > 0:
-                Constants.wave_size = 4
+                Constants.wave_size = 5
             elif len(Entities.mother_ship) == 0:
                 Constants.wave_size = 6
 
-        if Constants.counter == 200:
-            for i in range(0, len(Entities.aliens) % 5):
-                if len(Entities.aliens) > 1:
+        if Constants.counter == 100:
+            if len(Entities.aliens) > 1:
+                for i in range(0, len(Entities.aliens) // 3):
                     rand_int = randint(0, len(Entities.aliens) - 1)
                     Entities.alien_shoot_bullet(rand_int)
 
@@ -65,7 +62,7 @@ class Entities:
             game_display.blit(Constants.game_over, [Constants.WIDTH // 4, Constants.HEIGHT // 3, 100, 100])
         elif Entities.won == 4:
             Entities.render_game(game_display)
-            game_display.blit(Constants.game_won, [Constants.WIDTH // 4, Constants.HEIGHT // 3, 100, 100])
+            game_display.blit(Constants.game_won, [Constants.WIDTH // 30, Constants.WIDTH // 4, 100, 100])
 
     @staticmethod
     def render_game(game_display):
