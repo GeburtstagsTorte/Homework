@@ -14,6 +14,8 @@
 
 # > figure out, where the biggest numbers are, then try to find a connection between them with other big numbers
 
+# > making small triplets and building the sum then searching the path with the greatest sum
+
 
 def get_triangle():
     m = open("euler18").read().splitlines()
