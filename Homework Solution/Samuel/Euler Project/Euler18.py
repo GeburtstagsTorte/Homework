@@ -1,3 +1,4 @@
+# https://projecteuler.net/problem=18
 # Find the maximum total from top to bottom of the triangle below
 # moving to adjacent numbers on the row below
 # euler18.txt, triangle
@@ -19,7 +20,7 @@
 
 
 def get_triangle():
-    m = open("euler18").read().splitlines()
+    m = open("euler18_test").read().splitlines()
     m = [[int(i) for i in j.split()] for j in m]
     return m
 
@@ -59,8 +60,9 @@ def get_triangle_value(m, pos):
 
 
 def generate_path_sum(m):
+    # flaw must be in this function
     total = m[0][0]
-    current_pos = [0, 0]
+    current_pos = (0, 0)
     l = [m[0][0]]
     # l for debugging
     for i in range(1, len(m)):
@@ -95,6 +97,7 @@ def print_matrix(m):
 
 def main():
     m = get_triangle()
-    print(generate_path_sum(m))
+    print(get_triangle_value(m, (2, 1)))
+
 if __name__ == '__main__':
     main()
