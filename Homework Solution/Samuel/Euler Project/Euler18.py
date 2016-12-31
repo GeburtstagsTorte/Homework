@@ -14,7 +14,7 @@
 
 # > figure out, where the biggest numbers are, then try to find a connection between them with other big numbers
 
-# > making small triplets and building the sum then searching the path with the greatest sum
+# > making triplets and building the sum then searching the path with the greatest sum <
 
 
 def get_triangle():
@@ -44,6 +44,44 @@ def search_path_trivial(m):
     return count, l
 
 
+def get_triangle_value(m, pos):
+    # gets the sum of every number which is possible to reach when you choose pos
+    count = m[pos[0]][pos[1]]
+    a = pos[1]+1
+    for i in range(pos[0]+1, len(m)):
+        a += 1
+        for j in m[i][pos[1]:a]:
+            count += j
+    return count
+
+
+def generate_path_sum(m):
+    total = m[0][0]
+    current_pos = [0, 0]
+    l = [m[0][0]]
+    for i in range(1, len(m)):
+        choice0 = get_triangle_value(m, (i, current_pos[1]))
+        choice1 = get_triangle_value(m, (i, current_pos[1] + 1))
+        if choice0 > choice1:
+            if i != len(m)-1:
+                l.append(m[i][current_pos[1]])
+                total += m[i][current_pos[1]]
+                current_pos = (i, current_pos[1])
+            else:
+                l.append(choice0)
+                total += choice0
+
+        else:
+            if i != len(m)-1:
+                l.append(m[i][current_pos[1] + 1])
+                total += m[i][current_pos[1] + 1]
+                current_pos = (i, current_pos[1] + 1)
+            else:
+                l.append(choice1)
+                total += choice1
+    return total, l
+
+
 def print_matrix(m):
     for i in range(len(m)):
         for j in range(len(m[i])):
@@ -53,7 +91,6 @@ def print_matrix(m):
 
 def main():
     m = get_triangle()
-    print(search_path_trivial(m))
-
+    print(generate_path_sum(m))
 if __name__ == '__main__':
     main()
