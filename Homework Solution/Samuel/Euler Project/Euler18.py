@@ -2,6 +2,7 @@
 # moving to adjacent numbers on the row below
 # euler18.txt, triangle
 # here are only 16384 routes, still no brute force!
+# Euler67: 633825300114114700748351602688 routes
 
 # characteristics:
 # numbers between 1 - 99
@@ -23,6 +24,7 @@ def get_triangle():
     return m
 
 
+"""
 def search_path_trivial(m):
     # trivial attempt to solve this. It doesn't work, obviously, since it is not even brute force
     # but just to understand it a bit further
@@ -42,6 +44,7 @@ def search_path_trivial(m):
             print("choose: {}, pos = {}".format(m[i][current_position[1] + 1], current_position))
             current_position = (i, current_position[1] + 1)
     return count, l
+"""
 
 
 def get_triangle_value(m, pos):
@@ -59,6 +62,7 @@ def generate_path_sum(m):
     total = m[0][0]
     current_pos = [0, 0]
     l = [m[0][0]]
+    # l for debugging
     for i in range(1, len(m)):
         choice0 = get_triangle_value(m, (i, current_pos[1]))
         choice1 = get_triangle_value(m, (i, current_pos[1] + 1))
