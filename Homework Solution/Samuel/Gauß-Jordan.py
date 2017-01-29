@@ -16,8 +16,8 @@ class Fraction:
     def subtract(self):
         solution = [self.div1[0] - self.div2[0], self.div1[1]] if self.div1[1] == self.div2[1] else \
             [(self.div1[0] * self.div2[1]) - (self.div2[0] * self.div1[1]), self.div1[1] * self.div2[1]]
-        # dafuq is this?
         return Fraction.cancel(solution)
+        # defuq?!
 
     @staticmethod
     def cancel(solution):
@@ -49,7 +49,7 @@ def file_input():
 
 
 def organize_rows(m):
-    # replaces first row if there is a zero
+    # replaces first row if the first variable is zero
     if m[0][0] == 0:
         for i in range(len(m)):
             if m[i][0] != 0:
@@ -71,6 +71,10 @@ def finish_column_lower_triangle(m, n):
             for j in range(len(m[i])):
                 m[i][j] = Fraction(m[i][j], Fraction(multiple, m[n][j]).multiply()).subtract()
 
+        if n < len(m) - 1:
+            rearrange_lower_triangle(m, n + 1)
+            finish_column_lower_triangle(m, n + 1)
+
 
 def finish_column_upper_triangle(m, n):
     # transforms matrix to matrix with gauss triangle in the upper left corner
@@ -78,6 +82,9 @@ def finish_column_upper_triangle(m, n):
         multiple = m[i][len(m)-1-n]
         for j in range(len(m[0])):
             m[i][j] = Fraction(m[i][j], Fraction(multiple, m[len(m)-1-n][j]).multiply()).subtract()
+
+    if n < len(m):
+        finish_column_upper_triangle(m, n + 1)
 
 
 def check_last_row(m):
@@ -91,33 +98,18 @@ def check_last_row(m):
         exit(0)
     return True
 
-"""
-def check_if_is_determined(m):
-    if len(m) + 1 > len(m[0]):
-        print("System is over determined.")
-        return False
-
-    elif len(m) + 1 < len(m[0]):
-        print("System is undetermined.")
-        exit(0)
-    return True
-"""
-
 
 def overdetermination_trail(u, m):
-    # change that stupid name
     for i in range(len(u)):
         count = 0
         for j in range(len(u[i])-1):
             count += u[i][j]*m[j][len(m[0])-1]
-        print(count, u[i][len(u[0])-1])
         if count != u[i][len(u[0])-1]:
             return False
     return True
 
 
 def print_matrix(m):
-    # it should print it better
     for i in range(len(m)):
         for j in range(len(m[0])):
             print(str(m[i][j]), end=" ")
@@ -125,32 +117,27 @@ def print_matrix(m):
 
 
 def main():
-    # work: rewriting the whole main function
     from string import ascii_lowercase
+    l = list(ascii_lowercase)
+
     m = file_input()
     u = m[len(m[0]) - 1:]
     m = m[:len(m[0]) - 1]
-    print(m, "\n {}".format(u))
+    # added recursive method
+    rearrange_lower_triangle(m, 0)
+    finish_column_lower_triangle(m, 0)
 
-    for i in range(len(m)-1):
-        rearrange_lower_triangle(m, i)
-        finish_column_lower_triangle(m, i)
-    rearrange_lower_triangle(m, len(m)-1)
-
-    print("\nfirst triangle:\n")
+    print("\nfirst step:\n")
     print_matrix(m)
 
-    for i in range(len(m)):
-        finish_column_upper_triangle(m, i)
+    finish_column_upper_triangle(m, 0)
 
-    print("\nsecond triangle:\n")
+    print("\nsecond step:\n")
     print_matrix(m)
-    # maybe both for loops too
 
     if len(u) > 0:
         if overdetermination_trail(u, m):
             print("\nTrail returned true. => Solution:\n")
-            l = list(ascii_lowercase)
             for i in (range(len(m))):
                 print("{} = {}".format(l[i], m[i][len(m[0])-1]))
         else:
@@ -158,8 +145,6 @@ def main():
         exit(0)
     else:
         print("\nSolution:\n")
-
-        l = list(ascii_lowercase)
         for i in (range(len(m))):
             print("{} = {}".format(l[i], m[i][len(m[0]) - 1]))
 
