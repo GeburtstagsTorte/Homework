@@ -19,12 +19,16 @@ class Fraction:
         return Fraction.cancel(solution)
         # defuq?!
 
+    def add(self):
+        solution = [self.div1[0] + self.div2[0], self.div1[1]] if self.div1[1] == self.div2[1] else \
+            [(self.div1[0] * self.div2[1]) + (self.div2[0] * self.div1[1]), self.div1[1] * self.div2[1]]
+        return Fraction.cancel(solution)
+
     @staticmethod
     def cancel(solution):
         x, y = solution[0], solution[1]
         while y != 0:
             x, y = y, x % y
-
         return solution[0] // x if solution[1]//x == 1 else str(solution[0] // x) + "/" + str(solution[1] // x)
 
     @staticmethod
@@ -44,7 +48,14 @@ class Fraction:
 
 def file_input():
     f = open("matrix Gauß-Jordan").read().splitlines()
-    m = [[int(i) for i in j.split()] for j in f]
+    m = [[i for i in j.split()] for j in f]
+    # dumb fuck shit, gonna change it but im tired
+    for i in range(len(m)):
+        for j in range(len(m[0])):
+            try:
+                m[i][j] = int(m[i][j])
+            except ValueError:
+                pass
     return m
 
 
@@ -103,7 +114,7 @@ def overdetermination_trail(u, m):
     for i in range(len(u)):
         count = 0
         for j in range(len(u[i])-1):
-            count += u[i][j]*m[j][len(m[0])-1]
+            count = Fraction(Fraction(u[i][j], m[j][len(m[0])-1]).multiply(), count).add()
         if count != u[i][len(u[0])-1]:
             return False
     return True
@@ -124,6 +135,7 @@ def main():
     u = m[len(m[0]) - 1:]
     m = m[:len(m[0]) - 1]
     # added recursive method
+    organize_rows(m)
     rearrange_lower_triangle(m, 0)
     finish_column_lower_triangle(m, 0)
 
