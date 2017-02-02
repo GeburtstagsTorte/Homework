@@ -2,7 +2,6 @@ from sys import exit
 
 
 class Fraction:
-    # implement the convert to list function in to the operators
 
     def __init__(self, div1, div2):
         self.div1, self.div2 = Fraction.convert_to_list(div1), Fraction.convert_to_list(div2)
@@ -115,7 +114,7 @@ def overdetermination_trail(u, m):
         count = 0
         for j in range(len(u[i])-1):
             count = Fraction(Fraction(u[i][j], m[j][len(m[0])-1]).multiply(), count).add()
-        if count != u[i][len(u[0])-1]:
+        if count != Fraction.cancel(Fraction.convert_to_list(u[i][len(u[0])-1])):
             return False
     return True
 
@@ -130,22 +129,14 @@ def print_matrix(m):
 def main():
     from string import ascii_lowercase
     l = list(ascii_lowercase)
-
     m = file_input()
     u = m[len(m[0]) - 1:]
     m = m[:len(m[0]) - 1]
-    # added recursive method
     organize_rows(m)
     rearrange_lower_triangle(m, 0)
     finish_column_lower_triangle(m, 0)
-
-    print("\nfirst step:\n")
-    print_matrix(m)
-
+    # print_matrix(m)
     finish_column_upper_triangle(m, 0)
-
-    print("\nsecond step:\n")
-    print_matrix(m)
 
     if len(u) > 0:
         if overdetermination_trail(u, m):
