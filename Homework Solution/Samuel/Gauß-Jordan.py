@@ -46,15 +46,15 @@ class Fraction:
 
 
 def file_input():
-    f = open("matrix Gauß-Jordan").read().splitlines()
-    m = [[i for i in j.split()] for j in f]
-    # dumb fuck shit, gonna change it but im tired
-    for i in range(len(m)):
-        for j in range(len(m[0])):
+    f, m = open("matrix Gauß-Jordan").read().splitlines(), []
+    for i in f:
+        r = []
+        for j in i.split():
             try:
-                m[i][j] = int(m[i][j])
+                r.append(int(j))
             except ValueError:
-                pass
+                r.append(j)
+        m.append(r)
     return m
 
 
