@@ -28,11 +28,8 @@ class Main:
         while not self.game_exit:
             self.handle_keys()
             self.screen.fill(self.background_color)
-            Regulator((self.reg_x, self.reg_y), (self.reg_x + self.reg_length, self.reg_y),
-                      self.screen, self.mouse_down, self.reg_radius, self.circle_x)
-            Fractal((self.width//2, self.height - 100), -90, self.screen, self.radius, self.delta_angle)
+            self.draw()
             pygame.display.update()
-
         quit()
         pygame.quit()
 
@@ -44,6 +41,11 @@ class Main:
                 self.mouse_down = True
             if event.type == pygame.MOUSEBUTTONUP:
                 self.mouse_down = False
+
+    def draw(self):
+        Regulator((self.reg_x, self.reg_y), (self.reg_x + self.reg_length, self.reg_y),
+                  self.screen, self.mouse_down, self.reg_radius, self.circle_x)
+        Fractal((self.width // 2, self.height - 100), -90, self.screen, self.radius, self.delta_angle)
 
 
 class Fractal:
@@ -93,15 +95,16 @@ class Regulator:
 
     def update(self):
         x, y = pygame.mouse.get_pos()
-        phi = 330 // (self.end_pos[0]- self.start_pos[0])
+        phi = 330 // (self.end_pos[0] - self.start_pos[0])
         prev_x = Main.circle_x
         if self.touched(x, y):
 
             if x > Main.circle_x:
-                Main.delta_angle += (prev_x - x)*phi
+                Main.delta_angle -= (prev_x - x)*phi
             else:
-                Main.delta_angle += (prev_x - x)*phi
+                Main.delta_angle -= (prev_x - x)*phi
             Main.circle_x = x
+            print(Main.delta_angle)
 
 if __name__ == '__main__':
     Main(150)
