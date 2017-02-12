@@ -13,10 +13,12 @@ class Entities:
     def __init__(self, screen):
         self.screen = screen
 
-        self.particles = self.construct_particles()
+        self.particles = [Particle(1, self.screen, (255, 255, 255), [C.width//2, C.height//2 - 50], [1, 0])]
+        # self.construct_particles()
         # [Particle(5, self.screen, (255, 0, 0), [C.width//2, C.height//2], [1, 0])]
         # self.construct_particles()
-        self.attractors = self.construct_attractors()
+        self.attractors = [Attractor(2, self.screen, (255, 255, 255), [C.width//2, C.height//2])
+                           ]
         # self.construct_attractors()
         # [Attractor(5, self.screen, (255, 255, 255), [C.width//2, C.height//2 - 50]),
         #                   Attractor(5, self.screen, (255, 255, 255), [C.width // 2, C.height // 2 + 75])
@@ -78,6 +80,8 @@ class Particle:
 
     def draw(self):
         # self.calculate_acc()
+        # self.surface.set_colorkey(C.background_color)
+        # self.surface.set_alpha(75)
         pygame.draw.circle(self.surface, self.color, self.pos, self.radius)
 
     def calculate_vel(self, pos):
