@@ -1,5 +1,6 @@
 import pygame
 import math
+from random import randint
 from Constants import C
 
 # F = G*m_1*m_2/ (d**2)
@@ -13,11 +14,12 @@ class Entities:
     def __init__(self, screen):
         self.screen = screen
 
-        self.particles = [Particle(1, self.screen, (255, 255, 255), [C.width//2, C.height//2 - 50], [1, 0])]
+        self.particles = self.construct_particles()
         # self.construct_particles()
-        # [Particle(5, self.screen, (255, 0, 0), [C.width//2, C.height//2], [1, 0])]
+        # [Particle(1, self.screen, (255, 255, 255), [C.width//2, C.height//2], [1, 0])]
         # self.construct_particles()
-        self.attractors = [Attractor(2, self.screen, (255, 255, 255), [C.width//2, C.height//2])
+        self.attractors = [Attractor(5, self.screen, (255, 255, 255), [C.width//2, C.height//2 - 150]),
+                           Attractor(5, self.screen, (255, 255, 255), [C.width // 2, C.height // 2 + 150])
                            ]
         # self.construct_attractors()
         # [Attractor(5, self.screen, (255, 255, 255), [C.width//2, C.height//2 - 50]),
@@ -25,18 +27,16 @@ class Entities:
         #                   ]
 
     def construct_particles(self):
-        from random import randint
-
+        # [randint(0, C.width), randint(0, C.height)]
         particles = []
-        for i in range(10):
+        for i in range(5):
             particles.append(
-                Particle(1, self.screen, (255, 255, 255), [randint(0, C.width), randint(0, C.height)],
-                         [randint(0, 5), randint(0, 5)])
+                Particle(1, self.screen, (255, 255, 255), [C.width//2, C.height//2],
+                         [randint(-3, 3), randint(-3, 3)])
             )
         return particles
 
     def construct_attractors(self):
-        from random import randint
         attractors = []
 
         for i in range(10):
@@ -79,20 +79,17 @@ class Particle:
         self.vel = vel
 
     def draw(self):
-        # self.calculate_acc()
-        # self.surface.set_colorkey(C.background_color)
-        # self.surface.set_alpha(75)
-        pygame.draw.circle(self.surface, self.color, self.pos, self.radius)
+        pygame.draw.circle(self.surface, self.color, (int(round(self.pos[0])), int(round(self.pos[1]))), self.radius)
 
     def calculate_vel(self, pos):
         vector_pa = (pos[0] - self.pos[0], pos[1] - self.pos[1])
         distance = math.sqrt(vector_pa[0] ** 2 + vector_pa[1] ** 2)
         if distance == 0:
             distance += 1
-        grav_force = (C.G * C.particle_mass * C.attractor_mass) / (distance ** 2)
+        grav_magnitude = (C.G * C.particle_mass * C.attractor_mass) / (distance ** 2)
 
         # acceleration vector
-        acc = (vector_pa[0] * grav_force, vector_pa[1] * grav_force)
+        acc = (vector_pa[0] * grav_magnitude, vector_pa[1] * grav_magnitude)
 
         self.vel[0] += acc[0]
         self.vel[1] += acc[1]
@@ -101,7 +98,6 @@ class Particle:
         self.calculate_vel(pos)
         self.pos[0] += self.vel[0]
         self.pos[1] += self.vel[1]
+        # print(self.pos, (int(round(self.pos[0])), int(round(self.pos[1]))))
 
-        for i in range(len(self.pos)):
-            self.pos[i] = int(self.pos[i])
         self.draw()

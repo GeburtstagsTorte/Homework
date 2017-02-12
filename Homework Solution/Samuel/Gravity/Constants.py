@@ -13,4 +13,4 @@ class C:
     particle_mass = 1
     # particle_vel = [0, 0]
 
-    G = 3
+    G = 6
