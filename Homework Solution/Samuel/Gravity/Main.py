@@ -9,12 +9,12 @@ from Entities import Entities
 class Main:
     clock = pygame.time.Clock()
     game_exit = False
+    white = (255, 255, 255)
 
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Gravity")
         self.screen = pygame.display.set_mode(C.size)
-        # s = pygame.Surface(C.size)
 
         self.entities = Entities(self.screen)
         self.main_loop()
@@ -24,6 +24,9 @@ class Main:
 
         while not self.game_exit:
             self.handle_keys()
+            self.screen.set_alpha(75)
+            self.screen.set_colorkey(self.white)
+
             self.draw()
             pygame.display.update()
             self.clock.tick(60)
