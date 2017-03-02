@@ -95,7 +95,7 @@ class Regulator:
 
     def update(self):
         x, y = pygame.mouse.get_pos()
-        phi = 330 // (self.end_pos[0] - self.start_pos[0])
+        phi = 360 // (self.end_pos[0] - self.start_pos[0])
         prev_x = Main.circle_x
         if self.touched(x, y):
 
@@ -104,7 +104,6 @@ class Regulator:
             else:
                 Main.delta_angle -= (prev_x - x)*phi
             Main.circle_x = x
-            print(Main.delta_angle)
 
 if __name__ == '__main__':
     Main(150)
