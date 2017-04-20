@@ -73,21 +73,20 @@ def main():
     print(best.fitness, best.genes)
 
     while best.fitness < 1:
+        calc_fitness(population, C.target)
         best = calc_max_fitness(population)
         best_string = ""
         for i in best.genes:
             best_string += i
 
-        calc_fitness(population, C.target)
         print("Best individual: {} \n"
               "average fitness: {}% \n"
               "best fitness   : {}% \n"
               "generation     : {} \n"
               "mutation rate  : {}% \n".format(best_string, round(calc_avrg_fitness(population), 3)*100,
-                                               best.fitness*100, generation, C.mutation_rate))
+                                               round(best.fitness, 3)*100, generation, C.mutation_rate))
 
         pool = selection(population)
-        print("pool: {} \n".format(len(pool)))
         reproduction(pool)
         population = new_generation(pool)
         generation += 1
