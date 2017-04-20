@@ -17,30 +17,37 @@ def calc_fitness(population, target):
             score += 1 if i == j else 0
         individuum.fitness = score / len(target)
 
+    return sorted(population, key=lambda x: x.fitness, reverse=True)
 
-def generate_pool(population):
+
+def selection(population):
+
     fitness_sum = 0
     for individuum in population:
         fitness_sum += individuum.fitness
 
     pool = []
     for individuum in population:
-        print(int((individuum.fitness / fitness_sum)*100))
-        for i in range(int((individuum.fitness / fitness_sum)*100)):
+        for i in range(int((individuum.fitness / fitness_sum) * 100)):
             pool.append(individuum)
 
     return pool
 
 
-def new_generation(population):
-    pool = generate_pool(population)
+def reproduction(pool):
+    a, b = randint(0, len(pool)-1), randint(0, len(pool)-1)
+    child = Individuum.multiple_crossover(pool[a], pool[b])
+
+    if randint(0, 100) < C.mutation_rate:
+        Individuum.mutation(child)
+    return child
+
+
+def new_generation(pool):
     pop_new = []
 
     while len(pop_new) < C.popmax:
-        a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
-        child = Individuum.multiple_crossover(pool[a], pool[b])
-        pop_new.append(Individuum(child, 0, C.target))
-        # mutation
+        pop_new.append(Individuum(reproduction(pool), 0, C.target))
     return pop_new
 
 
@@ -56,22 +63,18 @@ def main():
     # step 1: initialize
     population = initialize_population(C.popmax)
 
-    while population[0].fitness < 1.0:
-        calc_fitness(population, C.target)
-        population = sorted(population, key=lambda x: x.fitness, reverse=True)
-
-        if population[0] == 0:
-            population = initialize_population(C.popmax)
-        best_individuum = ""
+    while population[0].fitness < 1:
+        population = calc_fitness(population, C.target)
+        best_indi = ""
         for i in population[0].genes:
-            best_individuum += i
-        print(best_individuum, "\n",
-              population[0].fitness, "\n",
-              generation, "\n")
+            best_indi += i
+        print("Best individuum: {} \n"
+              "average fitness: {}% \n"
+              "generation     : {} \n".format(best_indi, round(calc_avrg_fitness(population), 3), generation))
 
-        population = new_generation(population)
+        pool = selection(population)
+        reproduction(pool)
+        population = new_generation(pool)
         generation += 1
-
-
 if __name__ == '__main__':
     main()

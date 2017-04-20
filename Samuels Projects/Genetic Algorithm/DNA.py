@@ -38,5 +38,5 @@ class Individuum:
 
     @staticmethod
     def mutation(individuum):
-        choose = randint(0, len(individuum.genes)-1)
-        individuum.genes[choose] = chr(randint(32, 126))
+        choose = randint(0, len(individuum)-1)
+        individuum[choose] = chr(randint(32, 126))
