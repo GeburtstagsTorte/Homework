@@ -1,5 +1,5 @@
 # import pygame
-
+from random import random
 
 class Main:
 
@@ -12,6 +12,3 @@ class Main:
     def handle_keys(self):
         pass
 
-l = [1, 2]
-from random import randint
-print(randint(0, len(l)))
