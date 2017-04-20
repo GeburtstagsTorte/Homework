@@ -2,7 +2,7 @@ from Constants import C
 from random import randint
 
 
-class Individuum:
+class Individual:
 
     def __init__(self, genes, fitness, target):
         self.genes = genes
@@ -10,14 +10,14 @@ class Individuum:
         self.target = target
 
     @staticmethod
-    def create_individuum(target):
+    def create_individual(target):
         # 32 - 126
 
         genes = []
         for i in range(len(target)):
             genes.append(chr(randint(32, 126)))
 
-        return Individuum(genes, 0, C.target)
+        return Individual(genes, 0, C.target)
 
     @staticmethod
     def multiple_crossover(a, b):
@@ -37,6 +37,6 @@ class Individuum:
         return child
 
     @staticmethod
-    def mutation(individuum):
-        choose = randint(0, len(individuum)-1)
-        individuum[choose] = chr(randint(32, 126))
+    def mutation(individual):
+        choose = randint(0, len(individual)-1)
+        individual[choose] = chr(randint(32, 126))
