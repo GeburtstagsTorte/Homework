@@ -15,7 +15,7 @@ def calc_fitness(population, target):
         score = 0
         for i, j in zip(individuum.genes, target):
             score += 1 if i == j else 0
-        individuum.fitness = score / len(target)
+        individuum.fitness = (score / len(target))
 
     return sorted(population, key=lambda x: x.fitness, reverse=True)
 
@@ -28,7 +28,7 @@ def selection(population):
 
     pool = []
     for individuum in population:
-        for i in range(int((individuum.fitness / fitness_sum) * 100)):
+        for i in range(int((individuum.fitness / fitness_sum) * 1000)):
             pool.append(individuum)
 
     return pool
@@ -70,7 +70,7 @@ def main():
             best_indi += i
         print("Best individuum: {} \n"
               "average fitness: {}% \n"
-              "generation     : {} \n".format(best_indi, round(calc_avrg_fitness(population), 3), generation))
+              "generation     : {} \n".format(best_indi, round(calc_avrg_fitness(population), 3)*100, generation))
 
         pool = selection(population)
         reproduction(pool)
