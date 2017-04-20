@@ -17,7 +17,7 @@ def calc_fitness(population, target):
             score += 1 if i == j else 0
         individual.fitness = (score / len(target))
 
-    # sorted(population, key=lambda x: x.fitness, reverse=True)
+    return sorted(population, key=lambda x: x.fitness, reverse=True)
 
 
 def selection(population):
@@ -29,7 +29,7 @@ def selection(population):
     pool = []
     for individual in population:
         for i in range(int((individual.fitness / fitness_sum) * 1000)):
-            pool.append(individual)
+            pool.append(Individual)
 
     return pool
 
@@ -68,29 +68,22 @@ def main():
     generation = 0
     # step 1: initialize
     population = initialize_population(C.popmax)
-    calc_fitness(population, C.target)
     best = calc_max_fitness(population)
-    print(best.fitness, best.genes)
 
     while best.fitness < 1:
-        best = calc_max_fitness(population)
-        best_string = ""
+        population = calc_fitness(population, C.target)
+        best_indi = ""
         for i in best.genes:
-            best_string += i
+            best_indi += i
 
         calc_fitness(population, C.target)
-        print("Best individual: {} \n"
+        print("Best Individual: {} \n"
               "average fitness: {}% \n"
-              "best fitness   : {}% \n"
-              "generation     : {} \n"
-              "mutation rate  : {}% \n".format(best_string, round(calc_avrg_fitness(population), 3)*100,
-                                               best.fitness*100, generation, C.mutation_rate))
+              "generation     : {} \n".format(best_indi, round(calc_avrg_fitness(population), 3)*100, generation))
 
         pool = selection(population)
-        print("pool: {} \n".format(len(pool)))
         reproduction(pool)
         population = new_generation(pool)
         generation += 1
-
 if __name__ == '__main__':
     main()
