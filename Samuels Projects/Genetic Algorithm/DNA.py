@@ -37,6 +37,7 @@ class Individual:
         return child
 
     @staticmethod
-    def mutation(individual):
-        choose = randint(0, len(individual)-1)
-        individual[choose] = chr(randint(32, 126))
+    def mutation(genes):
+        choose = randint(0, len(genes) - 1)
+        genes[choose] = chr(randint(32, 126))
+        return genes
