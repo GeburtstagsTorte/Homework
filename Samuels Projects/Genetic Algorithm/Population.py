@@ -87,7 +87,7 @@ def main():
                                                round(best.fitness, 3)*100, generation, C.mutation_rate))
 
         pool = selection(population)
-        reproduction(pool)
+        # reproduction(pool)
         population = new_generation(pool)
         generation += 1
 

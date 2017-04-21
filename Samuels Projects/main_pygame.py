@@ -1,5 +1,4 @@
 import pygame
-from graph_pygame import Graph
 
 
 class Game:
@@ -30,8 +29,7 @@ class Game:
 
     @staticmethod
     def render(game_display):
-        Game.render_graph(game_display, (0, 0, 0), (100, 100), (100, 600), (701, 600))
-        # Entities.render(game_display)
+        pass
 
     @staticmethod
     def update():
@@ -44,16 +42,15 @@ class Game:
 
     @staticmethod
     def render_graph(surface, color, start_pos, mid_pos, end_pos):
-        Graph(surface, color, start_pos, mid_pos, end_pos)
-        Graph.draw_graph(surface, color, start_pos, mid_pos, end_pos)
+        pass
 
 
 def main():
     pygame.init()
 
-    width = 1100
-    height = 700
-    Game("graphs", width, height)
+    width = C.width
+    height = C.height
+    Game("Genetic Algorithm", width, height)
 
     pygame.quit()
     quit()
