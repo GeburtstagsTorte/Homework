@@ -1,9 +1,11 @@
+
+
 class C:
 
     # GA
-    target = "To be or not to be."
-    popmax = 200
-    mutation_rate = 15
+    target = "To be or not to be that is the question."
+    popmax = 500
+    mutation_rate = 18
 
     # game
     width = 1100
@@ -11,10 +13,19 @@ class C:
     structure_color = (0, 0, 0)
 
     # text
-    font = "Arial"
+    font = "Courier New"
     text_color = (0, 0, 0)
     info_size = 20
     pop_size = 10
 
-    best_size = 50
+    best_text_rect = (720, 50)
+    best_size = 30
     best_pos = 50, 50
+
+    # restart button
+    rb_color = (0, 0, 0)
+    rb_text = "Restart"
+    rb_length = 120
+    rb_height = 30
+    rb_font = font
+    rb_text_color = (255, 255, 255)
