@@ -1,7 +1,6 @@
 import pygame
 from Constants import C
 from Population_class_version import Population
-from Button import Button
 
 
 class Game:
@@ -37,7 +36,7 @@ class Game:
     def render(self):
         self.draw_structure()
         self.draw_info()
-        self.button()
+        self.draw_current_population()
 
     def update(self):
         # Entities.update()
@@ -72,23 +71,26 @@ class Game:
             self.game_display.blit(label_list[line], (pos[0],  pos[1] + 10*line + line*C.info_size + 20))
 
     def draw_current_population(self):
-        start_pos = (3*self.width//4 + 20, 20)
+        start_pos = (3*self.width//4 + 50, 0)
+        font = pygame.font.SysFont(C.font, C.pop_size)
+        n = 0
+
         for individual in self.pop.population:
             string = ""
             for i in individual.genes:
                 string += i
 
+            txt = font.render(string, True, C.text_color)
+            y = start_pos[1] + C.pop_size*(n+1) + 10
+
+            if y < self.height - 30:
+                self.game_display.blit(txt, (start_pos[0], y))
+            n += 1
+
     def draw_structure(self):
         pygame.draw.line(self.game_display, C.structure_color, (3*self.width//4, 0), (3*self.width//4, self.height))
         pygame.draw.line(self.game_display, C.structure_color, (0, self.height//2), (3*self.width//4, self.height//2))
         # draw graph structure
-
-    def button(self):
-        restart = Button(self.game_display, C.rb_color, 3*self.width//4 - C.rb_length-20, self.height//2-C.rb_height-10,
-                         C.rb_length, C.rb_height, C.width, C.height, C.rb_text, C.rb_font, C.rb_text_color, 20)
-        restart.draw_button()
-        if restart.button_touch():
-            self.pop = Population(C.target, C.popmax, C.mutation_rate)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:

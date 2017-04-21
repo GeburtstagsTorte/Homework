@@ -3,8 +3,8 @@
 class C:
 
     # GA
-    target = "To be or not to be that is the question."
-    popmax = 500
+    target = "To be or not to be."
+    popmax = 200
     mutation_rate = 18
 
     # game
@@ -16,7 +16,7 @@ class C:
     font = "Courier New"
     text_color = (0, 0, 0)
     info_size = 20
-    pop_size = 10
+    pop_size = 15
 
     best_text_rect = (720, 50)
     best_size = 30
