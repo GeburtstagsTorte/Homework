@@ -1,3 +1,5 @@
+# Samuel
+
 import pygame
 import math
 # No Constants therefore it is pretty messy

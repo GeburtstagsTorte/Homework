@@ -3,7 +3,7 @@
 class C:
 
     # GA
-    target = "To be or not to be."
+    target = "To be or not to be that is the question."
     popmax = 200
     mutation_rate = 18
 
@@ -11,6 +11,8 @@ class C:
     width = 1100
     height = 700
     structure_color = (0, 0, 0)
+    background_color = (255, 255, 255)
+    game_name = "Genetic Algorithm"
 
     # text
     font = "Courier New"

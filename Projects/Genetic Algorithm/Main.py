@@ -1,6 +1,7 @@
 import pygame
 from Constants import C
 from Population_class_version import Population
+from textbox import Textbox
 
 
 class Game:
@@ -58,6 +59,7 @@ class Game:
         pos = (C.best_pos[0], C.best_pos[1] + txt.get_rect()[3])
         info_font = pygame.font.SysFont(C.font, C.info_size)
         label_list = []
+
         information_list = ["generation     : {}".format(self.pop.generation),
                             "average fitness: {}%".format(round(self.pop.average_fitness*100, 3)),
                             "best fitness   : {}%".format(round(self.pop.best.fitness*100, 3)),
@@ -68,11 +70,20 @@ class Game:
             label_list.append(info_font.render(line, True, C.text_color))
 
         for line in range(len(label_list)):
-            self.game_display.blit(label_list[line], (pos[0],  pos[1] + 10*line + line*C.info_size + 20))
+            self.game_display.blit(label_list[line], (pos[0],  pos[1] + 10*line + line*C.info_size + 50))
 
     def draw_current_population(self):
-        start_pos = (3*self.width//4 + 50, 0)
-        font = pygame.font.SysFont(C.font, C.pop_size)
+        # center text:
+        # (x, y, width_X, length_Y) (textbox)
+        row_pitch = 5
+        max_length = self.width//4 - 2*row_pitch
+        center_pos = [7*self.width//8, 0]
+        sample = ""
+        for i in self.pop.population[0].genes:
+            sample += i
+
+        size = Textbox.shift_size(sample, C.pop_size, C.font, max_length)
+        font = pygame.font.SysFont(C.font, size)
         n = 0
 
         for individual in self.pop.population:
@@ -81,15 +92,16 @@ class Game:
                 string += i
 
             txt = font.render(string, True, C.text_color)
-            y = start_pos[1] + C.pop_size*(n+1) + 10
 
-            if y < self.height - 30:
-                self.game_display.blit(txt, (start_pos[0], y))
-            n += 1
+            center_pos[1] += + size * (n + 1) + row_pitch
+            txt_rect = txt.get_rect(center=center_pos)
+
+            if center_pos[1] < self.height - row_pitch - txt.get_rect()[3]:
+                self.game_display.blit(txt, txt_rect)
 
     def draw_structure(self):
         pygame.draw.line(self.game_display, C.structure_color, (3*self.width//4, 0), (3*self.width//4, self.height))
-        pygame.draw.line(self.game_display, C.structure_color, (0, self.height//2), (3*self.width//4, self.height//2))
+        # pygame.draw.line(self.game_display, C.structure_color, (0, self.height//2), (3*self.width//4, self.height//2))
         # draw graph structure
 
     def handle_keys(self, event):
@@ -102,7 +114,7 @@ def main():
 
     width = C.width
     height = C.height
-    Game("Genetic Algorithm", width, height)
+    Game(C.game_name, width, height, C.background_color)
 
     pygame.quit()
     quit()

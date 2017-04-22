@@ -1,4 +1,5 @@
 import ctypes
+import pygame
 
 
 def gtd(text, points, font):   # thanks a lot anon :*    # get_text_dimensions
@@ -25,7 +26,7 @@ class Textbox:
         self.font_size = font_size
         self.font = font
         self.factor = gtd(text, font_size, font)[0] / maximum_width
-        self.arrange_rect()
+        # self.arrange_rect()
 
     def arrange_rect(self):
         y_text = gtd(self.text[0], self.font_size, self.font)[1]
@@ -40,5 +41,21 @@ class Textbox:
                 self.start_pos[0], self.start_pos[1], self.maximum_width, y_text * int(self.factor))
         return Textbox.rectangle
 
-Textbox((0, 50), 144, "to pee or not to pee", 10, "Arial")     # Textbox(start_pos, max_width, text, best_size, font)
+    @staticmethod
+    def shift_size(text, size, font, max_length, dec_by=1):
+
+        fnt = pygame.font.SysFont(font, size)
+        txt = fnt.render(text, True, (0, 0, 0))
+        txt_length = txt.get_rect()[2]
+        if size == 0:
+            print("text length is too large")
+            return 1
+        if txt_length > max_length:
+            return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
+        return size
+
+
+# Textbox((0, 50), 144, "to pee or not to pee", 10, "Arial")     # Textbox(start_pos, max_width, text, best_size, font)
                                                                # richtige werte aus C usw wählen
+# pygame.init()
+# print(Textbox.shift_size("to be or not to be that is the question.", 15, "Courier New", 265, 1))

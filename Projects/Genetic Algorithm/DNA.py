@@ -1,5 +1,9 @@
 from Constants import C
 from random import randint
+# genes in lists
+# default type string in genes
+# fitness*100 in %
+# target = right sentence
 
 
 class Individual:
