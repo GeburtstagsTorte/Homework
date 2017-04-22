@@ -24,19 +24,20 @@ class Textbox:
         self.text = str(text)
         self.font_size = font_size
         self.font = font
-        self.factor = (len(text)*gtd(text[0], font_size, font)[0]) / (maximum_width-start_pos[0])
+        self.factor = (len(text)*gtd(text[0], font_size, font)[0]) / maximum_width
         self.arrange_rect()
 
     def arrange_rect(self):
         y_text = gtd(self.text[0], self.font_size, self.font)[1]
         if self.factor <= 1:
-            Textbox.rectangle = (self.start_pos[0], self.start_pos[1], self.maximum_width, y_text)
+            Textbox.rectangle = (
+                self.start_pos[0], self.start_pos[1], self.maximum_width, y_text)
         if self.factor > 1 and self.factor - int(self.factor) >= 0:
-            Textbox.rectangle = (self.start_pos[0], self.start_pos[1], self.maximum_width // (int(self.factor) + 1),
-                                 y_text * (int(self.factor) + 1))
+            Textbox.rectangle = (
+                self.start_pos[0], self.start_pos[1], self.maximum_width, y_text * (int(self.factor) + 1))
         if self.factor > 1 and self.factor - int(self.factor) < 0:
             Textbox.rectangle = (
-             self.start_pos[0], self.start_pos[1], self.maximum_width // int(self.factor), y_text * int(self.factor))
+                self.start_pos[0], self.start_pos[1], self.maximum_width, y_text * int(self.factor))
         return Textbox.rectangle
 
 Textbox((0, 50), 144, "to pee or not to pee", 30, "Courier New")  # Textbox(start_pos, max_width, text, best_size, font)
