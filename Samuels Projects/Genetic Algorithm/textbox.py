@@ -1,7 +1,7 @@
 import ctypes
 
 
-def get_text_dimensions(text, points, font):   # thanks a lot anon :*
+def gtd(text, points, font):   # thanks a lot anon :*    # get_text_dimensions
     class SIZE(ctypes.Structure):
         _fields_ = [("cx", ctypes.c_long), ("cy", ctypes.c_long)]
 
@@ -16,7 +16,7 @@ def get_text_dimensions(text, points, font):   # thanks a lot anon :*
 
 
 class Textbox:
-    rectangle = ((0, 0), 0, 0)     # (x, y, width_X, length_Y)
+    rectangle = (0, 0, 0, 0)     # (x, y, width_X, length_Y)
 
     def __init__(self, start_pos, maximum_width, text, font_size, font):
         self.start_pos = start_pos
@@ -24,11 +24,11 @@ class Textbox:
         self.text = str(text)
         self.font_size = font_size
         self.font = font
-        self.factor = (len(text)*get_text_dimensions(text[0], font_size, font)[0]) / (maximum_width-start_pos[0])
+        self.factor = (len(text)*gtd(text[0], font_size, font)[0]) / (maximum_width-start_pos[0])
         self.arrange_rect()
 
     def arrange_rect(self):
-        y_text = get_text_dimensions(self.text[0], self.font_size, self.font)[1]
+        y_text = gtd(self.text[0], self.font_size, self.font)[1]
         if self.factor <= 1:
             Textbox.rectangle = (self.start_pos[0], self.start_pos[1], self.maximum_width, y_text)
         if self.factor > 1 and self.factor - int(self.factor) >= 0:
