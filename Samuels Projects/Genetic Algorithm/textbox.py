@@ -24,7 +24,7 @@ class Textbox:
         self.text = str(text)
         self.font_size = font_size
         self.font = font
-        self.factor = (len(text)*gtd(text[0], font_size, font)[0]) / maximum_width
+        self.factor = gtd(text, font_size, font)[0] / maximum_width
         self.arrange_rect()
 
     def arrange_rect(self):
@@ -40,5 +40,5 @@ class Textbox:
                 self.start_pos[0], self.start_pos[1], self.maximum_width, y_text * int(self.factor))
         return Textbox.rectangle
 
-Textbox((0, 50), 144, "to pee or not to pee", 30, "Courier New")  # Textbox(start_pos, max_width, text, best_size, font)
-                                                                  # richtige werte aus C usw wählen
+Textbox((0, 50), 144, "to pee or not to pee", 10, "Arial")     # Textbox(start_pos, max_width, text, best_size, font)
+                                                               # richtige werte aus C usw wählen
