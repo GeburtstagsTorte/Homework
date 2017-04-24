@@ -8,16 +8,16 @@ class Button:
     def __init__(self, surface, pos, width, height, color, text='', text_size=10, text_color=(0, 0, 0),
                  font='Arial', image=None, mod=1, border=None):
         self.surface = surface
-        self.pos = pos                  # tuple or list
+        self.pos = pos                          # tuple or list
         self.width = width
         self.height = height
-        self.color = color              # rgb
-        self.text = text                # default blank
-        self.font = font                # default Arial
-        self.text_color = text_color    # default black // (0, 0, 0)
-        self.image = image              # default None
-        self.mod = mod                  # default 1
-        self.border = border            # default None
+        self.color = color                      # rgb
+        self.text = text                        # default blank
+        self.font = font                        # default Arial
+        self.text_color = text_color            # default black // (0, 0, 0)
+        self.image = image                      # default None
+        self.mod = mod                          # default 1
+        self.border = border                    # default None
         # example: border = (255, 255, 255) rgb
         #   > white border
 
@@ -33,12 +33,15 @@ class Button:
 
     def render(self):
         if self.visible:
+
+            # make the button brighter, when mouse is on top of the button
             if self.collide():
                 color = (25, 25, 25) if self.color == (0, 0, 0) else self.color
                 color = tuple(int(color[i] * 0.8) for i in range(len(color)))
             else:
                 color = self.color
 
+            # drawing buttons based on mod
             if self.mod is None:
                 if self.border is not None:
                     pygame.draw.rect(self.surface, self.border,
@@ -71,6 +74,7 @@ class Button:
                                    self.height // 2)
                 pygame.draw.rect(self.surface, color, (self.pos[0], self.pos[1], self.width, self.height))
 
+            # drawing text
             font = pygame.font.SysFont(self.font, self.text_size)
             txt = font.render(self.text, True, self.text_color)
             txt_rect = txt.get_rect(center=(self.pos[0] + 0.5 * self.width, self.pos[1] + 0.5 * self.height))
@@ -88,7 +92,7 @@ class Button:
     def collide(self):
         x, y = pygame.mouse.get_pos()
 
-        if self.mod == 1:
+        if self.mod == 1 or self.mod is None:
 
             if self.pos[0] <= x <= self.pos[0] + self.width and self.pos[1] <= y <= self.pos[1] + self.height:
                 return True
@@ -114,29 +118,3 @@ def shift_size(text, size, font, max_length, dec_by=1):
     return size
 
 
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((300, 300), pygame.SRCALPHA)
-    game_exit = False
-    mouse_click = False
-    button = Button(screen, (50, 50), 120, 40, (0, 0, 0), "Button", 10, (255, 255, 255),
-                    border=(255, 255, 255), mod=2)
-    while not game_exit:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game_exit = True
-            mouse_click = False
-            if event.type == pygame.MOUSEBUTTONUP:
-                mouse_click = True
-
-        screen.fill((0, 0, 0))
-        button.render()
-        if button.clicked(mouse_click):
-            game_exit = True
-
-        pygame.display.update()
-    pygame.quit()
-    quit()
-
-if __name__ == '__main__':
-    main()

@@ -1,9 +1,9 @@
 """
 TO DO:
-    create buttons: Restart, Pause
-    create log:
+    [>]create buttons: Restart, Pause
+    >create log:
         txt file with results
-    drawing results/log
+    >drawing results/log
 """
 
 import pygame
@@ -19,6 +19,8 @@ class Game:
     mouse_click = False
     game_pause = False
     pop = object
+    restart_button = object
+    pause_button = object
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
         self.title = title
@@ -28,6 +30,7 @@ class Game:
 
         self.game_display = pygame.display.set_mode((width, height), pygame.SRCALPHA)
         pygame.display.set_caption(title)
+        self.initialize_buttons()
 
         self.pop = Population(C.target, C.popmax, C.mutation_rate)
 
@@ -39,23 +42,26 @@ class Game:
             for event in pygame.event.get():
                 self.handle_keys(event)
 
-            if not self.game_pause:
-                self.game_display.fill(self.background_color)
-                self.render()
-                pygame.display.update()
-                self.update()
-                self.clock.tick(60)
+            self.game_display.fill(self.background_color)
+            self.render()
+            pygame.display.update()
+            self.update()
+            self.mouse_click = False
+            self.clock.tick(60)
 
     def render(self):
         self.draw_structure()
         self.draw_info()
         self.draw_current_population()
-        self.handle_buttons()
+        self.restart_button.render()
+        self.pause_button.render()
 
     def update(self):
-        # Entities.update()
-        if self.pop.best.fitness < 1:
-            self.pop.update()
+        self.buttons_update()
+
+        if not self.game_pause:
+            if self.pop.best.fitness < 1:
+                self.pop.update()
 
     def draw_info(self):
 
@@ -114,27 +120,33 @@ class Game:
         pygame.draw.line(self.game_display, C.structure_color, (0, self.height//2), (3*self.width//4, self.height//2))
         # draw graph structure
 
-    def handle_buttons(self):
-        restart_button = Button(self.game_display,
-                                (self.width//2 + C.rb_length, self.height//2 - C.rb_height - 10), C.rb_length,
-                                C.rb_height, C.rb_color, C.rb_text, C.rb_text_size, C.rb_text_color, C.rb_font,
-                                mod=2, border=C.rb_border)
-        pause_button = Button(self.game_display,
-                              (self.width // 2 + C.ps_length, self.height // 2 - C.ps_height - 10 - C.ps_height - 10),
-                              C.ps_length, C.ps_height, C.ps_color, C.ps_text, C.ps_text_size, C.ps_text_color,
-                              C.ps_font, mod=2, border=C.ps_border)
-        restart_button.render()
-
-        if restart_button.clicked(self.mouse_click):
+    def buttons_update(self):
+        if self.restart_button.clicked(self.mouse_click):
             self.pop = Population(C.target, C.popmax, C.mutation_rate)
+
+        if self.pause_button.clicked(self.mouse_click):
+            self.game_pause = not self.game_pause
+            if self.game_pause:
+                self.pause_button.text = "start again"
+            else:
+                self.pause_button.text = C.ps_text
+
+    def initialize_buttons(self):
+        self.restart_button = Button(self.game_display,
+                                     (self.width // 2 + C.rb_length, self.height // 2 - C.rb_height - 10), C.rb_length,
+                                     C.rb_height, C.rb_color, C.rb_text, C.rb_text_size, C.rb_text_color, C.rb_font,
+                                     mod=2, border=C.rb_border)
+        self.pause_button = Button(self.game_display,
+                                   (self.width // 2 + C.ps_length,
+                                    self.height // 2 - C.ps_height - 10 - C.ps_height - 10),
+                                   C.ps_length, C.ps_height, C.ps_color, C.ps_text, C.ps_text_size, C.ps_text_color,
+                                   C.ps_font, mod=2, border=C.ps_border)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
             self.game_exit = True
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.mouse_click = True
-        if event.type == pygame.MOUSEBUTTONUP:
-            self.mouse_click = False
 
 
 def main():

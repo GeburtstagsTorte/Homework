@@ -4,7 +4,7 @@ class C:
 
     # GA
     target = "To be or not to be."
-    popmax = 200
+    popmax = 500
     mutation_rate = 20
 
     # game
