@@ -2,7 +2,9 @@ import ctypes
 import pygame
 
 
-def gtd(text, points, font):   # thanks a lot anon :*    # get_text_dimensions
+def gtd(text, points, font):
+    # thanks a lot anon :*
+    # get_text_dimensions
     class SIZE(ctypes.Structure):
         _fields_ = [("cx", ctypes.c_long), ("cy", ctypes.c_long)]
 
@@ -56,6 +58,6 @@ class Textbox:
 
 
 # Textbox((0, 50), 144, "to pee or not to pee", 10, "Arial")     # Textbox(start_pos, max_width, text, best_size, font)
-                                                               # richtige werte aus C usw wählen
+
 # pygame.init()
 # print(Textbox.shift_size("to be or not to be that is the question.", 15, "Courier New", 265, 1))

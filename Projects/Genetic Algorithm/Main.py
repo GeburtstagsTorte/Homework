@@ -1,12 +1,23 @@
+"""
+TO DO:
+    create buttons: Restart, Pause
+    create log:
+        txt file with results
+    drawing results/log
+"""
+
 import pygame
 from Constants import C
 from Population_class_version import Population
 from textbox import Textbox
+from Button import Button
 
 
 class Game:
     clock = pygame.time.Clock()
     game_exit = False
+    mouse_click = False
+    game_pause = False
     pop = object
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
@@ -28,16 +39,18 @@ class Game:
             for event in pygame.event.get():
                 self.handle_keys(event)
 
-            self.game_display.fill(self.background_color)
-            self.render()
-            pygame.display.update()
-            self.update()
-            self.clock.tick(60)
+            if not self.game_pause:
+                self.game_display.fill(self.background_color)
+                self.render()
+                pygame.display.update()
+                self.update()
+                self.clock.tick(60)
 
     def render(self):
         self.draw_structure()
         self.draw_info()
         self.draw_current_population()
+        self.handle_buttons()
 
     def update(self):
         # Entities.update()
@@ -47,9 +60,10 @@ class Game:
     def draw_info(self):
 
         # draw current best individual
-        best_string = ""
+        """best_string = ""
         for i in self.pop.best.genes:
-            best_string += i
+            best_string += i"""
+        best_string = ''.join(self.pop.best.genes)
 
         font = pygame.font.SysFont(C.font, C.best_size)
         txt = font.render(best_string, True, C.text_color)
@@ -78,18 +92,14 @@ class Game:
         row_pitch = 5
         max_length = self.width//4 - 2*row_pitch
         center_pos = [7*self.width//8, 0]
-        sample = ""
-        for i in self.pop.population[0].genes:
-            sample += i
+        sample = ''.join(self.pop.population[0].genes)
 
         size = Textbox.shift_size(sample, C.pop_size, C.font, max_length)
         font = pygame.font.SysFont(C.font, size)
         n = 0
 
         for individual in self.pop.population:
-            string = ""
-            for i in individual.genes:
-                string += i
+            string = ''.join(individual.genes)
 
             txt = font.render(string, True, C.text_color)
 
@@ -101,12 +111,30 @@ class Game:
 
     def draw_structure(self):
         pygame.draw.line(self.game_display, C.structure_color, (3*self.width//4, 0), (3*self.width//4, self.height))
-        # pygame.draw.line(self.game_display, C.structure_color, (0, self.height//2), (3*self.width//4, self.height//2))
+        pygame.draw.line(self.game_display, C.structure_color, (0, self.height//2), (3*self.width//4, self.height//2))
         # draw graph structure
+
+    def handle_buttons(self):
+        restart_button = Button(self.game_display,
+                                (self.width//2 + C.rb_length, self.height//2 - C.rb_height - 10), C.rb_length,
+                                C.rb_height, C.rb_color, C.rb_text, C.rb_text_size, C.rb_text_color, C.rb_font,
+                                mod=2, border=C.rb_border)
+        pause_button = Button(self.game_display,
+                              (self.width // 2 + C.ps_length, self.height // 2 - C.ps_height - 10 - C.ps_height - 10),
+                              C.ps_length, C.ps_height, C.ps_color, C.ps_text, C.ps_text_size, C.ps_text_color,
+                              C.ps_font, mod=2, border=C.ps_border)
+        restart_button.render()
+
+        if restart_button.clicked(self.mouse_click):
+            self.pop = Population(C.target, C.popmax, C.mutation_rate)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
             self.game_exit = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.mouse_click = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            self.mouse_click = False
 
 
 def main():

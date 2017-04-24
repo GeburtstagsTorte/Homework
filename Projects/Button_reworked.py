@@ -110,7 +110,7 @@ def shift_size(text, size, font, max_length, dec_by=1):
         print("text length is too large")
         return 1
     if txt_length > max_length:
-        return shift_size(text, size - dec_by, font, max_length, dec_by)
+        return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
     return size
 
 

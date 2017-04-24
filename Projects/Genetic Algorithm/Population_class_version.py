@@ -1,3 +1,26 @@
+"""
+Step 1:
+    Initialize:
+    Create a population of N elements, each with randomly generated DNA (genes)
+
+    (drawing)
+
+Step 2:
+    Selection:
+    Evaluate the fitness of each element of the population and create a pool (mating pool)
+
+Step 3:
+    Reproduction:
+    a) Pick two parents with probability according to their relative fitness
+    b) Replicate: create a child by combining the DNA of these two parents
+    c) Mutation: mutate the child's DNA based on a given probability
+    d) add new child to a new population
+
+Step 4:
+    New generation:
+    Replace the old population with the new population and return to Step 2 until task is accomplished
+"""
+
 from DNA import Individual
 from Constants import C
 from random import randint
@@ -12,7 +35,7 @@ class Population:
 
     def __init__(self, target, popmax, mutation_rate):
         self.target = target
-        # popmax = number of individuals
+        # popmax: number of individuals
         self.popmax = popmax
         # mutation rate in %
         self.mutation_rate = mutation_rate
@@ -58,7 +81,7 @@ class Population:
         return pop[0]
 
     def selection(self):
-
+        # other selection types possible
         fitness_sum = 0
         for individual in self.population:
             fitness_sum += individual.fitness

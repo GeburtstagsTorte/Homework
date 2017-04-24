@@ -3,9 +3,9 @@
 class C:
 
     # GA
-    target = "To be or not to be that is the question."
+    target = "To be or not to be."
     popmax = 200
-    mutation_rate = 18
+    mutation_rate = 20
 
     # game
     width = 1100
@@ -25,9 +25,21 @@ class C:
     best_pos = 50, 50
 
     # restart button
-    rb_color = (0, 0, 0)
+    rb_color = background_color
+    rb_border = (0, 0, 0)
     rb_text = "Restart"
     rb_length = 120
     rb_height = 30
     rb_font = font
-    rb_text_color = (255, 255, 255)
+    rb_text_color = rb_border
+    rb_text_size = 15
+
+    # pause button
+    ps_color = background_color
+    ps_border = (0, 0, 0)
+    ps_text = "Pause"
+    ps_length = 120
+    ps_height = 30
+    ps_font = font
+    ps_text_color = ps_border
+    ps_text_size = 15
