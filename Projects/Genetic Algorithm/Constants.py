@@ -19,6 +19,7 @@ class C:
     text_color = (0, 0, 0)
     info_size = 20
     pop_size = 15
+    row_pitch = 5
 
     best_text_rect = (720, 50)
     best_size = 30

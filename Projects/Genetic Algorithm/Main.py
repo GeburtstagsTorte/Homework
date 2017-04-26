@@ -95,7 +95,8 @@ class Game:
     def draw_current_population(self):
         # center text:
         # (x, y, width_X, length_Y) (textbox)
-        row_pitch = 5
+
+        row_pitch = C.row_pitch
         max_length = self.width//4 - 2*row_pitch
         center_pos = [7*self.width//8, 0]
         sample = ''.join(self.pop.population[0].genes)
@@ -121,11 +122,13 @@ class Game:
         # draw graph structure
 
     def buttons_update(self):
+
         if self.restart_button.clicked(self.mouse_click):
             self.pop = Population(C.target, C.popmax, C.mutation_rate)
 
         if self.pause_button.clicked(self.mouse_click):
             self.game_pause = not self.game_pause
+
             if self.game_pause:
                 self.pause_button.text = "start again"
             else:
@@ -135,12 +138,12 @@ class Game:
         self.restart_button = Button(self.game_display,
                                      (self.width // 2 + C.rb_length, self.height // 2 - C.rb_height - 10), C.rb_length,
                                      C.rb_height, C.rb_color, C.rb_text, C.rb_text_size, C.rb_text_color, C.rb_font,
-                                     mod=2, border=C.rb_border)
+                                     mod=2, border=C.rb_border, extend=True)
         self.pause_button = Button(self.game_display,
                                    (self.width // 2 + C.ps_length,
                                     self.height // 2 - C.ps_height - 10 - C.ps_height - 10),
                                    C.ps_length, C.ps_height, C.ps_color, C.ps_text, C.ps_text_size, C.ps_text_color,
-                                   C.ps_font, mod=2, border=C.ps_border)
+                                   C.ps_font, mod=2, border=C.ps_border, extend=True)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:

@@ -7,7 +7,6 @@ class Button:
 
     def __init__(self, surface, pos, width, height, color=(120, 120, 120), text='', text_size=10, text_color=(0, 0, 0),
                  font='Arial', image=None, image2=None, mod=None, border=None, extend=False):
-
         self.surface = surface
         self.pos = pos
         self.width = width
@@ -44,7 +43,6 @@ class Button:
         if self.visible:
 
             # change button if mouse is in collision box
-
             if self.collide():
                 if self.image2 is not None:
                     image = pygame.image.load(self.image2)
@@ -61,26 +59,25 @@ class Button:
                     elif self.image2 is not None:
                         image = pygame.transform.scale(self.image2, (int(self.width * 1.1), int(self.height * 1.1)))
 
-                    pos = [self.pos[0] - int(self.width * 0.025), self.pos[1] - int(self.height * 0.025)]
-                    width = int(self.width * 1.05)
-                    height = int(self.height * 1.05)
+                    pos = [self.pos[0] - int(self.width * 0.05), self.pos[1] - int(self.height * 0.05)]
+                    width = int(self.width * 1.1)
+                    height = int(self.height * 1.1)
 
             # drawing buttons based on mod
-
             if self.mod is None:
                 if self.border is not None:
                     pygame.draw.rect(self.surface, self.border,
                                      (pos[0] - 1, pos[1] - 1, width + 2, height + 2))
                 self.surface.blit(image, pos)
 
-            elif self.mod == 1:
+            if self.mod == 1:
                 if self.border is not None:
                     pygame.draw.rect(self.surface, self.border,
                                      (pos[0] - 1, pos[1] - 1, width + 2, height + 2))
 
                 pygame.draw.rect(self.surface, color, (pos[0], pos[1], width, height))
 
-            elif self.mod == 2:
+            if self.mod == 2:
                 if self.border is not None:
                     pygame.draw.rect(self.surface, self.border,
                                      (pos[0], pos[1] - 1, width + 1, height + 2))
@@ -92,7 +89,6 @@ class Button:
                 pygame.draw.rect(self.surface, color, (pos[0], pos[1], width, height))
 
             # drawing text
-
             font = pygame.font.SysFont(self.font, self.text_size)
             txt = font.render(self.text, True, self.text_color)
             txt_rect = txt.get_rect(center=(pos[0] + 0.5 * width, pos[1] + 0.5 * height))
@@ -134,3 +130,31 @@ def shift_size(text, size, font, max_length, dec_by=1):
     if txt_length > max_length:
         return shift_size(text, size - dec_by, font, max_length, dec_by)
     return size
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((300, 300), pygame.SRCALPHA)
+    game_exit = False
+    mouse_click = False
+    button = Button(screen, (50, 50), 180, 60, (38, 59, 232), 'button', mod=2, text_size=15, text_color=(255, 255, 255),
+                    extend=True)
+    while not game_exit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_exit = True
+            mouse_click = False
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouse_click = True
+
+        screen.fill((255, 255, 255))
+        button.render()
+        if button.clicked(mouse_click):
+            game_exit = True
+
+        pygame.display.update()
+    pygame.quit()
+    quit()
+
+if __name__ == '__main__':
+    main()
