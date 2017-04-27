@@ -11,6 +11,7 @@ from Constants import C
 from Population_class_version import Population
 from textbox import Textbox
 from Button import Button
+from Log import update_log, get_log
 
 
 class Game:
@@ -21,6 +22,7 @@ class Game:
     pop = object
     restart_button = object
     pause_button = object
+    log_enabled = True
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
         self.title = title
@@ -44,7 +46,9 @@ class Game:
 
             self.game_display.fill(self.background_color)
             self.render()
+
             pygame.display.update()
+
             self.update()
             self.mouse_click = False
             self.clock.tick(60)
@@ -53,6 +57,8 @@ class Game:
         self.draw_structure()
         self.draw_info()
         self.draw_current_population()
+        self.draw_log()
+
         self.restart_button.render()
         self.pause_button.render()
 
@@ -62,6 +68,9 @@ class Game:
         if not self.game_pause:
             if self.pop.best.fitness < 1:
                 self.pop.update()
+            if self.pop.best.fitness == 1:
+                self.write_log()
+                self.log_enabled = False
 
     def draw_info(self):
 
@@ -125,12 +134,14 @@ class Game:
 
         if self.restart_button.clicked(self.mouse_click):
             self.pop = Population(C.target, C.popmax, C.mutation_rate)
+            self.log_enabled = True
 
         if self.pause_button.clicked(self.mouse_click):
             self.game_pause = not self.game_pause
+            # self.restart_button.locked = True
 
             if self.game_pause:
-                self.pause_button.text = "start again"
+                self.pause_button.text = "Resume"
             else:
                 self.pause_button.text = C.ps_text
 
@@ -145,9 +156,49 @@ class Game:
                                    C.ps_length, C.ps_height, C.ps_color, C.ps_text, C.ps_text_size, C.ps_text_color,
                                    C.ps_font, mod=2, border=C.ps_border, extend=True)
 
+    def write_log(self):
+        if self.log_enabled:
+            string = ''.join(self.pop.best.genes)
+            info = [string,
+                    str(self.pop.generation),
+                    str(self.pop.average_fitness),
+                    str(self.pop.popmax),
+                    str(self.pop.mutation_rate)
+                    ]
+
+            update_log(info)
+
+    def draw_log(self):
+        info = get_log()
+        info = info[len(info)-1]
+        # for info in log:
+        if info is not None:
+            information_list = [
+                'sentence       : {}'.format(info[0]),
+                'generation     : {}'.format(info[1]),
+                'average fitness: {}%'.format(round(float(info[2])*100, 3)),
+                'population     : {}'.format(info[3]),
+                'mutation rate  : {}%'.format(info[4])
+            ]
+
+            label_list = []
+            info_font = pygame.font.SysFont(C.font, C.log_size)
+
+            pos = (C.best_pos[0], 0.5 * self.height + C.row_pitch)
+
+            txt = pygame.font.SysFont(C.font, C.log_size + 5).render("Last Evolution: ", True, C.text_color)
+            self.game_display.blit(txt, pos)
+
+            for line in information_list:
+                label_list.append(info_font.render(line, True, C.text_color))
+
+            for line in range(len(label_list)):
+                self.game_display.blit(label_list[line], (pos[0],  pos[1] + (line + 1)*C.info_size))
+
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
             self.game_exit = True
+
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.mouse_click = True
 

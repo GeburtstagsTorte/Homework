@@ -25,10 +25,13 @@ class C:
     best_size = 30
     best_pos = 50, 50
 
+    # log
+    log_size = 15
+
     # restart button
     rb_color = background_color
     rb_border = (0, 0, 0)
-    rb_text = "Restart"
+    rb_text = "New Population"
     rb_length = 120
     rb_height = 30
     rb_font = font

@@ -57,6 +57,19 @@ class Textbox:
         return size
 
 
+class TextBoxInput:
+
+    def __init__(self):
+        pass
+
+    def render(self):
+        pass
+
+    def update(self):
+        pass
+
+    def handle_textbox_keys(self, event):
+        pass
 # Textbox((0, 50), 144, "to pee or not to pee", 10, "Arial")     # Textbox(start_pos, max_width, text, best_size, font)
 
 # pygame.init()

@@ -4,6 +4,7 @@ import pygame
 class Button:
 
     visible = True
+    locked = False
 
     def __init__(self, surface, pos, width, height, color=(120, 120, 120), text='', text_size=10, text_color=(0, 0, 0),
                  font='Arial', image=None, image2=None, mod=None, border=None, extend=False):
@@ -21,6 +22,7 @@ class Button:
         self.mod = mod                          # default 1, defines which button appearance
         self.border = border                    # default None, draws line
         self.extend = extend                    # default False, extends button if mouse is in button area
+
         # example: border = (255, 255, 255) rgb
         #   > white border
 
@@ -103,7 +105,7 @@ class Button:
         pass
 
     def clicked(self, mouse_click):
-        if self.collide() and mouse_click:
+        if self.collide() and mouse_click and self.visible and not self.locked:
             return True
         return False
 
