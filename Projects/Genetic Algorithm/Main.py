@@ -93,7 +93,8 @@ class Game:
                             "average fitness: {}%".format(round(self.pop.average_fitness*100, 3)),
                             "best fitness   : {}%".format(round(self.pop.best.fitness*100, 3)),
                             "population     : {}".format(C.popmax),
-                            "mutation rate  : {}%".format(C.mutation_rate)]
+                            "mutation rate  : {}%".format(C.mutation_rate)
+                            ]
 
         for line in information_list:
             label_list.append(info_font.render(line, True, C.text_color))

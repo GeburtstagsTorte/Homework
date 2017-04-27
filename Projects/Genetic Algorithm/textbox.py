@@ -1,5 +1,6 @@
 import ctypes
 import pygame
+from Button import Button
 
 
 def gtd(text, points, font):
@@ -44,33 +45,147 @@ class Textbox:
         return Textbox.rectangle
 
     @staticmethod
-    def shift_size(text, size, font, max_length, dec_by=1):
+    def shift_size(text, size, font, max_length, dec_by=1, reduce=2):
 
         fnt = pygame.font.SysFont(font, size)
         txt = fnt.render(text, True, (0, 0, 0))
-        txt_length = txt.get_rect()[2]
+        txt_dimension = gtd(text, size, font)
         if size == 0:
             print("text length is too large")
             return 1
-        if txt_length > max_length:
-            return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
+        if dec_by > 0:
+            if txt_dimension[0] > max_length:
+                return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
+        if dec_by < 0:
+            if txt_dimension[1] < max_length:
+                return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
         return size
 
 
 class TextBoxInput:
 
-    def __init__(self):
-        pass
+    input = ""
+    current_input = ""
+    write_enabled = False
+    bar_pos = ()
+
+    def __init__(self, surface, pos, width, height,
+                 color=(255, 255, 255), border_color=(0, 0, 0), typeface='Arial', text_color=(0, 0, 0), mod=1,
+                 button=True, button_length=None):
+        self.surface = surface
+        self.pos = pos
+        self.width = width
+        self.height = height
+        self.typeface = typeface
+        self.color = color
+        self.border_color = border_color
+        self.text_color = text_color
+        self.mod = mod
+
+        self.button = button
+        self.button_length = button_length
+
+        self.size = Textbox.shift_size('A', 1, self.typeface, self.height-2, dec_by=-1, reduce=3)
+
+        if self.button_length is None:
+            self.button_length = self.width // 4
+
+        if self.button:
+            self.enter_button = Button(self.surface, (self.pos[0] + self.width, self.pos[1]),
+                                       self.button_length, self.height, self.color, 'Enter', self.size, self.text_color,
+                                       self.typeface, mod=2, border=self.border_color)
+
+        self.bar_pos = (self.pos[0], self.pos[1] + 1)
+        self.font = pygame.font.SysFont(self.typeface, self.size)
 
     def render(self):
-        pass
 
-    def update(self):
-        pass
+        pygame.draw.rect(self.surface, self.border_color, (self.pos[0], self.pos[1]-1, self.width + 1, self.height + 2))
+        pygame.draw.circle(self.surface, self.border_color, [self.pos[0], self.pos[1] + self.height // 2],
+                           self.height // 2 + 1)
+        pygame.draw.circle(self.surface, self.border_color, [self.pos[0] + self.width, self.pos[1] + self.height // 2],
+                           self.height // 2 + 1)
 
-    def handle_textbox_keys(self, event):
-        pass
+        pygame.draw.circle(self.surface, self.color, [self.pos[0], self.pos[1] + self.height // 2], self.height // 2)
+        pygame.draw.circle(self.surface, self.color, [self.pos[0] + self.width, self.pos[1] + self.height // 2],
+                           self.height // 2)
+        pygame.draw.rect(self.surface, self.color, (self.pos[0], self.pos[1], self.width, self.height))
+
+        self.enter_button.render()
+
+        txt = self.font.render(self.current_input, True, self.text_color)
+        txt_rect = txt.get_rect()
+        self.surface.blit(txt, (self.pos[0], self.pos[1] - 1))
+
+        if self.write_enabled:
+            pygame.draw.line(self.surface, self.text_color, (self.pos[0] + txt_rect[2], self.pos[1] + 2),
+                             (self.pos[0] + txt_rect[2], self.pos[1] + txt_rect[3] - 2))
+
+    def update(self, mouse_click):
+        if self.collide() and mouse_click:
+            self.write_enabled = True
+
+        if not self.collide() and mouse_click:
+            self.write_enabled = False
+
+        if self.enter_button.clicked(mouse_click):
+            self.write_enabled = False
+            self.input = self.current_input
+
+    def handle_keys(self, event):
+
+        if event.type == pygame.KEYDOWN:
+
+                if event.key == 13:
+                    self.write_enabled = False
+                    self.input = self.current_input
+
+                if event.key == 8 and len(self.current_input) >= 1:
+                    l = list(self.current_input)
+
+                    del l[len(l) - 1]
+                    self.current_input = ''.join(l)
+                elif event.key != 13 and event.key != 8:
+                    self.current_input += event.unicode
+
+    def collide(self):
+        x, y = pygame.mouse.get_pos()
+
+        if self.pos[0] <= x <= self.pos[0] + self.width and self.pos[1] <= y <= self.pos[1] + self.height \
+                or (self.height // 2)**2 >= (self.pos[0] - x) ** 2 + (self.pos[1] - y + self.height // 2) ** 2 \
+                or (self.height // 2)**2 >= (self.pos[0] + self.width-x)**2 + (self.pos[1]-y + self.height // 2)**2:
+            return True
+        return False
+
+
 # Textbox((0, 50), 144, "to pee or not to pee", 10, "Arial")     # Textbox(start_pos, max_width, text, best_size, font)
 
 # pygame.init()
 # print(Textbox.shift_size("to be or not to be that is the question.", 15, "Courier New", 265, 1))
+
+
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((500, 300), pygame.SRCALPHA)
+    game_exit = False
+    mouse_click = False
+    textbox_input = TextBoxInput(screen, (50, 50), 200, 40, typeface='Courier New', button=True, button_length=120)
+    while not game_exit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_exit = True
+            textbox_input.handle_keys(event)
+            mouse_click = False
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouse_click = True
+
+        screen.fill((255, 255, 255))
+        textbox_input.render()
+        textbox_input.update(mouse_click)
+        print(textbox_input.input)
+        pygame.display.update()
+    pygame.quit()
+    quit()
+
+if __name__ == '__main__':
+    main()
