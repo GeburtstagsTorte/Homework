@@ -16,14 +16,15 @@ from Log import update_log, get_log
 
 class Game:
     clock = pygame.time.Clock()
+    
     game_exit = False
     mouse_click = False
     game_pause = False
+    log_enabled = True
     pop = object
     restart_button = object
     pause_button = object
     textbox = object
-    log_enabled = True
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
         self.title = title
@@ -74,6 +75,7 @@ class Game:
         if self.textbox.input is not None:
             C.target = self.textbox.input
             self.pop = Population(C.target, C.popmax, C.mutation_rate)
+            self.log_enabled = True
             self.textbox.input = None
 
         if not self.game_pause:
@@ -209,8 +211,7 @@ class Game:
 
     def initialize_textinput(self):
         self.textbox = TextBoxInput(self.game_display, (C.best_pos[0], self.height//2 - C.txt_height - 10),
-                                    C.txt_length, C.txt_height, typeface=C.txt_font, button_text=C.txt_button_text,
-                                    button_length=120)
+                                    C.txt_length, C.txt_height, typeface=C.txt_font, button=False)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:

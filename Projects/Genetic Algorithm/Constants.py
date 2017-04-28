@@ -49,7 +49,7 @@ class C:
     ps_text_size = 15
 
     # textbox
-    txt_length = 450
+    txt_length = 580
     txt_height = 30
     txt_font = font
     txt_text_size = 15

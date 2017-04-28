@@ -49,15 +49,16 @@ class Textbox:
 
         fnt = pygame.font.SysFont(font, size)
         txt = fnt.render(text, True, (0, 0, 0))
-        txt_dimension = gtd(text, size, font)
+        # txt_dimension = gtd(text, size, font)
+        txt_dimension = txt.get_rect()
         if size == 0:
             print("text length is too large")
             return 1
         if dec_by > 0:
-            if txt_dimension[0] > max_length:
+            if txt_dimension[2] > max_length:
                 return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
         if dec_by < 0:
-            if txt_dimension[1] < max_length:
+            if txt_dimension[3] < max_length:
                 return Textbox.shift_size(text, size - dec_by, font, max_length, dec_by)
         return size
 
@@ -113,12 +114,14 @@ class TextBoxInput:
             pygame.draw.circle(self.surface, self.color, [self.pos[0] + self.width, self.pos[1] + self.height // 2],
                                self.height // 2)
             pygame.draw.rect(self.surface, self.color, (self.pos[0], self.pos[1], self.width, self.height))
-
-            self.enter_button.render()
+            if self.button:
+                self.enter_button.render()
 
             txt = self.font.render(self.current_input, True, self.text_color)
             txt_rect = txt.get_rect()
 
+            if txt_rect[2] >= self.width:
+                self.write_enabled = False
             self.surface.blit(txt, (self.pos[0], self.pos[1] - 1))
 
             if self.write_enabled:
@@ -131,26 +134,26 @@ class TextBoxInput:
 
         if not self.collide() and mouse_click and self.visible:
             self.write_enabled = False
+        if self.button:
+            if self.enter_button.clicked(mouse_click):
+                self.write_enabled = False
+                self.input = self.current_input
 
-        if self.enter_button.clicked(mouse_click):
-            self.write_enabled = False
-            self.input = self.current_input
-
-        self.enter_button.visible = self.visible
+            self.enter_button.visible = self.visible
 
     def handle_keys(self, event):
 
         if event.type == pygame.KEYDOWN:
+            if event.key == 8 and len(self.current_input) >= 1:
+                l = list(self.current_input)
+
+                del l[len(l) - 1]
+                self.current_input = ''.join(l)
+
             if self.write_enabled:
                 if event.key == 13:
                     self.write_enabled = False
                     self.input = self.current_input
-
-                if event.key == 8 and len(self.current_input) >= 1:
-                    l = list(self.current_input)
-
-                    del l[len(l) - 1]
-                    self.current_input = ''.join(l)
 
                 elif event.key != 13 and event.key != 8:
                     self.current_input += event.unicode

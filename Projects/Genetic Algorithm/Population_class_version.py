@@ -30,12 +30,12 @@ class Population:
 
     population = []
     generation = 0
-    best = object()
+    best = object
     average_fitness = 0
 
     def __init__(self, target, popmax, mutation_rate):
         self.target = target
-        # popmax: number of individuals
+        # popmax: number of individuals in one population
         self.popmax = popmax
         # mutation rate in %
         self.mutation_rate = mutation_rate
@@ -49,7 +49,7 @@ class Population:
         return [Individual.create_individual(C.target) for i in range(self.popmax)]
 
     def update(self):
-        # former loop function
+        # former loop function -> Main.py
         # while self.best.fitness < 1:
         self.calc_fitness()
         self.best = self.calc_best_individual()
@@ -88,7 +88,7 @@ class Population:
 
         pool = []
         for individual in self.population:
-            # factor = 1000
+            # factor = 1000 // arbitrary
             for i in range(int((individual.fitness / fitness_sum) * 1000)):
                 pool.append(individual)
 
