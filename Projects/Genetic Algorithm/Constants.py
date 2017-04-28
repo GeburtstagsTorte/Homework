@@ -47,3 +47,11 @@ class C:
     ps_font = font
     ps_text_color = ps_border
     ps_text_size = 15
+
+    # textbox
+    txt_length = 450
+    txt_height = 30
+    txt_font = font
+    txt_text_size = 15
+    txt_button_text = 'New Population!'
+    txt_button_length = 120

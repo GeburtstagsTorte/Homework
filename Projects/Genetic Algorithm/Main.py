@@ -9,7 +9,7 @@ TO DO:
 import pygame
 from Constants import C
 from Population_class_version import Population
-from textbox import Textbox
+from textbox import Textbox, TextBoxInput
 from Button import Button
 from Log import update_log, get_log
 
@@ -22,6 +22,7 @@ class Game:
     pop = object
     restart_button = object
     pause_button = object
+    textbox = object
     log_enabled = True
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
@@ -32,7 +33,9 @@ class Game:
 
         self.game_display = pygame.display.set_mode((width, height), pygame.SRCALPHA)
         pygame.display.set_caption(title)
+
         self.initialize_buttons()
+        self.initialize_textinput()
 
         self.pop = Population(C.target, C.popmax, C.mutation_rate)
 
@@ -62,8 +65,16 @@ class Game:
         self.restart_button.render()
         self.pause_button.render()
 
+        self.textbox.render()
+
     def update(self):
         self.buttons_update()
+        self.textbox.update(self.mouse_click)
+
+        if self.textbox.input is not None:
+            C.target = self.textbox.input
+            self.pop = Population(C.target, C.popmax, C.mutation_rate)
+            self.textbox.input = None
 
         if not self.game_pause:
             if self.pop.best.fitness < 1:
@@ -196,12 +207,19 @@ class Game:
             for line in range(len(label_list)):
                 self.game_display.blit(label_list[line], (pos[0],  pos[1] + (line + 1)*C.info_size))
 
+    def initialize_textinput(self):
+        self.textbox = TextBoxInput(self.game_display, (C.best_pos[0], self.height//2 - C.txt_height - 10),
+                                    C.txt_length, C.txt_height, typeface=C.txt_font, button_text=C.txt_button_text,
+                                    button_length=120)
+
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
             self.game_exit = True
 
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.mouse_click = True
+
+        self.textbox.handle_keys(event)
 
 
 def main():
