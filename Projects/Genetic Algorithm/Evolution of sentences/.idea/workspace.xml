@@ -23,14 +23,14 @@
       <file leaf-file-name="Main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1530">
-              <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+            <state relative-caret-position="-1178">
+              <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
               <folding>
                 <element signature="e#0#124#1" expanded="false" />
                 <element signature="e#126#139#0" expanded="true" />
-                <element signature="e#2297#2386#1" expanded="false" />
-                <element signature="e#2816#3235#0" expanded="false" />
-                <element signature="e#6491#6803#0" expanded="false" />
+                <element signature="e#2293#2382#1" expanded="false" />
+                <element signature="e#2812#3231#0" expanded="false" />
+                <element signature="e#6487#6799#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -84,11 +84,11 @@
       <file leaf-file-name="textbox.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/textbox.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="726">
-              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+            <state relative-caret-position="51">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#6908#7703#0" expanded="false" />
+                <element signature="e#7156#7951#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -97,8 +97,8 @@
       <file leaf-file-name="Button.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Button.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+            <state relative-caret-position="34">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,8 +107,8 @@
       <file leaf-file-name="Constants.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Constants.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
-              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -117,10 +117,10 @@
       <file leaf-file-name="Button_reworked.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Button_reworked.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state relative-caret-position="1751">
+              <caret line="103" column="21" selection-start-line="103" selection-start-column="21" selection-end-line="103" selection-end-column="21" />
               <folding>
-                <element signature="e#5718#6449#0" expanded="false" />
+                <element signature="e#5729#6460#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -155,13 +155,13 @@
         <option value="$PROJECT_DIR$/../Button.py" />
         <option value="$PROJECT_DIR$/../Button_V2.py" />
         <option value="$PROJECT_DIR$/Button.py" />
-        <option value="$PROJECT_DIR$/../Button_reworked.py" />
         <option value="$PROJECT_DIR$/Log.py" />
         <option value="$PROJECT_DIR$/log" />
-        <option value="$PROJECT_DIR$/textbox.py" />
         <option value="$PROJECT_DIR$/Constants.py" />
         <option value="$PROJECT_DIR$/Main.py" />
         <option value="$PROJECT_DIR$/Population_class_version.py" />
+        <option value="$PROJECT_DIR$/textbox.py" />
+        <option value="$PROJECT_DIR$/../Button_reworked.py" />
       </list>
     </option>
   </component>
@@ -572,9 +572,9 @@
           <folding>
             <element signature="e#0#124#1" expanded="false" />
             <element signature="e#126#139#0" expanded="true" />
-            <element signature="e#2297#2386#1" expanded="false" />
-            <element signature="e#2816#3235#0" expanded="false" />
-            <element signature="e#6491#6803#0" expanded="false" />
+            <element signature="e#2293#2382#1" expanded="false" />
+            <element signature="e#2812#3231#0" expanded="false" />
+            <element signature="e#6487#6799#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -593,9 +593,9 @@
           <folding>
             <element signature="e#0#124#1" expanded="false" />
             <element signature="e#126#139#0" expanded="true" />
-            <element signature="e#2297#2386#1" expanded="false" />
-            <element signature="e#2816#3235#0" expanded="false" />
-            <element signature="e#6491#6803#0" expanded="false" />
+            <element signature="e#2293#2382#1" expanded="false" />
+            <element signature="e#2812#3231#0" expanded="false" />
+            <element signature="e#6487#6799#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -614,9 +614,9 @@
           <folding>
             <element signature="e#0#124#1" expanded="false" />
             <element signature="e#126#139#0" expanded="true" />
-            <element signature="e#2297#2386#1" expanded="false" />
-            <element signature="e#2816#3235#0" expanded="false" />
-            <element signature="e#6491#6803#0" expanded="false" />
+            <element signature="e#2293#2382#1" expanded="false" />
+            <element signature="e#2812#3231#0" expanded="false" />
+            <element signature="e#6487#6799#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -643,9 +643,9 @@
           <folding>
             <element signature="e#0#124#1" expanded="false" />
             <element signature="e#126#139#0" expanded="true" />
-            <element signature="e#2297#2386#1" expanded="false" />
-            <element signature="e#2816#3235#0" expanded="false" />
-            <element signature="e#6491#6803#0" expanded="false" />
+            <element signature="e#2293#2382#1" expanded="false" />
+            <element signature="e#2812#3231#0" expanded="false" />
+            <element signature="e#6487#6799#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -823,37 +823,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Button_reworked.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        <state relative-caret-position="1751">
+          <caret line="103" column="21" selection-start-line="103" selection-start-column="21" selection-end-line="103" selection-end-column="21" />
           <folding>
-            <element signature="e#5718#6449#0" expanded="false" />
+            <element signature="e#5729#6460#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Constants.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Button.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+        <state relative-caret-position="34">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/textbox.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+        <state relative-caret-position="51">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#6908#7703#0" expanded="false" />
+            <element signature="e#7156#7951#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -897,14 +897,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1530">
-          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+        <state relative-caret-position="-1178">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
           <folding>
             <element signature="e#0#124#1" expanded="false" />
             <element signature="e#126#139#0" expanded="true" />
-            <element signature="e#2297#2386#1" expanded="false" />
-            <element signature="e#2816#3235#0" expanded="false" />
-            <element signature="e#6491#6803#0" expanded="false" />
+            <element signature="e#2293#2382#1" expanded="false" />
+            <element signature="e#2812#3231#0" expanded="false" />
+            <element signature="e#6487#6799#0" expanded="false" />
           </folding>
         </state>
       </provider>

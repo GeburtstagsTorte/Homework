@@ -55,3 +55,5 @@ class C:
     txt_text_size = 15
     txt_button_text = 'New Population!'
     txt_button_length = 120
+
+print(27**39)

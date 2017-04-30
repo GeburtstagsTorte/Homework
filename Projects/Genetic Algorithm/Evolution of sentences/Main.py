@@ -1,11 +1,3 @@
-"""
-TO DO:
-    [>]create buttons: Restart, Pause
-    >create log:
-        txt file with results
-    >drawing results/log
-"""
-
 import pygame
 from Constants import C
 from Population_class_version import Population
@@ -16,7 +8,7 @@ from Log import update_log, get_log
 
 class Game:
     clock = pygame.time.Clock()
-    
+
     game_exit = False
     mouse_click = False
     game_pause = False

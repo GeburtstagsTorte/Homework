@@ -46,6 +46,8 @@ class Textbox:
 
     @staticmethod
     def shift_size(text, size, font, max_length, dec_by=1):
+        # this function will only be useful for this task in this project, so do not simply copy
+        # the others should quite work though
 
         fnt = pygame.font.SysFont(font, size)
         txt = fnt.render(text, True, (0, 0, 0))
@@ -68,7 +70,7 @@ class TextBoxInput:
     input = None
     current_input = ""
     write_enabled = False
-    bar_pos = ()
+    # bar_pos = ()
     visible = True
 
     def __init__(self, surface, pos, width, height,
@@ -78,9 +80,9 @@ class TextBoxInput:
         self.pos = list(pos)
         self.width = width
         self.height = height
-        self.typeface = typeface
+        self.typeface = typeface            # fancy name for font, since i use 'font' elsewhere
         self.color = color
-        self.border_color = border_color
+        self.border_color = border_color    # same thing as in button function
         self.text_color = text_color
         self.mod = mod
 
@@ -98,7 +100,7 @@ class TextBoxInput:
                                        self.button_length, self.height, self.color, self.button_text, self.size,
                                        self.text_color, self.typeface, mod=2, border=self.border_color)
 
-        self.bar_pos = (self.pos[0], self.pos[1] + 1)
+        # self.bar_pos = (self.pos[0], self.pos[1] + 1)
         self.font = pygame.font.SysFont(self.typeface, self.size)
 
     def render(self):
