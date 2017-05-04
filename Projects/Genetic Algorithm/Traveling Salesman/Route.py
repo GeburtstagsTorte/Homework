@@ -36,7 +36,15 @@ class Route:
 
     @staticmethod
     def mutation(genes, mutation_rate):
-        if randint(0, 100) < mutation_rate:
+        """if randint(0, 100) < mutation_rate:
             choose = randint(0, len(genes)-1)
             genes[choose] = randint(0, len(genes)-1)
+        return genes"""
+        if randint(0, 100) < mutation_rate:
+            choose = randint(0, len(genes)-1)
+            choose2 = randint(0, len(genes)-1)
+
+            temp = genes[choose]
+            genes[choose] = genes[choose2]
+            genes[choose2] = temp
         return genes

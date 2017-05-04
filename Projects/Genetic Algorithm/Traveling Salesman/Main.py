@@ -9,6 +9,7 @@ class Game:
     clock = pygame.time.Clock()
     game_exit = False
     cities = []
+    record = Route([], 0)
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
         self.title = title
@@ -42,10 +43,14 @@ class Game:
             Route.draw_routes(self.game_display, C.route_color, route, self.cities)"""
 
         Route.draw_best_route(self.game_display, self.population.best, self.cities)
+        Route.draw_best_route(self.game_display, self.record, self.cities, color=(100, 0, 200))
         City.render_cities(self.cities)
 
     def update(self):
         # Entities.update()
+        print(self.record.fitness)
+        if self.population.best.fitness > self.record.fitness:
+            self.record = self.population.best
         self.population.update()
 
     def handle_keys(self, event):

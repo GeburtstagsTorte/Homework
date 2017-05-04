@@ -41,16 +41,18 @@ class Population:
         for route in self.population:
             # factor = 1000 // arbitrary
             for i in range(int((route.fitness / fitness_sum) * 100)):
-                pool.append(route)
+                pool.append(route.genes)
 
         return pool
 
     @staticmethod
     def reproduction(pool):
-        a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
+        """a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
         child = Route.multiple_crossover(pool[a], pool[b])
         print(child)
-        return child
+        return child"""
+        a = randint(0, len(pool) - 1)
+        return Route.mutation(pool[a], C.mutation_rate)
 
     def new_generation(self, pool):
         pop_new = []
