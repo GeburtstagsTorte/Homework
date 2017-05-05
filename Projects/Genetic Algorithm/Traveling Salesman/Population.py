@@ -47,6 +47,7 @@ class Population:
         normal roulette wheel selection
 
         :returns mating pool
+
         """
         fitness_sum = 0
         for route in self.population:
@@ -69,7 +70,10 @@ class Population:
 
     @staticmethod
     def reproduction(pool):
-        """a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
+        """
+        ----------------------------------------------------------------
+
+        a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
         child = Route.multiple_crossover(pool[a], pool[b])
         print(child)
         return child
@@ -92,7 +96,7 @@ class Population:
         If one number occurs more often then the others in the same index
         this number will be chosen as value for the child
 
-        if every number is unique, the the number in a will be arbitrarily chosen
+        if every number is unique, the the number in (a) will be arbitrarily chosen
 
         [1, 0, 4, 3, 2]
 
@@ -101,13 +105,13 @@ class Population:
         [0, 3, 2, 4, 1]
 
        -----------------
-       [1, 0, 4, 3, 2]
+        [1, 0, 4, 3, 2]
 
        As the example shows, it is not guaranteed, that a new member evolves
        -> mutation
 
-
         """
+
         child = []
         a, b, c = pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)]
         for i in range(len(a)):

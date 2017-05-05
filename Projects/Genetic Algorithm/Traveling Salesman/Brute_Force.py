@@ -27,4 +27,4 @@ class BruteForce:
     @staticmethod
     def draw_route(surface, cities, route, color=(200, 0, 0)):
         for i in range(len(route)-1):
-            pygame.draw.line(surface, color, cities[route[i]].pos, cities[route[i+1]].pos)
+            pygame.draw.aaline(surface, color, cities[route[i]].pos, cities[route[i+1]].pos)

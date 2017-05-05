@@ -1,4 +1,5 @@
 import pygame
+import pygame.gfxdraw
 from random import randint
 
 
@@ -24,7 +25,8 @@ class City:
     @staticmethod
     def draw_paths(cities, surface, color=(255, 255, 255)):
         for i in range(len(cities)-1):
-            pygame.draw.line(surface, color, cities[i].pos, cities[i+1].pos)
+            pygame.draw.aaline(surface, color, cities[i].pos, cities[i+1].pos)
 
     def draw_city(self):
-        pygame.draw.circle(self.surface, self.color, (self.x, self.y), self.radius)
+        # pygame.draw.circle(self.surface, self.color, (self.x, self.y), self.radius)
+        pygame.gfxdraw.aacircle(self.surface, self.x, self.y, self.radius, self.color)

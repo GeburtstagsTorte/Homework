@@ -10,12 +10,13 @@ class C:
     mutation_rate = 20
 
     # Cities/dots
-    city_amount = 10
-    city_radius = 4
+    city_amount = 7
+    city_radius = 6
     city_color = (255, 255, 255)
 
     # Route
     route_color = (255, 255, 255)
+    route_width = 3
 
     # Text
     size = 20

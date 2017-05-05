@@ -23,12 +23,13 @@ class Route:
     @staticmethod
     def draw_routes(surface, color, route, cities):
         for i in range(len(route.genes)-1):
-            pygame.draw.line(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos)
+            pygame.draw.aaline(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos)
 
     @staticmethod
-    def draw_best_route(surface, route, cities, color=(0, 0, 200)):
+    def draw_best_route(surface, route, cities, color=(150, 0, 200), width=1):
         for i in range(len(route.genes)-1):
-            pygame.draw.line(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos, 2)
+            # pygame.draw.line(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos, width)
+            pygame.draw.aaline(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos)
 
     @staticmethod
     def multiple_crossover(a, b):

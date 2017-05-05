@@ -23,8 +23,17 @@ class Game:
 
         self.cities = [City(self.game_display, self.width, self.height, C.city_color, C.city_radius)
                        for i in range(C.city_amount)]
+
         self.population = Population(C.max_population, C.mutation_rate, self.cities)
         self.brute_force_routes = BruteForce.create_routes(C.city_amount)
+
+        #
+        #       creating every possible route at the beginning isn't really useful
+        #
+        #       -> write an algorithm which permutes step by step
+        #          in order to prevent long loading screens
+        #
+
         self.count = 0
         self.main_loop()
 
@@ -41,17 +50,20 @@ class Game:
             self.clock.tick(60)
 
     def render(self):
-        """for route in self.population.population:
-            Route.draw_routes(self.game_display, C.route_color, route, self.cities)"""
+        """
+        for route in self.population.population:
+            Route.draw_routes(self.game_display, C.route_color, route, self.cities)
+        """
 
-        Route.draw_best_route(self.game_display, self.population.best, self.cities)
         # Route.draw_best_route(self.game_display, self.record, self.cities, color=(100, 0, 200))
+
         if self.count < len(self.brute_force_routes):
             BruteForce.draw_route(self.game_display, self.cities, self.brute_force_routes[self.count])
             BruteForce.calculate_best(self.brute_force_routes[self.count], self.cities)
             self.count += 1
 
         BruteForce.draw_route(self.game_display, self.cities, BruteForce.best, color=(0, 200, 0))
+        Route.draw_best_route(self.game_display, self.population.best, self.cities, width=C.route_width)
         City.render_cities(self.cities)
         self.handle_text()
 
