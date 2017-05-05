@@ -32,14 +32,26 @@ class Route:
 
     @staticmethod
     def multiple_crossover(a, b):
+        """
+
+        crossover doesn't make any sense for this problem
+
+        """
         pass
 
     @staticmethod
     def mutation(genes, mutation_rate):
-        """if randint(0, 100) < mutation_rate:
+        """
+        if randint(0, 100) < mutation_rate:
             choose = randint(0, len(genes)-1)
             genes[choose] = randint(0, len(genes)-1)
-        return genes"""
+        return genes
+
+        -----------------------------------------------
+
+        swaps just to values in list
+
+        """
         if randint(0, 100) < mutation_rate:
             choose = randint(0, len(genes)-1)
             choose2 = randint(0, len(genes)-1)

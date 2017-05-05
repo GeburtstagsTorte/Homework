@@ -16,7 +16,7 @@ class City:
 
         self.pos = self.x, self.y
 
-    @ staticmethod
+    @staticmethod
     def render_cities(cities):
         for city in cities:
             city.draw_city()

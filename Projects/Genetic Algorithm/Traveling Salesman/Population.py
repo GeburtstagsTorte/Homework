@@ -23,6 +23,15 @@ class Population:
         self.population = [Route.create_route(C.city_amount) for i in range(self.max_population)]
 
     def calculate_fitness(self):
+        """
+        basically the run of the mill fitness calculation function
+
+        distance (d) will be divided by 1 since a higher fitness equals
+        a better individual
+
+        best will be tracked in function
+
+        """
         for route in self.population:
             distance_sum = 0
             for i in range(len(route.genes)-1):
@@ -33,6 +42,12 @@ class Population:
             self.best = route if route.fitness > self.best.fitness else self.best
 
     def selection(self):
+        """
+
+        normal roulette wheel selection
+
+        :returns mating pool
+        """
         fitness_sum = 0
         for route in self.population:
             fitness_sum += route.fitness
@@ -45,21 +60,62 @@ class Population:
 
         return pool
 
-    @staticmethod
-    def reproduction(pool):
-        """a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
-        child = Route.multiple_crossover(pool[a], pool[b])
-        print(child)
-        return child"""
-        a = randint(0, len(pool) - 1)
-        return Route.mutation(pool[a], C.mutation_rate)
-
     def new_generation(self, pool):
         pop_new = []
 
         while len(pop_new) < self.max_population:
             pop_new.append(Route(Population.reproduction(pool), 0))
         return pop_new
+
+    @staticmethod
+    def reproduction(pool):
+        """a, b = randint(0, len(pool) - 1), randint(0, len(pool) - 1)
+        child = Route.multiple_crossover(pool[a], pool[b])
+        print(child)
+        return child
+
+        ----------------------------------------------------------------
+
+
+        Normal Crossover won't work, since you can't just exchange the numbers
+
+        [1, 0, 4, 3, 2]
+
+        [2, 1, 4, 3, 0]
+
+        -----------------
+        [2, 0, 4, 3, 2] <-- 2 got selected twice
+
+        This would obviously break everything
+
+        Because of that it chooses 3 routes (a, b, c) by chance from the pool.
+        If one number occurs more often then the others in the same index
+        this number will be chosen as value for the child
+
+        if every number is unique, the the number in a will be arbitrarily chosen
+
+        [1, 0, 4, 3, 2]
+
+        [2, 1, 4, 3, 0]
+
+        [0, 3, 2, 4, 1]
+
+       -----------------
+       [1, 0, 4, 3, 2]
+
+       As the example shows, it is not guaranteed, that a new member evolves
+       -> mutation
+
+
+        """
+        child = []
+        a, b, c = pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)]
+        for i in range(len(a)):
+            if a[i] == b[i] or a[i] == c[i]:
+                child.append(a[i])
+            else:
+                child.append(a[i])
+        return Route.mutation(child, C.mutation_rate)
 
     def update(self):
         self.calculate_fitness()
