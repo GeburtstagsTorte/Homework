@@ -10,7 +10,7 @@ class C:
     mutation_rate = 20
 
     # Cities/dots
-    city_amount = 7
+    city_amount = 8
     city_radius = 6
     city_color = (255, 255, 255)
 

@@ -114,6 +114,7 @@ class Population:
 
         child = []
         a, b, c = pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)]
+
         for i in range(len(a)):
             if a[i] == b[i] or a[i] == c[i]:
                 child.append(a[i])
