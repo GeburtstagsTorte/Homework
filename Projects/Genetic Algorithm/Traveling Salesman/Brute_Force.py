@@ -14,10 +14,12 @@ class BruteForce:
         for i in range(len(route)-1):
             d += sqrt((cities[route[i]].x - cities[route[i+1]].x)**2 + (cities[route[i]].y - cities[route[i+1]].y)**2)
 
-        d = 1 / d * 10**3
+        d = (1 / d) * 10**3
         if d > BruteForce.d_record:
+
             BruteForce.best = route
             BruteForce.d_record = d
+            print(BruteForce.best, d)
 
     @staticmethod
     def create_routes(city_amount):
