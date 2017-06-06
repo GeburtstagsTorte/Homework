@@ -199,14 +199,14 @@ class CenterBox:
     @staticmethod
     def identify_pos(pos_list):
         smallest_x = float("inf")
-        max_y = 0
+        smallest_y = float("inf")
         for pos in pos_list:
             if pos[0] < smallest_x:
                 smallest_x = pos[0]
-            if pos[1] > max_y:
-                max_y = pos[1]
+            if pos[1] < smallest_y:
+                smallest_y = pos[1]
 
-        return smallest_x, max_y
+        return smallest_x, smallest_y
 
     @staticmethod
     def identify_max_length(pos_list):

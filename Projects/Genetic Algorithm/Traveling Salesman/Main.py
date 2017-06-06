@@ -37,7 +37,7 @@ class Game:
 
         self.cities = [City(self.game_display, self.width, self.height, C.city_color, C.city_radius)
                        for i in range(C.city_amount)]
-
+        self.scale_cities()
         self.population = Population(C.max_population, C.mutation_rate, self.cities)
         self.bf_route = BruteForce.initialize_route(C.city_amount)
         BruteForce.calculate_best(self.bf_route, self.cities)
@@ -110,13 +110,12 @@ class Game:
         start_pos = CenterBox.identify_pos(pos_list)
 
         d_pos = CenterBox.scale_pos(start_pos, C.frame1_pos, max_width, max_height, C.frame1_width, C.frame1_height, 1)
-        print(d_pos)
+        print(max_height, max_width, start_pos, d_pos)
 
         for city in self.cities:
             city.pos = (city.pos[0] + d_pos[0], city.pos[1] + d_pos[1])
             city.x = city.pos[0] + d_pos[0]
             city.y = city.pos[1] + d_pos[1]
-        return self.cities
 
     def initialize_buttons(self):
         self.restart_button = Button(self.game_display, C.btn_pos, C.btn_width, C.btn_height, C.btn_color, C.rb_text,
