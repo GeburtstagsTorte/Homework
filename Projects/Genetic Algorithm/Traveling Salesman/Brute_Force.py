@@ -68,6 +68,7 @@ class BruteForce:
 
     @staticmethod
     def permute(route, cities):
+
         """
         https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
 
@@ -80,6 +81,7 @@ class BruteForce:
 
             r = BruteForce.swap(route, i, j)
             BruteForce.calculate_best(route, cities)
+
             return BruteForce.reverse_list(r, i)
             # BruteForce.current_route = BruteForce.reverse_list(r, i)
 """

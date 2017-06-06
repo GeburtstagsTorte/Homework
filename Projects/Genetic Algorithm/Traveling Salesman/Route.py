@@ -1,5 +1,7 @@
 import pygame
+import pygame.gfxdraw
 from random import randint
+from Constants import C
 
 
 class Route:
@@ -30,6 +32,15 @@ class Route:
         for i in range(len(route.genes)-1):
             # pygame.draw.line(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos, width)
             pygame.draw.aaline(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos)
+
+    @staticmethod
+    def draw_ga_only(surface, color, route, cities):
+        for city in cities:
+            pygame.gfxdraw.aacircle(surface, city.x, city.y + int(0.5*C.height), C.city_radius, C.city_color)
+
+        for i in range(len(route)-1):
+            pygame.draw.aaline(surface, color, (cities[route[i]].x, cities[route[i]].y + int(0.5*C.height)),
+                               (cities[route[i+1]].x, cities[route[i+1]].y + int(0.5*C.height)))
 
     @staticmethod
     def multiple_crossover(a, b):

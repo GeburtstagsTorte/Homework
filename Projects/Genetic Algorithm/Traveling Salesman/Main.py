@@ -5,13 +5,16 @@ from Population import Population
 from Route import Route
 from Brute_Force import BruteForce
 from math import factorial
+from Button import Button
 
 
 class Game:
     clock = pygame.time.Clock()
     game_exit = False
+    mouse_click = False
     cities = []
     record = Route([], 0)
+    restart_button = object
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
         self.title = title
@@ -27,7 +30,10 @@ class Game:
 
         self.population = Population(C.max_population, C.mutation_rate, self.cities)
         self.bf_route = BruteForce.initialize_route(C.city_amount)
+        BruteForce.calculate_best(self.bf_route, self.cities)
         self.count = 0
+
+        self.initialize_buttons()
         self.main_loop()
 
     def main_loop(self):
@@ -40,15 +46,19 @@ class Game:
             self.render()
             pygame.display.update()
             self.update()
+            self.mouse_click = False
             self.clock.tick(60)
 
     def render(self):
+        self.structure()
+        self.restart_button.render()
 
-        Route.draw_best_route(self.game_display, self.population.best, self.cities, width=C.route_width)
+        # Route.draw_best_route(self.game_display, self.population.best, self.cities, width=C.route_width)
         BruteForce.draw_route(self.game_display, self.cities, self.bf_route)
-        BruteForce.draw_route(self.game_display, self.cities, BruteForce.best[0], color=(204, 141, 53))
+        BruteForce.draw_route(self.game_display, self.cities, BruteForce.best[0], color=C.bf_color)
 
         City.render_cities(self.cities)
+        Route.draw_ga_only(self.game_display, C.GA_path_color, self.population.best.genes, self.cities)
         self.handle_text()
 
     def update(self):
@@ -56,18 +66,53 @@ class Game:
         if self.population.best.fitness > self.record.fitness:
             self.record = self.population.best
         self.population.update()
-        if self.count < factorial(C.city_amount):
+
+        if self.count <= factorial(C.city_amount):
             self.bf_route = BruteForce.permute(self.bf_route, self.cities)
             self.count += 1
+        self.update_buttons()
+
+    def structure(self):
+        pygame.draw.line(self.game_display, C.structure_color, (0.75*self.width, 0), (0.75*self.width, self.height),
+                         C.st_width)
+        pygame.draw.line(self.game_display, C.structure_color, (0, 0.5*self.height + C.border),
+                         (0.75*self.width, 0.5*self.height + C.border), C.st_width)
 
     def handle_text(self):
-        font = pygame.font.SysFont(C.font, C.size)
-        txt = font.render("{}%".format(round((self.count/factorial(C.city_amount))*100, 3)), True, C.text_color)
-        self.game_display.blit(txt, C.text_pos)
+        font = pygame.font.SysFont(C.font, C.head_size)
+
+        txt_head = font.render("{} {}%".format(C.txt_head1, round(self.count/factorial(C.city_amount), 1)*100),
+                               True, C.text_color)
+        txt_head2 = font.render("{}".format(C.txt_head2), True, C.text_color)
+        self.game_display.blit(txt_head, C.txt_head1_pos)
+        self.game_display.blit(txt_head2, C.txt_head2_pos)
+
+        font2 = pygame.font.SysFont(C.font, C.size)
+
+        txt_fitness_bf = font2.render("fitness: {}".format(BruteForce.best[1]), True, C.text_color)
+        txt_fitness_ga = font2.render("fitness: {}".format(self.population.best.fitness), True, C.text_color)
+        self.game_display.blit(txt_fitness_bf, C.txt_text_bf_pos)
+        self.game_display.blit(txt_fitness_ga, C.txt_text_ga_pos)
+
+    def initialize_buttons(self):
+        self.restart_button = Button(self.game_display, C.btn_pos, C.btn_width, C.btn_height, C.btn_color, C.rb_text,
+                                     C.btn_txt_size, C.btn_text_color, mod=2, border=C.btn_border_color, extend=True)
+
+    def update_buttons(self):
+        if self.restart_button.clicked(self.mouse_click):
+            self.cities = [City(self.game_display, self.width, self.height, C.city_color, C.city_radius)
+                           for i in range(C.city_amount)]
+            self.population = Population(C.max_population, C.mutation_rate, self.cities)
+            BruteForce.best = ([], 0)
+            self.bf_route = BruteForce.initialize_route(C.city_amount)
+            self.count = 0
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
             self.game_exit = True
+
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            self.mouse_click = True
 
 
 def main():

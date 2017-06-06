@@ -92,7 +92,7 @@ class Population:
 
         This would obviously break everything
 
-        Because of that it chooses 3 routes (a, b, c) by chance from the pool.
+        Because of that, it chooses 3 routes (a, b, c) by chance from the pool.
         If one number occurs more often then the others in the same index
         this number will be chosen as value for the child
 

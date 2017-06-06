@@ -1,6 +1,7 @@
 import pygame
 import pygame.gfxdraw
 from random import randint
+from Constants import C
 
 
 class City:
@@ -12,8 +13,8 @@ class City:
         self.color = color
         self.radius = radius
 
-        self.x = randint(self.radius*2 + 5, self.width - 2*self.radius - 5)
-        self.y = randint(self.radius*2 + 5, self.height - 2*self.radius - 5)
+        self.x = randint(self.radius*2 + C.border, 0.75*(self.width - 2*self.radius) - C.border)
+        self.y = randint(self.radius*2 + C.border, 0.5*(self.height - 2*self.radius) - C.border)
 
         self.pos = self.x, self.y
 
