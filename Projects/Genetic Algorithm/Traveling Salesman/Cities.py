@@ -30,4 +30,4 @@ class City:
 
     def draw_city(self):
         # pygame.draw.circle(self.surface, self.color, (self.x, self.y), self.radius)
-        pygame.gfxdraw.aacircle(self.surface, self.x, self.y, self.radius, self.color)
+        pygame.gfxdraw.aacircle(self.surface, self.pos[0], self.pos[1], self.radius, self.color)

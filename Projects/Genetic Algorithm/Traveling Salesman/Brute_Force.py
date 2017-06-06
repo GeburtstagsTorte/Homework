@@ -32,7 +32,8 @@ class BruteForce:
     @staticmethod
     def draw_route(surface, cities, route, color=(200, 0, 0)):
         for i in range(len(route)-1):
-            pygame.draw.aaline(surface, color, cities[route[i]].pos, cities[route[i+1]].pos)
+            pygame.draw.aaline(surface, color, (cities[route[i]].pos[0], cities[route[i]].pos[1]),
+                               (cities[route[i+1]].pos[0], cities[route[i+1]].pos[1]))
 
     @staticmethod
     def find_largest_i(route):
