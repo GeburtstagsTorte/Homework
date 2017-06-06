@@ -24,8 +24,8 @@ class Route:
 
     @staticmethod
     def draw_routes(surface, color, route, cities):
-        for i in range(len(route.genes)-1):
-            pygame.draw.aaline(surface, color, cities[route.genes[i]].pos, cities[route.genes[i+1]].pos)
+        for i in range(len(route)-1):
+            pygame.draw.aaline(surface, color, cities[route[i]].pos, cities[route[i+1]].pos)
 
     @staticmethod
     def draw_best_route(surface, route, cities, color=(150, 0, 200), width=1):
@@ -36,11 +36,11 @@ class Route:
     @staticmethod
     def draw_ga_only(surface, color, route, cities):
         for city in cities:
-            pygame.gfxdraw.aacircle(surface, city.x, city.y + int(0.5*C.height), C.city_radius, C.city_color)
+            pygame.gfxdraw.aacircle(surface, city.pos[0], city.pos[1] + int(0.5*C.height), C.city_radius, C.city_color)
 
         for i in range(len(route)-1):
-            pygame.draw.aaline(surface, color, (cities[route[i]].x, cities[route[i]].y + int(0.5*C.height)),
-                               (cities[route[i+1]].x, cities[route[i+1]].y + int(0.5*C.height)))
+            pygame.draw.aaline(surface, color, (cities[route[i]].pos[0], cities[route[i]].pos[1] + int(0.5*C.height)),
+                               (cities[route[i+1]].pos[0], cities[route[i+1]].pos[1] + int(0.5*C.height)))
 
     @staticmethod
     def multiple_crossover(a, b):

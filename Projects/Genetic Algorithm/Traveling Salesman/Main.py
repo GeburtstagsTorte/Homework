@@ -1,4 +1,13 @@
+"""
+TO DO:
+
+    [] Brute Force bug fix
+    [] Match results
+    [] center cities
+
+"""
 import pygame
+import decimal
 from Constants import C
 from Cities import City
 from Population import Population
@@ -6,6 +15,7 @@ from Route import Route
 from Brute_Force import BruteForce
 from math import factorial
 from Button import Button
+from textbox import CenterBox
 
 
 class Game:
@@ -81,8 +91,8 @@ class Game:
     def handle_text(self):
         font = pygame.font.SysFont(C.font, C.head_size)
 
-        txt_head = font.render("{} {}%".format(C.txt_head1, round(self.count/factorial(C.city_amount), 1)*100),
-                               True, C.text_color)
+        txt_head = font.render("{} {}%".format(C.txt_head1, round(decimal.Decimal((self.count-1)/factorial(C.city_amount)
+                                                                                  * 100), 2)), True, C.text_color)
         txt_head2 = font.render("{}".format(C.txt_head2), True, C.text_color)
         self.game_display.blit(txt_head, C.txt_head1_pos)
         self.game_display.blit(txt_head2, C.txt_head2_pos)
@@ -94,14 +104,29 @@ class Game:
         self.game_display.blit(txt_fitness_bf, C.txt_text_bf_pos)
         self.game_display.blit(txt_fitness_ga, C.txt_text_ga_pos)
 
+    def scale_cities(self):
+        pos_list = [i.pos for i in self.cities]
+        max_width, max_height = CenterBox.identify_max_length(pos_list)
+        start_pos = CenterBox.identify_pos(pos_list)
+
+        d_pos = CenterBox.scale_pos(start_pos, C.frame1_pos, max_width, max_height, C.frame1_width, C.frame1_height, 1)
+        print(d_pos)
+
+        for city in self.cities:
+            city.pos = (city.pos[0] + d_pos[0], city.pos[1] + d_pos[1])
+            city.x = city.pos[0] + d_pos[0]
+            city.y = city.pos[1] + d_pos[1]
+        return self.cities
+
     def initialize_buttons(self):
         self.restart_button = Button(self.game_display, C.btn_pos, C.btn_width, C.btn_height, C.btn_color, C.rb_text,
-                                     C.btn_txt_size, C.btn_text_color, mod=2, border=C.btn_border_color, extend=True)
+                                     C.btn_txt_size, C.btn_text_color, mod=2, border=C.btn_border_color)
 
     def update_buttons(self):
         if self.restart_button.clicked(self.mouse_click):
             self.cities = [City(self.game_display, self.width, self.height, C.city_color, C.city_radius)
                            for i in range(C.city_amount)]
+            self.scale_cities()
             self.population = Population(C.max_population, C.mutation_rate, self.cities)
             BruteForce.best = ([], 0)
             self.bf_route = BruteForce.initialize_route(C.city_amount)
