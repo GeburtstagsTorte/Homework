@@ -187,8 +187,6 @@ class CenterBox:
         frame_center_pos = (frame_pos[0] + frame_width // 2, frame_pos[1] + frame_height // 2)
         box_center_pos = (start_pos[0] + max_width // 2, start_pos[1] + max_height // 2)
 
-        print(frame_center_pos, box_center_pos)
-
         if mod == 0:
             return start_pos[0] + frame_center_pos[0] - box_center_pos[0], \
                    start_pos[1] + frame_center_pos[1] - box_center_pos[1]

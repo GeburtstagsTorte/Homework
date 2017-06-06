@@ -1,9 +1,9 @@
 """
 TO DO:
 
-    [] Brute Force bug fix
+    [x] Brute Force bug fix
     [] Match results
-    [] center cities
+    [x] center cities
 
 """
 import pygame
@@ -41,7 +41,7 @@ class Game:
         self.population = Population(C.max_population, C.mutation_rate, self.cities)
         self.bf_route = BruteForce.initialize_route(C.city_amount)
         BruteForce.calculate_best(self.bf_route, self.cities)
-        self.count = 0
+        self.count = 1
 
         self.initialize_buttons()
         self.main_loop()
@@ -77,9 +77,11 @@ class Game:
             self.record = self.population.best
         self.population.update()
 
-        if self.count <= factorial(C.city_amount):
+        BruteForce.calculate_best(self.bf_route, self.cities)
+        if self.count < factorial(C.city_amount):
             self.bf_route = BruteForce.permute(self.bf_route, self.cities)
             self.count += 1
+
         self.update_buttons()
 
     def structure(self):
@@ -91,7 +93,7 @@ class Game:
     def handle_text(self):
         font = pygame.font.SysFont(C.font, C.head_size)
 
-        txt_head = font.render("{} {}%".format(C.txt_head1, round(decimal.Decimal((self.count-1)/factorial(C.city_amount)
+        txt_head = font.render("{} {}%".format(C.txt_head1, round(decimal.Decimal(self.count/factorial(C.city_amount)
                                                                                   * 100), 2)), True, C.text_color)
         txt_head2 = font.render("{}".format(C.txt_head2), True, C.text_color)
         self.game_display.blit(txt_head, C.txt_head1_pos)
@@ -110,7 +112,6 @@ class Game:
         start_pos = CenterBox.identify_pos(pos_list)
 
         d_pos = CenterBox.scale_pos(start_pos, C.frame1_pos, max_width, max_height, C.frame1_width, C.frame1_height, 1)
-        print(max_height, max_width, start_pos, d_pos)
 
         for city in self.cities:
             city.pos = (city.pos[0] + d_pos[0], city.pos[1] + d_pos[1])
@@ -129,7 +130,7 @@ class Game:
             self.population = Population(C.max_population, C.mutation_rate, self.cities)
             BruteForce.best = ([], 0)
             self.bf_route = BruteForce.initialize_route(C.city_amount)
-            self.count = 0
+            self.count = 1
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:

@@ -22,7 +22,7 @@ class C:
     frame2_width = int(0.75*width)
     frame2_height = int(0.5*height)
     # Cities/dots
-    city_amount = 9
+    city_amount = 5
     city_radius = 6
     city_color = (255, 255, 255)
     border = 5

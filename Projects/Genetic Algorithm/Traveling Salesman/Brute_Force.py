@@ -15,12 +15,13 @@ class BruteForce:
 
     @staticmethod
     def calculate_best(route, cities):
+
         d = 0
         for i in range(len(route)-1):
             d += sqrt((cities[route[i]].x - cities[route[i+1]].x)**2 + (cities[route[i]].y - cities[route[i+1]].y)**2)
 
         d = (1 / d) * 10 ** 3
-
+        print(d)
         if d > BruteForce.best[1]:
             BruteForce.best = (route, d)
 
@@ -87,8 +88,8 @@ class BruteForce:
 
             return BruteForce.reverse_list(r, i)
             # BruteForce.current_route = BruteForce.reverse_list(r, i)
-"""
-import math
+
+"""import math
 x = [0, 1, 2]
 for i in range(math.factorial(len(x))+1):
     print(x)
