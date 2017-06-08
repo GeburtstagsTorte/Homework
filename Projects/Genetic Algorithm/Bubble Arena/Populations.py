@@ -49,3 +49,6 @@ class Populations:
 
     def reproduction(self):
         pass
+
+    def mutation(self):
+        pass

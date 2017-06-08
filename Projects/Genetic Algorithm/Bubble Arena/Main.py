@@ -40,6 +40,7 @@ class Game:
         Obj.btn_pause.render()
         Obj.btn_restart.render()
         Obj.render_bubbles(game_display)
+        Obj.render_food(game_display)
 
     def update(self):
         if Obj.btn_pause.clicked(self.mouse_click):
@@ -51,10 +52,17 @@ class Game:
                 Obj.btn_pause.text = C.ps_text
 
         if Obj.btn_restart.clicked(self.mouse_click):
-            Obj.bubbles = []
+            Obj.time = 0
+            Obj.n = 0
+            Obj.bbl1, Obj.bbl2, Obj.bbl3, Obj.bubbles, Obj.food = [], [], [], [], []
             Obj.init_bubbles(C.quantity, C.q_bubble)
 
         if not self.game_pause:
+            if Obj.time == C.year:
+                Obj.time = 0
+            else:
+                Obj.time += 1
+            Obj.update_food(C.chance, C.fd_max_quantity)
             Obj.update_bubbles()
 
     def handle_keys(self, event):

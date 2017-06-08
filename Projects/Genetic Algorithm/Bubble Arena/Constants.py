@@ -32,7 +32,10 @@ class Constants:
     # text
 
     # bubbles
-    quantity = 30
+    year = 120
+    hungry = 10
+    default_decrease = 5
+    quantity = 15
     q_bubble = 3
     default_hp = 100
 
@@ -50,5 +53,14 @@ class Constants:
     bbl3_speed = 3
     bbl3_color = (96, 96, 96)
     bbl3_species = 3
+
+    # food
+    fd_width = 7
+    fd_height = 7
+    chance = 20
+    fd_color = (0, 76, 153)     # (0, 102, 204)
+    fd_max_quantity = 5
+    poison_color = (51, 255, 51)
+    fd_health = 10
 
     # GA

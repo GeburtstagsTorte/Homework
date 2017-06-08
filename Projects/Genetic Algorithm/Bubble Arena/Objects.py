@@ -3,6 +3,7 @@ from random import randint
 from Button import Button as Btn
 from Constants import Constants as C
 from Bubbles import Bubbles as Bbl
+from Bubbles import Food
 
 
 class Objects:
@@ -15,6 +16,7 @@ class Objects:
     bbl3 = []
     food = []
     n = 0
+    time = 0
 
     def __init__(self):
         pass
@@ -56,6 +58,19 @@ class Objects:
     def update_bubbles():
         Objects.n += 1
         for bubble in Objects.bubbles:
+            if Objects.time == C.year:
+                bubble.age += 1
+            elif Objects.time == C.hungry:
+                bubble.hp -= C.default_decrease
+
+            for food in Objects.food:
+                if food.collide((bubble.x, bubble.y), bubble.radius):
+                    bubble.hp += food.health
+                    del Objects.food[Objects.food.index(food)]
+            if bubble.hp <= 0:
+                Objects.food.append(Food.spawn_food(bubble.x, bubble.y))
+                del Objects.bubbles[Objects.bubbles.index(bubble)]
+
             if C.border + bubble.radius <= bubble.x + bubble.current_vec[0] <= C.width - C.border - bubble.radius:
                 bubble.x += bubble.current_vec[0]
             else:
@@ -68,10 +83,25 @@ class Objects:
 
             if Objects.n == C.frm_rate:
                 bubble.current_vec = Bbl.move(bubble.speed)
+
         if Objects.n == C.frm_rate:
             Objects.n = 0
+
+    @staticmethod
+    def update_food(chance, max_quantity):
+        if len(Objects.food) < max_quantity:
+            if randint(0, 100) < chance:
+                Objects.food.append(Food(food=False))
+            else:
+                Objects.food.append(Food())
 
     @staticmethod
     def render_bubbles(game_display):
         for bubble in Objects.bubbles:
             pygame.draw.circle(game_display, bubble.color, (bubble.x, bubble.y), bubble.radius)
+
+    @staticmethod
+    def render_food(game_display):
+        for food in Objects.food:
+            pygame.draw.rect(game_display, food.color, (food.x, food.y, food.width, food.height))
+

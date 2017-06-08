@@ -1,5 +1,6 @@
 from Constants import Constants as C
 from random import randint
+from math import pi, cos, sin
 
 
 class Bubbles:
@@ -49,20 +50,43 @@ class Bubbles:
         return x, y
 
     @staticmethod
-    def collide(pos1, pos2, radius):
-        pass
-
-    def update(self):
-        pass
+    def collide(pos1, pos2, radius1, radius2):
+        if (pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2 <= (radius1 + radius2) ** 2:
+            return True
+        return False
 
 
 class Food:
 
-    def food(self):
-        pass
+    def __init__(self, food=True, x=0, y=0):
+        self.food = food
+        self.width = C.fd_width
+        self.height = C.fd_height
+        if x == 0 and y == 0:
+            self.x = randint(C.border + C.fd_width, C.width - C.border - C.fd_width)
+            self.y = randint(C.border + C.fd_height, int(C.st_proportion * C.height) - C.border - C.fd_height)
+        else:
+            self.x = x
+            self.y = y
 
-    def poison(self):
-        pass
+        self.color = C.fd_color
+        self.health = C.fd_health
+        if not self.food:
+            self.health *= -1
+            self.color = C.poison_color
 
-    def collide(self):
-        pass
+    @staticmethod
+    def spawn_food(x, y):
+        return Food(x=x, y=y)
+
+    @staticmethod
+    def spawn_poison():
+        return Food(food=False)
+
+    def collide(self, pos2, radius2):
+        for i in range(180):
+            x = pos2[0] + radius2 * cos(i * pi / 180)
+            y = pos2[1] + radius2 * sin(i * pi / 180)
+            if self.x <= x <= self.x + C.fd_width and self.y <= y <= self.y + C.fd_height:
+                return True
+        return False
