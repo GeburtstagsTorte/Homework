@@ -1,7 +1,7 @@
 from itertools import permutations
 from math import sqrt
-from textbox import CenterBox
-from Constants import C
+# from textbox import CenterBox
+# from Constants import C
 import pygame
 
 
@@ -21,7 +21,6 @@ class BruteForce:
             d += sqrt((cities[route[i]].x - cities[route[i+1]].x)**2 + (cities[route[i]].y - cities[route[i+1]].y)**2)
 
         d = (1 / d) * 10 ** 3
-        print(d)
         if d > BruteForce.best[1]:
             BruteForce.best = (route, d)
 
@@ -74,6 +73,12 @@ class BruteForce:
     def permute(route, cities):
 
         """
+        >Find the largest x such that P[x]<P[x+1].
+        (If there is no such x, P is the last permutation.)
+        >Find the largest y such that P[x]<P[y].
+        >Swap P[x] and P[y].
+        >Reverse P[x+1 .. n].
+
         https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
 
         """

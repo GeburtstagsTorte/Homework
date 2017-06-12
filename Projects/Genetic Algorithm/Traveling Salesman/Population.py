@@ -8,6 +8,9 @@ class Population:
 
     population = []
     generation = 0
+    last_gen = 0
+    count = 0
+    last_count = 0
 
     def __init__(self, max_population, mutation_rate, cities):
         self.max_population = max_population
@@ -39,7 +42,10 @@ class Population:
                                      (self.cities[route.genes[i]].y - self.cities[route.genes[i+1]].y) ** 2)
 
             route.fitness = (1 / distance_sum) * 10**3
-            self.best = route if route.fitness > self.best.fitness else self.best
+            if route.fitness > self.best.fitness:
+                self.best = route
+                self.last_gen = self.generation
+                self.last_count = self.count
 
     def selection(self):
         """

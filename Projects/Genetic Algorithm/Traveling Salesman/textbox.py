@@ -71,10 +71,12 @@ class TextBoxInput:
     current_input = ""
     write_enabled = False
     # bar_pos = ()
+    bar_show = False
     visible = True
+    wait = 10 ** 5
 
     def __init__(self, surface, pos, width, height,
-                 color=(255, 255, 255), border_color=(0, 0, 0), typeface='Arial', text_color=(0, 0, 0), mod=1,
+                 color=(255, 255, 255), border_color=(0, 0, 0), typeface='Arial', text_color=(0, 0, 0), mod=0,
                  button=True, button_length=None, button_text='Enter'):
         self.surface = surface
         self.pos = list(pos)
@@ -95,47 +97,64 @@ class TextBoxInput:
         if self.button_length is None:
             self.button_length = self.width // 4
 
-        if self.button:
+        if self.button and mod == 1:
             self.enter_button = Button(self.surface, (self.pos[0] + self.width, self.pos[1]),
                                        self.button_length, self.height, self.color, self.button_text, self.size,
                                        self.text_color, self.typeface, mod=2, border=self.border_color)
+
+        if self.button and mod == 0:
+            self.enter_button = Button(self.surface, (self.pos[0] + self.width, self.pos[1]),
+                                       self.button_length, self.height, self.color, self.button_text, self.size,
+                                       self.text_color, self.typeface, mod=1, border=self.border_color)
 
         # self.bar_pos = (self.pos[0], self.pos[1] + 1)
         self.font = pygame.font.SysFont(self.typeface, self.size)
 
     def render(self):
         if self.visible:
-            pygame.draw.rect(self.surface, self.border_color, (self.pos[0], self.pos[1]-1, self.width + 1,
-                                                               self.height + 2))
-            pygame.draw.circle(self.surface, self.border_color, [self.pos[0], self.pos[1] + self.height // 2],
-                               self.height // 2 + 1)
-            pygame.draw.circle(self.surface, self.border_color, [self.pos[0] + self.width,
-                                                                 self.pos[1] + self.height // 2], self.height // 2 + 1)
+            if self.mod == 0:
+                pygame.draw.rect(self.surface, self.border_color, (self.pos[0] - 1, self.pos[1] - 1, self.width + 2,
+                                                                   self.height + 2))
+                pygame.draw.rect(self.surface, self.color, (self.pos[0], self.pos[1], self.width, self.height))
 
-            pygame.draw.circle(self.surface, self.color, [self.pos[0], self.pos[1] + self.height // 2], self.height//2)
-            pygame.draw.circle(self.surface, self.color, [self.pos[0] + self.width, self.pos[1] + self.height // 2],
-                               self.height // 2)
-            pygame.draw.rect(self.surface, self.color, (self.pos[0], self.pos[1], self.width, self.height))
+            if self.mod == 1:
+                pygame.draw.rect(self.surface, self.border_color, (self.pos[0], self.pos[1]-1, self.width + 1,
+                                                                   self.height + 2))
+                pygame.draw.circle(self.surface, self.border_color, [self.pos[0], self.pos[1] + self.height // 2],
+                                   self.height // 2 + 1)
+                pygame.draw.circle(self.surface, self.border_color, [self.pos[0] + self.width, self.pos[1] +
+                                                                     self.height // 2], self.height // 2 + 1)
+
+                pygame.draw.circle(self.surface, self.color, [self.pos[0], self.pos[1] + self.height // 2],
+                                   self.height // 2)
+                pygame.draw.circle(self.surface, self.color, [self.pos[0] + self.width, self.pos[1] + self.height // 2],
+                                   self.height // 2)
+                pygame.draw.rect(self.surface, self.color, (self.pos[0], self.pos[1], self.width, self.height))
+
             if self.button:
                 self.enter_button.render()
 
             txt = self.font.render(self.current_input, True, self.text_color)
             txt_rect = txt.get_rect()
 
-            if txt_rect[2] >= self.width:
+            if txt_rect[2] + 10 + self.height * self.mod >= self.width:
                 self.write_enabled = False
             self.surface.blit(txt, (self.pos[0], self.pos[1] - 1))
 
-            if self.write_enabled:
+            if self.bar_show:
                 pygame.draw.line(self.surface, self.text_color, (self.pos[0] + txt_rect[2], self.pos[1] + 2),
                                  (self.pos[0] + txt_rect[2], self.pos[1] + txt_rect[3] - 2))
+            # self.bar_show = False if self.bar_show else True  # fps..
 
     def update(self, mouse_click):
         if self.collide() and mouse_click and self.visible:
             self.write_enabled = True
+            self.bar_show = True
 
         if not self.collide() and mouse_click and self.visible:
             self.write_enabled = False
+            self.bar_show = False
+
         if self.button:
             if self.enter_button.clicked(mouse_click):
                 self.write_enabled = False
@@ -146,6 +165,12 @@ class TextBoxInput:
     def handle_keys(self, event):
 
         if event.type == pygame.KEYDOWN:
+
+            """while pygame.key.get_pressed()[8] and len(self.current_input) >= 1:
+                l = list(self.current_input)
+
+                del l[len(l) - 1]
+                self.current_input = ''.join(l)"""
             if event.key == 8 and len(self.current_input) >= 1:
                 l = list(self.current_input)
 
@@ -155,6 +180,7 @@ class TextBoxInput:
             if self.write_enabled:
                 if event.key == 13:
                     self.write_enabled = False
+                    self.bar_show = False
                     self.input = self.current_input
 
                 elif event.key != 13 and event.key != 8:
@@ -231,30 +257,32 @@ def main():
     screen = pygame.display.set_mode((500, 300), pygame.SRCALPHA)
     game_exit = False
     mouse_click = False
-    textbox_input = TextBoxInput(screen, (50, 50), 200, 40, typeface='Arial', button=True, button_length=120)
+    textbox_input = TextBoxInput(screen, (50, 50), 200, 40, typeface='Arial', button=False, button_length=120, mod=0)
     x = 110
     y = 70
     frame_pos = 10, 10
     frame_x, frame_y = 150, 100
+    # clock = pygame.time.Clock()
 
     while not game_exit:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_exit = True
-            # textbox_input.handle_keys(event)
+            textbox_input.handle_keys(event)
             mouse_click = False
             if event.type == pygame.MOUSEBUTTONUP:
                 mouse_click = True
 
         screen.fill((255, 255, 255))
-        pygame.draw.rect(screen, (0, 0, 0), (10, 10, frame_x, frame_y))
-        pygame.draw.rect(screen, (255, 0, 0), (CenterBox.scale_pos((15, 20), frame_pos, x, y, frame_x, frame_y)[0], CenterBox.scale_pos((15, 20), frame_pos, x, y, frame_x, frame_y)[1], 110, 70))
-        # textbox_input.render()
-        # textbox_input.update(mouse_click)
-        """if textbox_input.input is not None:
-            print(textbox_input.input)"""
+        # pygame.draw.rect(screen, (0, 0, 0), (10, 10, frame_x, frame_y))
+        # pygame.draw.rect(screen, (255, 0, 0), (CenterBox.scale_pos((15, 20), frame_pos, x, y, frame_x, frame_y)[0], CenterBox.scale_pos((15, 20), frame_pos, x, y, frame_x, frame_y)[1], 110, 70))
+        textbox_input.render()
+        textbox_input.update(mouse_click)
+        if textbox_input.input is not None:
+            print(textbox_input.input)
 
         pygame.display.update()
+        # clock.tick(2)
     pygame.quit()
     quit()
 

@@ -4,8 +4,12 @@ TO DO:
     [x] Brute Force bug fix
     [] Match results
     [x] center cities
+    [] information
+        > GA: last change -> generation, percentage, distance
+    [] difference between GA and BF in percentage
 
 """
+
 import pygame
 import decimal
 from Constants import C
@@ -19,7 +23,7 @@ from textbox import CenterBox
 
 
 class Game:
-    clock = pygame.time.Clock()
+
     game_exit = False
     mouse_click = False
     cities = []
@@ -57,7 +61,6 @@ class Game:
             pygame.display.update()
             self.update()
             self.mouse_click = False
-            self.clock.tick(60)
 
     def render(self):
         self.structure()
@@ -81,8 +84,19 @@ class Game:
         if self.count < factorial(C.city_amount):
             self.bf_route = BruteForce.permute(self.bf_route, self.cities)
             self.count += 1
+            self.population.count += 1
 
         self.update_buttons()
+
+    def update_buttons(self):
+        if self.restart_button.clicked(self.mouse_click):
+            self.cities = [City(self.game_display, self.width, self.height, C.city_color, C.city_radius)
+                           for i in range(C.city_amount)]
+            self.scale_cities()
+            self.population = Population(C.max_population, C.mutation_rate, self.cities)
+            BruteForce.best = ([], 0)
+            self.bf_route = BruteForce.initialize_route(C.city_amount)
+            self.count = 1
 
     def structure(self):
         pygame.draw.line(self.game_display, C.structure_color, (0.75*self.width, 0), (0.75*self.width, self.height),
@@ -101,10 +115,46 @@ class Game:
 
         font2 = pygame.font.SysFont(C.font, C.size)
 
-        txt_fitness_bf = font2.render("fitness: {}".format(BruteForce.best[1]), True, C.text_color)
-        txt_fitness_ga = font2.render("fitness: {}".format(self.population.best.fitness), True, C.text_color)
-        self.game_display.blit(txt_fitness_bf, C.txt_text_bf_pos)
-        self.game_display.blit(txt_fitness_ga, C.txt_text_ga_pos)
+        # txt_fitness_bf = font2.render("fitness: {}".format(BruteForce.best[1]), True, C.text_color)
+        # txt_fitness_ga = font2.render("fitness: {}".format(self.population.best.fitness), True, C.text_color)
+        # self.game_display.blit(txt_fitness_bf, C.txt_text_bf_pos)
+        # self.game_display.blit(txt_fitness_ga, C.txt_text_ga_pos)
+
+        bf_label_list = []
+        ga_label_list = []
+
+        if BruteForce.best[1] > 0 and self.population.best.fitness > 0:
+            bf_information_list = [
+                "fitness      : {}".format(round(decimal.Decimal(BruteForce.best[1]), 7)),
+                "distance     : {}".format(round(decimal.Decimal(1 / BruteForce.best[1]), 7)),
+                "discrepancy  : {}%".format((round(decimal.Decimal((self.population.best.fitness - BruteForce.best[1]) /
+                                                   self.population.best.fitness * 100), 3)))
+            ]
+
+            ga_information_list = [
+                "fitness      : {}".format(round(decimal.Decimal(self.population.best.fitness), 7)),
+                "distance     : {}".format(round(decimal.Decimal(1 / self.population.best.fitness), 7)),
+                "mutation rate: {}".format(C.mutation_rate),
+                "population   : {}".format(C.max_population),
+                "last change:",
+                "generation   : {}".format(self.population.last_gen),
+                "percentage   : {}%".format(round(decimal.Decimal(self.population.last_count/factorial(C.city_amount)
+                                                                  * 100), 2))
+            ]
+
+            for line in bf_information_list:
+                bf_label_list.append(font2.render(line, True, C.text_color))
+
+            for line in ga_information_list:
+                ga_label_list.append(font2.render(line, True, C.text_color))
+
+            for line in range(len(bf_label_list)):
+                self.game_display.blit(bf_label_list[line], (C.txt_text_bf_pos[0], C.txt_text_bf_pos[1] + 10*line +
+                                                             line*C.size))
+
+            for line in range(len(ga_label_list)):
+                self.game_display.blit(ga_label_list[line], (C.txt_text_ga_pos[0], C.txt_text_ga_pos[1] + 10*line +
+                                                             line*C.size))
 
     def scale_cities(self):
         pos_list = [i.pos for i in self.cities]
@@ -121,16 +171,6 @@ class Game:
     def initialize_buttons(self):
         self.restart_button = Button(self.game_display, C.btn_pos, C.btn_width, C.btn_height, C.btn_color, C.rb_text,
                                      C.btn_txt_size, C.btn_text_color, mod=2, border=C.btn_border_color)
-
-    def update_buttons(self):
-        if self.restart_button.clicked(self.mouse_click):
-            self.cities = [City(self.game_display, self.width, self.height, C.city_color, C.city_radius)
-                           for i in range(C.city_amount)]
-            self.scale_cities()
-            self.population = Population(C.max_population, C.mutation_rate, self.cities)
-            BruteForce.best = ([], 0)
-            self.bf_route = BruteForce.initialize_route(C.city_amount)
-            self.count = 1
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:

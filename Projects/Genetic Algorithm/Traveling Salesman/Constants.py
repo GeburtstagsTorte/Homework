@@ -6,12 +6,13 @@ class C:
     background_color = (20, 20, 20)
 
     # GA
-    max_population = 20
+    max_population = 100
     mutation_rate = 20
     GA_path_color = (0, 255, 128)  # (150, 0, 200)
 
     bf_color = (204, 141, 53)
     bf_route_color = (200, 0, 0)
+
     # structure
     structure_color = (255, 255, 255)
     st_width = 1
@@ -22,7 +23,7 @@ class C:
     frame2_width = int(0.75*width)
     frame2_height = int(0.5*height)
     # Cities/dots
-    city_amount = 5
+    city_amount = 6
     city_radius = 6
     city_color = (255, 255, 255)
     border = 5
