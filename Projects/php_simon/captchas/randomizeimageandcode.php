@@ -25,17 +25,21 @@ function createImage($cl_r, $cl_g, $cl_b, $code, $x=250, $y=75){
     imagejpeg($image, "current_img.jpeg"); 
     imagedestroy($image);
 }
+    
 session_start();
 $sessionid = session_id();
 $code = rand(1000, 9999);
-
-$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');          // session_id_len = 26
-$statement = $pdo->prepare('UPDATE session SET sessionid = :sessionid, code = :code WHERE id = 0');   // mit UPDATE immer die 
+    
+$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');         
+$statement = $pdo->prepare('UPDATE session SET sessionid = :sessionid, code = :code WHERE id = 0');   
 $statement->execute(array('sessionid'=>$sessionid, 'code'=>$code));
-
+    
 $c = randomizeColors();
 createImage($c[0], $c[1], $c[2], $code);
-
 ?>
 <img src="current_img.jpeg">
+<form action = "create_captcha_session.php" method = "post">
+<p><input name = "eingabe"> CAPTCHA Eingabe</p>
+<p><input type = "submit"> </p>
+</form>
 </body></html>
