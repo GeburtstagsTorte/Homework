@@ -5,6 +5,7 @@ import pygame
 class Game:
     clock = pygame.time.Clock()
     game_exit = False
+	mouse_click = False
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
         self.title = title
@@ -26,6 +27,7 @@ class Game:
             self.render(self.game_display)
             pygame.display.update()
             self.update()
+			self.mouse_click = False
             self.clock.tick(60)
 
     @staticmethod
@@ -40,6 +42,9 @@ class Game:
         if event.type == pygame.QUIT:
             self.game_exit = True
 
+		if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+			self.mouse_click = True
+			
     @staticmethod
     def render_graph(surface, color, start_pos, mid_pos, end_pos):
         pass
