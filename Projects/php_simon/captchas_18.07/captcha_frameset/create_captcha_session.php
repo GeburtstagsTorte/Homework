@@ -30,16 +30,16 @@ session_start();
 $sessionid = session_id();
 $code = rand(1000, 9999);
     
-$pdo = new PDO('mysql:host=localhost;dbname=test', 'root', '');         
+$pdo = new PDO('mysql:host=localhost;dbname=testdatenbank', 'root', '');         
 $statement = $pdo->prepare('UPDATE session SET sessionid = :sessionid, code = :code WHERE id = 0');   
 $statement->execute(array('sessionid'=>$sessionid, 'code'=>$code));
     
 $c = randomizeColors();
 createImage($c[0], $c[1], $c[2], $code);
 ?>
-<img src="current_img.jpeg">
-<form action = "create_captcha_session.php" method = "post">
-<p><input name = "eingabe"> CAPTCHA Eingabe</p>
-<p><input type = "submit"> </p>
+<p><img src="current_img.jpeg"></p>
+<form action = "check_input.php" method = "post" target="ausgabe">
+<p><input name = "eingabe" maxlength = "4"> CAPTCHA Eingabe</p>
+<p><input type = "submit" value = "Captcha absenden"> <input type = "reset"></p>
 </form>
 </body></html>
