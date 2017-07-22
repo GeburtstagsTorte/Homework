@@ -57,8 +57,11 @@ class Objects:
     def update(game_display):
 
         for i in range(len(Objects.segments) - 1, 0, -1):
-            Objects.segments[i].x = Objects.segments[i - 1].x
-            Objects.segments[i].y = Objects.segments[i - 1].y
+            if C.speed != 0:
+                Objects.segments[i].x = Objects.segments[i - 1].x
+                Objects.segments[i].y = Objects.segments[i - 1].y
+            else:
+                break
 
         Objects.segments[0].x += C.dir * C.is_x * C.speed
         Objects.segments[0].y += C.dir * C.is_y * C.speed
@@ -75,25 +78,25 @@ class Objects:
     @staticmethod
     def handle_keys(event):
         if event.type == pygame.KEYDOWN:
-            if event.key == 119:
+            if event.key == 119 or event.key == 273:
                 # w
                 C.dir = -1
                 C.is_x = False
                 C.is_y = True
 
-            if event.key == 97:
+            if event.key == 97 or event.key == 276:
                 # a
                 C.dir = -1
                 C.is_y = False
                 C.is_x = True
 
-            if event.key == 115:
+            if event.key == 115 or event.key == 274:
                 # s
                 C.dir = 1
                 C.is_x = False
                 C.is_y = True
 
-            if event.key == 100:
+            if event.key == 100 or event.key == 275:
                 # d
                 C.dir = 1
                 C.is_y = False
@@ -115,10 +118,11 @@ class Objects:
 
     @staticmethod
     def check_food_collision(game_display):
-        i = 0
         for segment in Objects.segments:
             if segment.x == Objects.food_x and segment.y == Objects.food_y:
-                Objects.add_segment(game_display, Objects.segments[i].x, Objects.segments[i].y)
+                for i in range(C.addition_rate):
+                    Objects.add_segment(game_display, Objects.segments[len(Objects.segments)-1].x,
+                                        Objects.segments[len(Objects.segments)-1].y)
+
                 Objects.food_x = randrange(0, C.width - C.length, C.length)
                 Objects.food_y = randrange(0, C.height - C.length, C.length)
-            i += 1

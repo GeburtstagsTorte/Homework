@@ -24,4 +24,5 @@ class Constants:
 
     # segments
     length = 20
+    addition_rate = 1
 
