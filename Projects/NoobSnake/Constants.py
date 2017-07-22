@@ -14,10 +14,10 @@ class Constants:
     blue = (0, 0, 255)
 
     grey = (32, 32, 32)
-    light_grey = (64, 64, 64)
+    light_grey = (164, 164, 164)
 
     # movement
-    speed = 3
+    speed = 20
     dir = -1
     is_x = False
     is_y = True

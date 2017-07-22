@@ -1,6 +1,6 @@
 import pygame
 from Constants import Constants as C
-from random import randint
+from random import randrange
 
 
 class Segment:
@@ -38,27 +38,39 @@ class Objects:
 
     segments = []
     # food = object
-    food_x = randint(10, C.height)
-    food_y = randint(10, C.width)
+    food_x = randrange(0, C.width - C.length, C.length)
+    food_y = randrange(0, C.height - C.length, C.length)
 
     def __init__(self, game_display):
-        Objects.segments.append(Objects.add_segment(game_display, C.width // 2, C.height // 2))
+        Objects.add_segment(game_display, C.width // 2, C.height // 2)
 
     @staticmethod
     def render(game_display):
         Food(Objects.food_x, Objects.food_y, game_display, C.red).render()
 
-        for segment in Objects.segments:
-            segment.render()
+        for i in range(len(Objects.segments)):
+            Objects.segments[i].render()
+
+        Objects.render_grid(game_display)
 
     @staticmethod
-    def update():
+    def update(game_display):
+
+        for i in range(len(Objects.segments) - 1, 0, -1):
+            Objects.segments[i].x = Objects.segments[i - 1].x
+            Objects.segments[i].y = Objects.segments[i - 1].y
+
         Objects.segments[0].x += C.dir * C.is_x * C.speed
         Objects.segments[0].y += C.dir * C.is_y * C.speed
 
+        if Objects.check_border():
+            C.speed = 0
+
+        Objects.check_food_collision(game_display)
+
     @staticmethod
     def add_segment(game_display, x, y):
-        return Segment(x, y, C.grey, game_display)
+        Objects.segments.append(Segment(x, y, C.grey, game_display))
 
     @staticmethod
     def handle_keys(event):
@@ -86,3 +98,27 @@ class Objects:
                 C.dir = 1
                 C.is_y = False
                 C.is_x = True
+
+    @staticmethod
+    def render_grid(surface):
+        for i in range(C.length, C.width, C.length):
+            pygame.draw.line(surface, C.light_grey, (i, 0), (i, C.height))
+        for i in range(C.length, C.height, C.length):
+            pygame.draw.line(surface, C.light_grey, (0, i), (C.width, i))
+
+    @staticmethod
+    def check_border():
+        if 0 > Objects.segments[0].x or Objects.segments[0].x > (C.width - C.length) or \
+                        0 > Objects.segments[0].y or Objects.segments[0].y > (C.height - C.length):
+            return True
+        return False
+
+    @staticmethod
+    def check_food_collision(game_display):
+        i = 0
+        for segment in Objects.segments:
+            if segment.x == Objects.food_x and segment.y == Objects.food_y:
+                Objects.add_segment(game_display, Objects.segments[i].x, Objects.segments[i].y)
+                Objects.food_x = randrange(0, C.width - C.length, C.length)
+                Objects.food_y = randrange(0, C.height - C.length, C.length)
+            i += 1

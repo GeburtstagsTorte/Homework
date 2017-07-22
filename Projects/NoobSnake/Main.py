@@ -30,14 +30,13 @@ class Game:
             pygame.display.update()
             self.update()
             self.mouse_click = False
-            self.clock.tick(60)
+            self.clock.tick(15)
 
     def render(self):
         Obj.render(self.game_display)
 
-    @staticmethod
-    def update():
-        Obj.update()
+    def update(self):
+        Obj.update(self.game_display)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
@@ -47,10 +46,6 @@ class Game:
             self.mouse_click = True
 
         Obj.handle_keys(event)
-
-    @staticmethod
-    def render_graph(surface, color, start_pos, mid_pos, end_pos):
-        pass
 
 
 def main():
