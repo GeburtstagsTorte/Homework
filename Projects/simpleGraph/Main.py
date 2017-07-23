@@ -30,7 +30,7 @@ class Game:
 
     @staticmethod
     def render(game_display):
-        graph = SimpleGraph(600, 400, values=[(1, 2), (3, 4), (5, 3), (10, 6), (5, 5), (1, 1), (4, 3)])
+        graph = SimpleGraph(600, 400, values=[(0, 8), (1, 1), (2, 2), (3, 5), (4, 6)])
         graph.render(surface=game_display)
 
     @staticmethod

@@ -13,14 +13,13 @@ class Constants:
     green = (0, 255, 0)
     blue = (0, 0, 255)
 
-    grey = (32, 32, 32)
+    dark_grey = (32, 32, 32)
+    grey = (64, 64, 64)
     light_grey = (164, 164, 164)
 
     # movement
     speed = 20
-    dir = -1
-    is_x = False
-    is_y = True
+    dir = (0, -1)
 
     # segments
     length = 20

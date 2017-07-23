@@ -4,13 +4,17 @@
 """
 
 import pygame
-from GraphConstants import Constants as C
+# from GraphConstants import Constants as C
 
 
 class SimpleGraph:
 
     def __init__(self, length, height, pos=(0, 0), step=1, style='default', caption=None, font='Courier New', size=10,
                  txt_color=(0, 0, 0), color=(0, 0, 0), stand_alone=False, values=None, units=None):
+        """
+            add Constant values in init
+        """
+
         self.length = length
         self.height = height
         self.pos = pos
@@ -30,6 +34,8 @@ class SimpleGraph:
 
         self.origin = (self.pos[0] + C.border, self.pos[1] + C.border + self.height)
 
+        self.show_dots = False
+
         if self.style == 'default':
             pass
 
@@ -41,21 +47,15 @@ class SimpleGraph:
         if self.stand_alone:
             pass
 
-        """if self.values is None:
-            pass
-        elif list(self.values) or tuple(self.values):
-            self.values = SimpleGraph.check_values(x_values=self.values[0], y_values=self.values[1])
-        elif str(self.values):
-            self.values = SimpleGraph.import_values(self.values)
-        else:
-            self.values = SimpleGraph.check_values(values=values)
-        """
-        self.transformed_values = self.transform_values()
+        self.transformed_values = sorted(self.transform_values(self.values, self.length, self.height, self.origin))
 
     def update(self):
         pass
 
     def render(self, surface=None):
+        """
+            optimize fluid rendering
+        """
         if surface is None:
             return 'Error: No surface given.'
 
@@ -66,11 +66,15 @@ class SimpleGraph:
                          (self.pos[0] + self.length + C.border, self.pos[1] + C.border + self.height), C.axis_width)
 
         # render units
-        self.render_units(surface=surface)
+        self.render_units(surface)
         # render caption
 
         # render values
-        self.render_values(surface=surface)
+        if self.show_dots:
+            self.render_values(surface)
+
+        # connect values
+        self.connect_values(surface)
 
     def render_units(self, surface=None):
         # x unit
@@ -97,6 +101,15 @@ class SimpleGraph:
         for value in self.transformed_values:
             pygame.draw.circle(surface, C.graph_color, value, C.graph_rad)
 
+    def connect_values(self, surface=None):
+        """
+            sorting x values such that lowest x is first and highest x is last
+            drawing lines where the first x value is the start pos and the second the end pos
+        """
+
+        for i in range(len(self.transformed_values)-1):
+            pygame.draw.aaline(surface, self.color, self.transformed_values[i], self.transformed_values[i+1])
+
     @staticmethod
     def unit(values, length, height):
         max_x = 0
@@ -109,13 +122,14 @@ class SimpleGraph:
 
         return length / max_x, height / max_y, max_x, max_y
 
-    def transform_values(self):
-        x_ratio = SimpleGraph.unit(self.values, self.length, self.height)[0]
-        y_ratio = SimpleGraph.unit(self.values, self.length, self.height)[1]
+    @staticmethod
+    def transform_values(values, length, height, origin):
+        x_ratio = SimpleGraph.unit(values, length, height)[0]
+        y_ratio = SimpleGraph.unit(values, length, height)[1]
         val = []
-        for i in range(len(self.values)):
-            x, y = self.values[i][0], self.values[i][1]
-            val.append((self.origin[0] + int(x * x_ratio), self.origin[1] - int(y * y_ratio)))
+        for i in range(len(values)):
+            x, y = values[i][0], values[i][1]
+            val.append((origin[0] + int(x * x_ratio), origin[1] - int(y * y_ratio)))
 
         return val
 
@@ -157,3 +171,17 @@ class SimpleGraph:
             y_values.append(float(values[1]))
 
         return x_values, y_values
+
+
+class C:
+    # game
+    width = 800
+    height = 600
+
+    axis_width = 2
+    min_unit = 5
+    unit_length = 5
+    border = 5 + unit_length
+
+    graph_color = (0, 102, 204)
+    graph_rad = 2

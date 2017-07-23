@@ -63,44 +63,36 @@ class Objects:
             else:
                 break
 
-        Objects.segments[0].x += C.dir * C.is_x * C.speed
-        Objects.segments[0].y += C.dir * C.is_y * C.speed
+        Objects.segments[0].x += C.dir[0] * C.speed
+        Objects.segments[0].y += C.dir[1] * C.speed
 
-        if Objects.check_border():
+        if Objects.check_border() or Objects.check_if_intersect():
             C.speed = 0
 
         Objects.check_food_collision(game_display)
 
     @staticmethod
     def add_segment(game_display, x, y):
-        Objects.segments.append(Segment(x, y, C.grey, game_display))
+        Objects.segments.append(Segment(x, y, C.dark_grey, game_display))
 
     @staticmethod
     def handle_keys(event):
         if event.type == pygame.KEYDOWN:
             if event.key == 119 or event.key == 273:
                 # w
-                C.dir = -1
-                C.is_x = False
-                C.is_y = True
+                C.dir = (0, -1)
 
             if event.key == 97 or event.key == 276:
                 # a
-                C.dir = -1
-                C.is_y = False
-                C.is_x = True
+                C.dir = (-1, 0)
 
             if event.key == 115 or event.key == 274:
                 # s
-                C.dir = 1
-                C.is_x = False
-                C.is_y = True
+                C.dir = (0, 1)
 
             if event.key == 100 or event.key == 275:
                 # d
-                C.dir = 1
-                C.is_y = False
-                C.is_x = True
+                C.dir = (1, 0)
 
     @staticmethod
     def render_grid(surface):
@@ -126,3 +118,14 @@ class Objects:
 
                 Objects.food_x = randrange(0, C.width - C.length, C.length)
                 Objects.food_y = randrange(0, C.height - C.length, C.length)
+
+    @staticmethod
+    def check_if_intersect():
+        for i in range(1, len(Objects.segments)):
+            if Objects.segments[0].x == Objects.segments[i].x and \
+                            Objects.segments[0].y == Objects.segments[i].y:
+
+                Objects.segments[0].color = C.blue
+                Objects.segments[i].color = C.blue
+                return True
+        return False
