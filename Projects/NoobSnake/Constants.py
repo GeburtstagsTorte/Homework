@@ -1,9 +1,21 @@
+from pygame import image
+
+
 class Constants:
 
     # Game
     width = 800
     height = 600
-    game_name = "Competition"
+    game_name = "Snake"
+    game_icon = image.load("pictures/snake_icon.jpg")
+
+    # UI
+    ui_height = int(height * 0.2)
+    ui_snake = image.load("pictures/snake_ui.png")
+    ui_background = image.load("pictures/ui.png")
+
+    # lose screen
+    lose_screen = image.load("pictures/you_suck.png")
 
     # Colors
     white = (255, 255, 255)
@@ -24,4 +36,10 @@ class Constants:
     # segments
     length = 20
     addition_rate = 1
+    segment_color = dark_grey
 
+    # food
+    food_color = red
+
+    # grid
+    grid_color = light_grey

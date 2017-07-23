@@ -39,7 +39,9 @@ class Objects:
     segments = []
     # food = object
     food_x = randrange(0, C.width - C.length, C.length)
-    food_y = randrange(0, C.height - C.length, C.length)
+    food_y = randrange(0, C.height - C.length - C.ui_height, C.length)
+    score = 0
+    game_lost = False
 
     def __init__(self, game_display):
         Objects.add_segment(game_display, C.width // 2, C.height // 2)
@@ -52,6 +54,28 @@ class Objects:
             Objects.segments[i].render()
 
         Objects.render_grid(game_display)
+        Objects.render_ui(game_display)
+
+        if Objects.game_lost:
+            Objects.render_lose_screen(game_display)
+
+    @staticmethod
+    def render_grid(surface):
+        for i in range(C.length, C.width, C.length):
+            pygame.draw.line(surface, C.grid_color, (i, 0), (i, C.height - C.ui_height))
+        for i in range(C.length, C.height - C.ui_height, C.length):
+            pygame.draw.line(surface, C.grid_color, (0, i), (C.width, i))
+
+    @staticmethod
+    def render_ui(surface):
+        surface.blit(C.ui_background, (0, C.height - C.ui_height))
+        snake_rect = C.ui_snake.get_rect()
+        surface.blit(C.ui_snake, ((C.width - snake_rect[2]) // 2, C.height - C.ui_height + 10))
+
+    @staticmethod
+    def render_lose_screen(surface):
+        image_rect = C.lose_screen.get_rect()
+        surface.blit(C.lose_screen, ((C.width - image_rect[2]) // 2, (C.height - C.ui_height - image_rect[3])//2))
 
     @staticmethod
     def update(game_display):
@@ -68,12 +92,13 @@ class Objects:
 
         if Objects.check_border() or Objects.check_if_intersect():
             C.speed = 0
+            Objects.game_lost = True
 
         Objects.check_food_collision(game_display)
 
     @staticmethod
     def add_segment(game_display, x, y):
-        Objects.segments.append(Segment(x, y, C.dark_grey, game_display))
+        Objects.segments.append(Segment(x, y, C.segment_color, game_display))
 
     @staticmethod
     def handle_keys(event):
@@ -95,16 +120,9 @@ class Objects:
                 C.dir = (1, 0)
 
     @staticmethod
-    def render_grid(surface):
-        for i in range(C.length, C.width, C.length):
-            pygame.draw.line(surface, C.light_grey, (i, 0), (i, C.height))
-        for i in range(C.length, C.height, C.length):
-            pygame.draw.line(surface, C.light_grey, (0, i), (C.width, i))
-
-    @staticmethod
     def check_border():
         if 0 > Objects.segments[0].x or Objects.segments[0].x > (C.width - C.length) or \
-                        0 > Objects.segments[0].y or Objects.segments[0].y > (C.height - C.length):
+                        0 > Objects.segments[0].y or Objects.segments[0].y > (C.height - C.length - C.ui_height):
             return True
         return False
 
@@ -116,8 +134,9 @@ class Objects:
                     Objects.add_segment(game_display, Objects.segments[len(Objects.segments)-1].x,
                                         Objects.segments[len(Objects.segments)-1].y)
 
-                Objects.food_x = randrange(0, C.width - C.length, C.length)
-                Objects.food_y = randrange(0, C.height - C.length, C.length)
+                Objects.food_x = randrange(0, C.width - C.length - C.ui_height, C.length)
+                Objects.food_y = randrange(0, C.height - C.length - C.ui_height, C.length)
+                Objects.score += 1
 
     @staticmethod
     def check_if_intersect():

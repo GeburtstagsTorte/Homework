@@ -17,6 +17,7 @@ class Game:
         self.game_display = pygame.display.set_mode((width, height), pygame.SRCALPHA)
         Obj(self.game_display)
         pygame.display.set_caption(title)
+        pygame.display.set_icon(C.game_icon)
         self.main_loop()
 
     def main_loop(self):
