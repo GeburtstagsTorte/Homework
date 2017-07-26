@@ -6,6 +6,7 @@ import pygame
 class Game:
     clock = pygame.time.Clock()
     game_exit = False
+    game_start = False
     mouse_click = False
 
     def __init__(self, title, width, height, background_color=(255, 255, 255)):
@@ -34,10 +35,18 @@ class Game:
             self.clock.tick(15)
 
     def render(self):
-        Obj.render(self.game_display)
+        if self.game_start:
+            Obj.render_game(self.game_display, self.mouse_click)
+        else:
+            Obj.render_menu(self.game_display, self.mouse_click)
+            if Obj.handle_start_button(self.mouse_click):
+                self.game_start = True
+            if Obj.handle_exit_button(self.mouse_click):
+                self.game_exit = True
 
     def update(self):
-        Obj.update(self.game_display)
+        if self.game_start:
+            Obj.update(self.game_display)
 
     def handle_keys(self, event):
         if event.type == pygame.QUIT:
@@ -55,7 +64,8 @@ def main():
     width = C.width
     height = C.height
     name = C.game_name
-    Game(name, width, height)
+    background_color = C.background_color
+    Game(name, width, height, background_color)
 
     pygame.quit()
     quit()
