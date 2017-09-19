@@ -2,7 +2,7 @@ from time import time
 
 
 def get_grid():
-    m = open("grid").read().splitlines()
+    m = open("grid_problem11").read().splitlines()
     m = [[int(i) for i in j.split()] for j in m]
     return m
 
