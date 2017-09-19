@@ -54,6 +54,5 @@ def main(grid, i, j, temp_product):
 if __name__ == '__main__':
     t1 = time()
     biggest_prod = main(get_grid(), 0, 0, 0)
-    print(biggest_prod)
     t2 = time()
     exit("Biggest Product: " + str(biggest_prod) + "\nTime: " + str((t2 - t1) * 1000))
