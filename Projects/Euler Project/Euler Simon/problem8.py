@@ -6,12 +6,13 @@ def read_and_return():
     return m
 
 
-def main(big_number, length):
+def main(length):
+    number = read_and_return()
     temporary_product = 0
-    for i in range(len(big_number) - length):
+    for i in range(len(number) - length):
         product = 1
         for j in range(length):
-            product *= int(big_number[i+j])
+            product *= int(number[i+j])
         if product > temporary_product:
             temporary_product = product
     return temporary_product
@@ -19,6 +20,6 @@ def main(big_number, length):
 
 if __name__ == '__main__':
     t1 = time()
-    result = main(big_number=read_and_return(), length=13)
+    result = main(13)
     t2 = time()
     exit("Biggest Product: " + str(result) + "\nTime: " + str((t2 - t1) * 1000))
