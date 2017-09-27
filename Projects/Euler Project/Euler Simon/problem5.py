@@ -3,7 +3,7 @@
 def main():
     smallest_number = 20
 
-    for j in range(smallest_number**6, smallest_number**7):
+    for j in range(smallest_number**6, smallest_number**7, 20):
         # wtf are those magnitudes
         count = 0
         for i in range(1, 21):
