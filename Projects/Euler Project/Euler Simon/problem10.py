@@ -13,7 +13,7 @@ def generate_primes_below(n):
 
 
 def generate_primes_below_v2(n):
-    primesum = 0
+    primesum = 2
     for i in range(3, n, 2):
         if not any(i % j == 0 for j in range(2, round(math.sqrt(i)+1))):
             primesum += i
