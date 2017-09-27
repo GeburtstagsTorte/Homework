@@ -11,7 +11,7 @@ def semi_brute():
             return j
 
 
-def opt_semi_brute():
+def optimized_semi_brute():
     for n in range(2520, 20**7, 2520):
         # all(); basically what i was searching for
         if all((n % j == 0) for j in range(11, 21)):
@@ -26,6 +26,9 @@ def main():
 if __name__ == '__main__':
     from time import time
     t1 = time()
-    result = opt_semi_brute()
+    result1 = semi_brute()
     t2 = time()
-    exit("Result: " + str(result) + "\nTime: " + str((t2 - t1) * 1000))
+    result2 = optimized_semi_brute()
+    t3 = time()
+    exit("Semi Brute: " + str(result1) + "\nTime: " + str((t2 - t1) * 1000) + "\n\n" +
+         "Optimized Semi Brute: " + str(result2) + "\nTime: " + str((t3 - t2) * 1000))
