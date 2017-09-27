@@ -13,11 +13,11 @@ def generate_primes_below(n):
 
 
 def generate_primes_below_v2(n):
-    primes = [2]
+    primesum = 0
     for i in range(3, n, 2):
         if not any(i % j == 0 for j in range(2, round(math.sqrt(i)+1))):
-            primes.append(i)
-    return sum(primes)
+            primesum += i
+    return primesum
 
 
 def generate_primes_below_v3(n):
@@ -51,6 +51,6 @@ def generate_primes_below_v4(n):
 if __name__ == '__main__':
     from time import time
     t1 = time()
-    result = generate_primes_below_v4(int(2E6))  # sum(generate_primes_below_v3(2E6))
+    result = generate_primes_below_v2(int(2E6))  # sum(generate_primes_below_v3(2E6))
     t2 = time()
     exit("Result: " + str(result) + "\nTime: " + str((t2 - t1) * 1000))
