@@ -1,5 +1,8 @@
 
 
+# https://projecteuler.net/thread=5;page=1
+# some badass solutions
+
 def semi_brute():
     for j in range(2520, 20**7, 20):
         # wtf are those magnitudes

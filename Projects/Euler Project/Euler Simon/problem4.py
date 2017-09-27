@@ -1,4 +1,3 @@
-import time
 
 
 def main():
@@ -15,7 +14,8 @@ def main():
 
 
 if __name__ == '__main__':
-    t1 = time.time()
+    from time import time
+    t1 = time()
     result = main()
-    t2 = time.time()
+    t2 = time()
     exit("Result: " + str(result) + "\nTime: " + str((t2 - t1) * 1000))
