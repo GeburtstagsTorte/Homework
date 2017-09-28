@@ -48,9 +48,24 @@ def generate_primes_below_v4(n):
     return sum(primes)
 
 
+# about 1/3 faster than v1
+def generate_primes_below_v4_v2(limit):
+    a = [True] * limit
+    a[0] = a[1] = False
+
+    for i, is_prime in enumerate(a):
+        if is_prime:
+            yield i
+            for n in range(i*i, limit, i):
+                a[n] = False
+
+
 if __name__ == '__main__':
     from time import time
     t1 = time()
-    result = generate_primes_below_v2(int(2E6))  # sum(generate_primes_below_v3(2E6))
+    result = generate_primes_below_v4(int(2E6))
     t2 = time()
-    exit("Result: " + str(result) + "\nTime: " + str((t2 - t1) * 1000))
+    result2 = sum(generate_primes_below_v4_v2(int(2E6)))
+    t3 = time()
+    exit("First: " + str(result) + "\nTime: " + str((t2 - t1) * 1000) + "\n\n" +
+         "Second: " + str(result2) + "\nTime: " + str((t3 - t2) * 1000))
