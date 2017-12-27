@@ -1,6 +1,9 @@
 import pygame
 from Constants import GameConstants as GC
+from Textboxes import Text
 from Objects import Objects
+from math import factorial
+from decimal import Decimal
 
 
 class Game:
@@ -70,7 +73,40 @@ class Frame(Game):
                          (self.width, 0.5 * self.height))
 
     def draw_text(self):
-        pass
+        font = pygame.font.SysFont(GC.font, GC.txt_size + 5)
+
+        txt_head2 = font.render("{} {}%".format(GC.txt_head2, round(Decimal((self.Obj.count / factorial(GC.city_total))
+                                                                            * 100), 2)), True, GC.txt_color)
+        txt_head1 = font.render("{}".format(GC.txt_head1),
+                                True, GC.txt_color)
+
+        ga_information_list = [
+            "distance     : {}".format(round(self.Obj.ga_best.distance, 3)),
+            "last change  : {}".format(self.Obj.last_gen),
+            "population   : {}".format(GC.population_size),
+            "mutation rate: {}%".format(GC.mutation_rate)
+        ]
+
+        bf_information_list = [
+            "distance     : {}".format(round(Decimal(self.Obj.bf_best.distance), 3)),
+            "tries        : {}".format(self.Obj.last_count),
+            "discrepancy  : {}%".format(round(abs(Decimal((1 - self.Obj.ga_best.distance + self.Obj.bf_best.distance)
+                                                          * 100 / self.Obj.ga_best.distance)), 3))
+        ]
+
+        ga_label_list = Text.render_text(GC.font, GC.txt_size, GC.txt_color, ga_information_list)
+        bf_label_list = Text.render_text(GC.font, GC.txt_size, GC.txt_color, bf_information_list)
+
+        self.game_display.blit(txt_head1, GC.txt_head1_pos)
+        self.game_display.blit(txt_head2, GC.txt_head2_pos)
+
+        for line in range(len(ga_label_list)):
+            self.game_display.blit(ga_label_list[line], (GC.txt_head1_pos[0], GC.txt_head1_pos[1] + 10 * (line + 1) +
+                                                         (line + 1) * GC.txt_size))
+
+        for line in range(len(bf_label_list)):
+            self.game_display.blit(bf_label_list[line], (GC.txt_head2_pos[0], GC.txt_head2_pos[1] + 10 * (line + 1) +
+                                                         (line + 1) * GC.txt_size))
 
 
 def main():

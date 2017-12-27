@@ -10,7 +10,7 @@ class GameConstants:
     width = 1200
     height = 800
 
-    game_name = "Game"
+    game_name = "Traveling Salesman 2.0"
     tick = 60
 
     images = {
@@ -41,9 +41,32 @@ class GameConstants:
     }
 
     background_color = colors["dark_grey"]
-    font = 'Courier New'
-
     border = 5
+
+    # Text
+    font = 'Courier New'
+    txt_color = colors["white"]
+    txt_size = 15
+
+    txt_head1 = "Genetic Algorithm"
+    txt_head2 = "Brute Force"
+    txt_head1_pos = (int(0.75 * width) + border, border)
+    txt_head2_pos = (int(0.75 * width) + border, border + int(0.5 * height))
+
+    # Genetic Algorithm
+    city_radius = 6
+    city_total = 12
+
+    population_size = 100
+    mutation_rate = 75
+
+    frame1_pos = (0, 0)
+    frame1_width = int(0.75*width)
+    frame1_height = int(0.5*height)
+
+    frame2_pos = (0, int(0.5*height))
+    frame2_width = int(0.75*width)
+    frame2_height = int(0.5*height)
 
     # Buttons
     btn_width = 120
@@ -52,16 +75,3 @@ class GameConstants:
     btn_restart = Button((width - btn_width - 2*border - btn_height // 2, height - btn_height - 2*border), btn_width,
                          btn_height, background_color, 'new!', text_color=colors["orange"], font=font, mod=2,
                          border=colors["orange"], extend=True)
-
-    city_radius = 6
-    city_total = 12
-
-    population_size = 100
-    mutation_rate = 50
-
-    frame1_pos = (0, 0)
-    frame2_pos = (0, int(0.5*height))
-    frame1_width = int(0.75*width)
-    frame1_height = int(0.5*height)
-    frame2_width = int(0.75*width)
-    frame2_height = int(0.5*height)

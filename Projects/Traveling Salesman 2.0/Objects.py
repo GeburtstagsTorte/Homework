@@ -3,12 +3,15 @@ import pygame.gfxdraw
 from random import randint, shuffle
 from Constants import GameConstants as GC
 from Textboxes import CenterBox
-from math import sqrt
+from math import sqrt, factorial
 
 
 class Objects:
 
     generation = 0
+    count = 0
+    last_gen = 0
+    last_count = 0
 
     def __init__(self):
         self.cities = [
@@ -38,18 +41,29 @@ class Objects:
         for route in self.population:
             if route.distance < self.ga_best.distance:
                 self.ga_best = route
+                self.last_gen = self.generation
+
         pool = Route.selection(self.population)
         self.population = Route.new_generation(pool, self.cities)
         self.generation += 1
-
         if self.bf_route.distance < self.bf_best.distance:
             self.bf_best = self.bf_route
-            print("if", str(self.bf_route), str(self.bf_best))
+            self.last_count = self.count
+
+            """print("if bf:", str(self.bf_route), str(self.bf_best), "\nnext:", Objects.permute(self.bf_route.genes),
+                  "prev.:",  Objects.permute_prev(self.bf_route.genes))"""
+        # print("1)bf:", str(self.bf_best), "ga:", str(self.ga_best))
+
         self.bf_route = Route(Objects.permute(self.bf_route.genes), self.cities)
-        print(str(self.bf_best), str(self.ga_best))
+
+        # print("2)bf:", str(self.bf_best), "ga:", str(self.ga_best))
+
+        if self.count < factorial(GC.city_total):
+            self.count += 1
 
     @staticmethod
     def permute(lst):
+        l = [i for i in lst]
         """
             >Find the largest x such that P[x]<P[x+1].
             (If there is no such x, P is the last permutation.)
@@ -59,23 +73,24 @@ class Objects:
         """
         largest_i = -1
         largest_j = -1
-        for i in range(len(lst)):
-            if lst[i - 1] < lst[i]:
+        for i in range(len(l)):
+            if l[i - 1] < l[i]:
                 largest_i = i
 
         if largest_i <= 0:
-            return lst
+            return l
 
-        for j in range(len(lst)):
-            if j >= largest_i and lst[j] > lst[largest_i - 1]:
+        for j in range(len(l)):
+            if j >= largest_i and l[j] > l[largest_i - 1]:
                 largest_j = j
 
-        lst[largest_j], lst[largest_i - 1] = lst[largest_i - 1], lst[largest_j]
+        l[largest_j], l[largest_i - 1] = l[largest_i - 1], l[largest_j]
 
-        return lst[:largest_i] + lst[largest_i:][::-1]
+        return l[:largest_i] + l[largest_i:][::-1]
 
     @staticmethod
-    def permute_prev(lst):
+    def permute_prev(l):
+        lst = [i for i in l]
         """
             this function is and should be redundant; it exists just for the sake of debugging
         """
@@ -106,7 +121,7 @@ class City:
         self.pos = self.x, self.y
 
     def __str__(self):
-        return "{}, {}".format(self.x, self.y)
+        return "x: {}, y: {}".format(self.x, self.y)
 
     def render(self, game_display):
         pygame.gfxdraw.aacircle(game_display, self.x, self.y, self.radius, self.color)
@@ -134,7 +149,7 @@ class Route:
         self.distance = self.calc_distance(cities)
 
     def __str__(self):
-        return "{} {}".format(self.genes, self.distance)
+        return "{}, dist.: {}".format(self.genes, self.distance)
 
     def render(self, game_display, cities, color):
         for i in range(len(self.genes) - 1):
@@ -169,12 +184,16 @@ class Route:
             TODO: IMPROVE RANGE CALC.
         """
         distance_sum = 0
+        x = float("inf")
         for route in population:
+            if route.distance < x:
+                x = route.distance
             distance_sum += route.distance
-
         pool = []
+
         for route in population:
-            for i in range(int(distance_sum/route.distance)):
+            # int(distance_sum/(route.distance / 1000)**2)
+            for i in range(int(10 * x / route.distance**2)+1):
                 pool.append(route.genes)
         return pool
 
@@ -192,12 +211,22 @@ class Route:
         child = []
 
         a, b, c = pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)], pool[randint(0, len(pool) - 1)]
+        x = [i for i in range(len(a))]
 
         for i in range(len(a)):
-            if a[i] == b[i] or a[i] == c[i]:
-                child.append(a[i])
+            temp = [a[i], b[i], c[i]]
+            dup = [j for j in temp if temp.count(j) > 1]
+            if len(dup) > 0:
+                x.remove(dup[0])
+                child.append(dup[0])
             else:
-                child.append(a[i])
+                child.append("")
+
+        for i in range(len(child)):
+            if child[i] == "":
+                r = randint(0, len(x) - 1)
+                child[i] = x[r]
+                del x[r]
 
         return Route.mutate(child, GC.mutation_rate)
 
