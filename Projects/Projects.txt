@@ -1,0 +1,73 @@
+------------------------------------------------------------------------------
+
+* driver exploit
+	-> Vlad's USB project
+* AutoIt
+	-> windows info center
+* Kitsu extension 
+* genAlgo city
+	-> Vlad's projects
+* 3D-Game
+	-> Simon's
+* raspberry
+* JS, PHP, Ruby, AngularJS
+	-> Webdevelopment, design etc. 
+* Database 
+	-> mySQL
+	-> no fucking MSAccess damnit
+* Algorithms & data structures 
+* neural networks
+	-> pattern recognition/character recognition 
+* deep learning
+* machine learning
+* optimiziation
+* encrpytion
+	-> RSA Algorithm 
+	-> Secure Hash Algorithm 
+* C, C++, C#
+	-> SFML
+* OCR-Algorithm 
+	-> voc.
+	-> Database
+* revise Textbox & Button modules
+	-> Textbox -> Text
+		- New functions for textmanipulation etc. 
+	-> optimize (import, ...)
+* pygame: GameFrame
+	-> *arges *kwargs
+	-> some physics 
+* sorting algortihms
+	-> Merge Sort, Quick Sort and Heap Sort
+* fourier transform and fast fourier transform
+* pathfinding algorithm 
+	-> Dijkstra’s algorithm
+	-> A*
+* Integer factorization 
+* Proportional Integral Derivative Algorithm
+* Data compression algorithms
+* Random Number Generator 
+	-> Seminararbeit RIP
+* Swarm Intelligence 
+	-> genetic algorithm 
+	-> neural networks
+* Sudoku 
+	-> graphcoloring 
+* GPS/Geofencing -> Fußfessel / indoor-navigation (beacons)
+* speedtest script
+* Graphing/Graph theory
+	-> Sudoku
+* Java
+* networking
+* Hill climbing Algorithm
+* ear clipping triangulation
+* Euler fluid simulation
+* JPG to ASCII converter
+* Mandelbrot set plotter / fractals
+* One Million Particles 
+	-> https://www.yuichiroharai.com/wgl/15_one_million_particles/
+* soft body simulation
+*
+
+------------------------------------------------------------------------------
+
+* Mathematische Modellbildung 
