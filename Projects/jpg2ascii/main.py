@@ -1,6 +1,11 @@
 # jpg to ascii
-# approach: measuring the darkness/brightness of a pixel and
+# approach: measuring the darkness/brightness of an area of pixels (8x12) and
 # find the most fitting equivalent to an ASCII character
+# https://pillow.readthedocs.io/en/latest/reference/Image.html#PIL.Image.Image.tell
+#
+# How to extract frames from GIFs:
+# https://gist.github.com/BigglesZX/4016539
+# https://gist.github.com/revolunet/848913
 from PIL import Image
 from time import sleep
 import subprocess
@@ -10,7 +15,8 @@ import os
 def get_ascii_brightness():
     # ratio: white / black -> avoiding 1/0
     ratios = []
-    image = Image.open(os.path.dirname(__file__) + '\\asc\\ascii.png')
+    image = Image.open(os.path.dirname(__file__) + '\\bin\\asc\\ascii.png')
+
     for char in range(95):
         character = image.crop((char * 8, 0, (char + 1) * 8, 12))
         # character.save("ASCII_{}".format(char + 32), "PNG")
@@ -23,7 +29,6 @@ def get_ascii_brightness():
                 white += 1
 
         ratios.append(white / black)
-
     return ratios
 
 
@@ -67,7 +72,50 @@ def convert_image(ascii_brightness, image_brightness):
     return image
 
 
-def clear(time=0):
+def extract_frames(filename):
+    frame = Image.open(filename)
+    current_path = os.path.dirname(__file__)
+    count = 0
+    current_frame = frame.convert("RGBA")
+
+    while frame:
+        current_frame.save(current_path + '\\bin\\temp\\' + "{}.png".format(count + 1), "PNG")
+        current_frame = Image.alpha_composite(current_frame, frame.convert("RGBA"))
+        count += 1
+        try:
+            frame.seek(count)
+        except EOFError:
+            break
+
+    return [current_path + "/bin/temp/" + str(i) + ".png" for i in range(1, count + 1)]
+
+
+def paint(image, size):
+    for i in range(len(image)):
+        if i % ((size[0] - size[0] % 8) // 8) == 0:
+            print("\n" + image[i], end="")
+        else:
+            print(image[i], end="")
+
+
+def paint_in_file(image, size):
+    with open("jpg2ascii_text.txt", 'w') as f:
+        for i in range(len(image)):
+            if i % ((size[0] - size[0] % 8) // 8) == 0:
+                f.write("\n" + image[i])
+            else:
+                f.write(image[i])
+
+
+def delete_files():
+    current_dir = os.path.dirname(__file__)
+    file_list = os.listdir(current_dir + "/bin/temp/")
+
+    for file in file_list[:]:
+        os.remove(current_dir + "/bin/temp/" + file)
+
+
+def clear(time=0.0):
     sleep(time)
     subprocess.call("cls", shell=True)
 
@@ -81,43 +129,42 @@ def main():
         clear(2)
         return main()
 
-    ascii_brightness = get_ascii_brightness()
-    image_brightness = get_image_brightness(filename)
-
     mode = input("save in text file? (y/n): ").lower()
-    negative = input("negative? (y/n): ")
-    negative = True if negative == "y" else False
+    negative = True if input("negative? (y/n): ") == "y" else False
+    negative = not negative if mode == 'y' else negative
 
-    clear()
-    if mode == 'n':
-        if negative:
-            image = convert_image(list(map(lambda x: 1 - x, ascii_brightness)), image_brightness)
-        else:
-            image = convert_image(ascii_brightness, image_brightness)
+    ascii_brightness = get_ascii_brightness()
 
-        for i in range(len(image)):
-            if i % ((size[0] - size[0] % 8) // 8) == 0:
-                print("\n" + image[i], end="")
+    if negative:
+        ascii_brightness = list(map(lambda x: 1 - x, ascii_brightness))
+
+    if filename.split(".")[1] == "gif":
+        files = extract_frames(filename)
+        file_count = 0
+        image_brightnesses = [get_image_brightness(file) for file in files]
+        images = [convert_image(ascii_brightness, brightness) for brightness in image_brightnesses]
+        delete_files()
+        while True:
+            clear(0.05)  # 0.05s is merely a arbitrary time span, since i couldn't manage to extract the fps of a gif
+            paint(images[file_count], size)
+            if file_count < len(files) - 1:
+                file_count += 1
             else:
-                print(image[i], end="")
-        input()
-
-    elif mode == 'y':
-        if negative:
-            image = convert_image(ascii_brightness, image_brightness)
-        else:
-            image = convert_image(list(map(lambda x: 1 - x, ascii_brightness)), image_brightness)
-
-        with open("jpg2ascii_text.txt", 'w') as f:
-            for i in range(len(image)):
-                if i % ((size[0] - size[0] % 8) // 8) == 0:
-                    f.write("\n" + image[i])
-                else:
-                    f.write(image[i])
+                file_count = 0
     else:
-        print("srsly? - you can't even press a damn key right?\n")
-        clear(1)
-        return main()
+        image = convert_image(ascii_brightness, get_image_brightness(filename))
+        clear()
+        if mode == 'n':
+            paint(image, size)
+            input("Press any key to continue...")
+            return main()
+
+        elif mode == 'y':
+            paint_in_file(image, size)
+        else:
+            print("srsly? - you can't even press a damn key right? - sigh...\n")
+            clear(1)
+            return main()
 
 if __name__ == '__main__':
     main()
