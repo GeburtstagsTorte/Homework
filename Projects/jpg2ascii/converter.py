@@ -183,7 +183,7 @@ if __name__ == '__main__':
     c_dir = os.path.dirname(__file__)
 
     if not os.path.exists(c_dir + "/bin"):
-        print("{}/bin doesn't exists.\nGoing to sleep again...".format(c_dir))
+        print("{}/bin doesn't exist.\nGoing to sleep again...".format(c_dir))
         clear(1)
         exit()
     if not os.path.exists(c_dir + "/bin/temp"):
