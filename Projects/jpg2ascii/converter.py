@@ -120,14 +120,21 @@ def clear(time=0.0):
     subprocess.call("cls", shell=True)
 
 
+def return_to_main(time=None, text="\nPress any key to continue..."):
+    if time is not None:
+        clear(time)
+    input(text)
+    return main()
+
+
 def main():
+    clear()
     try:
         filename = input("Enter your filename: ")
         size = Image.open(filename).size
     except Exception as e:
-        print("It seems to be something wrong with your file name. Try again!", "\n", e, "\n")
-        clear(2)
-        return main()
+        return_to_main(text="It seems to be something wrong with your file name. Try again!\n {}".format(e))
+        raise
 
     mode = input("save in text file? (y/n): ").lower()
     negative = True if input("negative? (y/n): ") == "y" else False
@@ -144,27 +151,41 @@ def main():
         image_brightnesses = [get_image_brightness(file) for file in files]
         images = [convert_image(ascii_brightness, brightness) for brightness in image_brightnesses]
         delete_files()
+
         while True:
-            clear(0.05)  # 0.05s is merely a arbitrary time span, since i couldn't manage to extract the fps of a gif
-            paint(images[file_count], size)
-            if file_count < len(files) - 1:
-                file_count += 1
-            else:
-                file_count = 0
+            try:
+                clear(0.05)
+                # 0.05s is merely an arbitrary time span, since i couldn't manage to extract the fps of a gif
+                paint(images[file_count], size)
+                if file_count < len(files) - 1:
+                    file_count += 1
+                else:
+                    file_count = 0
+
+            except KeyboardInterrupt:
+                # ctrl-c
+                return_to_main(0)
     else:
         image = convert_image(ascii_brightness, get_image_brightness(filename))
         clear()
         if mode == 'n':
             paint(image, size)
-            input("Press any key to continue...")
-            return main()
+            return_to_main()
 
         elif mode == 'y':
             paint_in_file(image, size)
+            return_to_main(0)
+
         else:
-            print("srsly? - you can't even press a damn key right? - sigh...\n")
-            clear(1)
-            return main()
+            return_to_main(text="\nsrsly? - you can't even press a damn key right? - sigh...")
 
 if __name__ == '__main__':
+    c_dir = os.path.dirname(__file__)
+
+    if not os.path.exists(c_dir + "/bin"):
+        print("{}/bin doesn't exists.\nGoing to sleep again...".format(c_dir))
+        clear(1)
+        exit()
+    if not os.path.exists(c_dir + "/bin/temp"):
+        os.makedirs(c_dir + "/bin/temp")
     main()
