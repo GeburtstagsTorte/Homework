@@ -1,0 +1,3 @@
+﻿  EulerProject3.cpp
+e:\#prgm\c++\eulerproject3\eulerproject3\eulerproject3.cpp(18): warning C4172: returning address of local variable or temporary: sieve
+  EulerProject3.vcxproj -> E:\#PRGM\C++\EulerProject3\Debug\EulerProject3.exe

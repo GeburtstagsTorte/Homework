@@ -1,0 +1,4 @@
+﻿  EulerProject6.cpp
+e:\#prgm\c++\eulerproject6\eulerproject6\eulerproject6.cpp(10): warning C4244: 'return': conversion from 'unsigned __int64' to 'int', possible loss of data
+e:\#prgm\c++\eulerproject6\eulerproject6\eulerproject6.cpp(15): warning C4244: 'return': conversion from 'unsigned __int64' to 'int', possible loss of data
+  EulerProject6.vcxproj -> E:\#PRGM\C++\EulerProject6\Debug\EulerProject6.exe
